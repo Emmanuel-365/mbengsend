@@ -1,5 +1,6 @@
 import { SubscriberArgs, SubscriberConfig } from "@medusajs/medusa"
 import { mbengsendShippingWorkflow } from "../workflows/mbengsend-shipping"
+import { shippingNotificationEmailWorkflow } from "../workflows/shipping-notification-email"
 
 export default async function fulfillmentCreatedHandler({
     event: { data },
@@ -16,6 +17,14 @@ export default async function fulfillmentCreatedHandler({
         relations: ["labels"]
     })
 
+    // Trigger shipping notification email workflow for all fulfillments
+    await shippingNotificationEmailWorkflow(container).run({
+        input: {
+            fulfillment_id: id
+        }
+    })
+
+    // Keep existing mbengsend workflow logic
     if (fulfillment.provider_id === "mbengsend") {
         const tracking_number = (fulfillment.labels as any[])?.[0]?.tracking_number || "NO_TRACKING"
 

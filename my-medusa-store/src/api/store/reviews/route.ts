@@ -18,7 +18,7 @@ export async function POST(
     const service: ReviewModuleService = req.scope.resolve("reviews")
 
     // Retrieve customer_id and customer name from authenticated session
-    const customerId = req.auth?.metadata?.customer_id
+    const customerId = (req as any).auth_context?.actor_id
     let authorName = "Anonymous"
 
     if (customerId) {

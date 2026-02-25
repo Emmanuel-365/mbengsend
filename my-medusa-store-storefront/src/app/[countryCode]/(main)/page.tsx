@@ -7,9 +7,9 @@ import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 
 export const metadata: Metadata = {
-  title: "G-Fashion | Boutique de Mode Premium",
+  title: "MbengSend",
   description:
-    "Découvrez les dernières tendances mode avec G-Fashion. Livraison express au Cameroun et à l'international.",
+    "Livraison express au Cameroun et à l'international.",
 }
 
 export default async function Home(props: {

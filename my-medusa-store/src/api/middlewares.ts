@@ -23,14 +23,14 @@ export default defineMiddlewares({
         {
             matcher: "/store/wishlist*",
             middlewares: [
-                authenticate("store"),
+                authenticate("store", "bearer"),
             ],
         },
         {
             method: "POST",
             matcher: "/store/reviews",
             middlewares: [
-                authenticate("store"),
+                authenticate("store", "bearer"),
             ],
         }
     ],

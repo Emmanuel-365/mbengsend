@@ -16,7 +16,7 @@ export async function GET(
     const service: WishlistModuleService = req.scope.resolve("wishlist")
     
     // Retrieve customer_id from authenticated session
-    const customerId = req.auth?.metadata?.customer_id
+    const customerId = (req as any).auth_context?.actor_id
     if (!customerId) {
         return res.status(401).json({ message: "Not authenticated" })
     }
@@ -39,7 +39,7 @@ export async function POST(
     const service: WishlistModuleService = req.scope.resolve("wishlist")
     
     // Retrieve customer_id from authenticated session
-    const customerId = req.auth?.metadata?.customer_id
+    const customerId = (req as any).auth_context?.actor_id
     if (!customerId) {
         return res.status(401).json({ message: "Not authenticated" })
     }

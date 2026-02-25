@@ -46,4 +46,35 @@ export default class MeilisearchService {
             this.logger.error(`[Meilisearch] Deletion failed: ${error.message}`)
         }
     }
+
+    async searchProducts(
+        query: string,
+        options?: { limit?: number; offset?: number }
+    ): Promise<{ hits: any[]; estimatedTotalHits: number }> {
+        try {
+            if (!this.client) await this.init()
+
+            // Apply defaults and constraints
+            const limit = Math.min(options?.limit || 20, 100)
+            const offset = options?.offset || 0
+
+            const index = this.client.index("products")
+            const result = await index.search(query, {
+                limit,
+                offset,
+            })
+
+            this.logger.info(
+                `[Meilisearch] Search query "${query}" returned ${result.hits.length} results`
+            )
+
+            return {
+                hits: result.hits,
+                estimatedTotalHits: result.estimatedTotalHits,
+            }
+        } catch (error: any) {
+            this.logger.error(`[Meilisearch] Search failed: ${error.message}`)
+            throw new Error("Search service temporarily unavailable")
+        }
+    }
 }

@@ -6,8 +6,8 @@ This plan implements product search endpoints and transactional email workflows 
 
 ## Tasks
 
-- [ ] 1. Implement Meilisearch search method
-  - [ ] 1.1 Add searchProducts method to MeilisearchService
+- [x] 1. Implement Meilisearch search method
+  - [x] 1.1 Add searchProducts method to MeilisearchService
     - Add async searchProducts(query, options) method
     - Handle limit and offset parameters with defaults (limit: 20, offset: 0, max: 100)
     - Return hits array and estimatedTotalHits from Meilisearch
@@ -28,8 +28,8 @@ This plan implements product search endpoints and transactional email workflows 
     - Test invalid pagination parameters
     - _Requirements: 1.5, 1.6_
 
-- [ ] 2. Implement store search API route
-  - [ ] 2.1 Create /store/search route handler
+- [x] 2. Implement store search API route
+  - [x] 2.1 Create /store/search route handler
     - Create src/api/store/search/route.ts
     - Implement GET handler with query validation
     - Resolve Meilisearch service from container
@@ -49,16 +49,16 @@ This plan implements product search endpoints and transactional email workflows 
     - Test error responses
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
 
-- [ ] 3. Checkpoint - Verify search functionality
+- [x] 3. Checkpoint - Verify search functionality
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 4. Implement order confirmation email workflow
-  - [ ] 4.1 Create workflow directory structure
+- [x] 4. Implement order confirmation email workflow
+  - [x] 4.1 Create workflow directory structure
     - Create src/workflows/order-confirmation-email/ directory
     - Create src/workflows/order-confirmation-email/steps/ directory
     - _Requirements: 2.1, 2.2, 2.3, 2.4_
   
-  - [ ] 4.2 Implement retrieve order details step
+  - [x] 4.2 Implement retrieve order details step
     - Create steps/retrieve-order-details.ts
     - Use createStep to define step
     - Retrieve order with relations: items, customer, shipping_address
@@ -66,7 +66,7 @@ This plan implements product search endpoints and transactional email workflows 
     - Handle missing data gracefully
     - _Requirements: 2.2, 2.5_
   
-  - [ ] 4.3 Implement format order email step
+  - [x] 4.3 Implement format order email step
     - Create steps/format-order-email.ts
     - Use createStep to define step
     - Generate HTML email with order details
@@ -74,7 +74,7 @@ This plan implements product search endpoints and transactional email workflows 
     - Use inline CSS for email client compatibility
     - _Requirements: 2.3, 6.1, 6.4_
   
-  - [ ] 4.4 Implement send email step
+  - [x] 4.4 Implement send email step
     - Create steps/send-email.ts
     - Use createStep to define step (reusable across workflows)
     - Resolve notification service from container
@@ -82,7 +82,7 @@ This plan implements product search endpoints and transactional email workflows 
     - Handle email service failures gracefully
     - _Requirements: 2.4, 2.6_
   
-  - [ ] 4.5 Create order confirmation workflow
+  - [x] 4.5 Create order confirmation workflow
     - Create index.ts with workflow definition
     - Use createWorkflow to compose steps
     - Define input type: { order_id: string }
@@ -102,8 +102,8 @@ This plan implements product search endpoints and transactional email workflows 
     - **Property 7: Workflow sends email via notification service**
     - **Validates: Requirements 2.4, 3.4, 4.4**
 
-- [ ] 5. Implement order placed subscriber
-  - [ ] 5.1 Create order-placed subscriber
+- [x] 5. Implement order placed subscriber
+  - [x] 5.1 Create order-placed subscriber
     - Create src/subscribers/order-placed.ts
     - Implement handler function that triggers order confirmation workflow
     - Export config with event: "order.placed"
@@ -114,76 +114,76 @@ This plan implements product search endpoints and transactional email workflows 
     - **Property 4: Event triggers workflow execution**
     - **Validates: Requirements 2.1, 3.1, 4.1**
 
-- [ ] 6. Checkpoint - Verify order confirmation flow
+- [x] 6. Checkpoint - Verify order confirmation flow
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 7. Implement shipping notification email workflow
-  - [ ] 7.1 Create workflow directory structure
+- [x] 7. Implement shipping notification email workflow
+  - [x] 7.1 Create workflow directory structure
     - Create src/workflows/shipping-notification-email/ directory
     - Create src/workflows/shipping-notification-email/steps/ directory
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
   
-  - [ ] 7.2 Implement retrieve fulfillment details step
+  - [x] 7.2 Implement retrieve fulfillment details step
     - Create steps/retrieve-fulfillment-details.ts
     - Retrieve fulfillment with relations: order, labels
     - Extract order number, customer email, tracking number
     - Handle missing tracking information gracefully
     - _Requirements: 3.2, 3.5, 3.6_
   
-  - [ ] 7.3 Implement format shipping email step
+  - [x] 7.3 Implement format shipping email step
     - Create steps/format-shipping-email.ts
     - Generate HTML email with shipping details
     - Include order number, tracking number, carrier info
     - Handle missing tracking gracefully (send without tracking)
     - _Requirements: 3.3, 3.6, 6.2, 6.4_
   
-  - [ ] 7.4 Create shipping notification workflow
+  - [x] 7.4 Create shipping notification workflow
     - Create index.ts with workflow definition
     - Define input type: { fulfillment_id: string }
     - Chain: retrieve → format → send (reuse send-email step)
     - Return WorkflowResponse with success status
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
   
-  - [ ] 7.5 Update fulfillment-created subscriber
+  - [x] 7.5 Update fulfillment-created subscriber
     - Modify existing src/subscribers/fulfillment-created.ts
     - Add shipping notification workflow trigger for all fulfillments
     - Keep existing mbengsend workflow logic
     - _Requirements: 3.1_
 
-- [ ] 8. Implement welcome email workflow
-  - [ ] 8.1 Create workflow directory structure
+- [x] 8. Implement welcome email workflow
+  - [x] 8.1 Create workflow directory structure
     - Create src/workflows/welcome-email/ directory
     - Create src/workflows/welcome-email/steps/ directory
     - _Requirements: 4.1, 4.2, 4.3, 4.4_
   
-  - [ ] 8.2 Implement retrieve customer details step
+  - [x] 8.2 Implement retrieve customer details step
     - Create steps/retrieve-customer-details.ts
     - Retrieve customer with first_name, last_name, email
     - Handle missing data gracefully
     - _Requirements: 4.2, 4.5_
   
-  - [ ] 8.3 Implement format welcome email step
+  - [x] 8.3 Implement format welcome email step
     - Create steps/format-welcome-email.ts
     - Generate HTML email with personalized greeting
     - Include customer name and store introduction
     - _Requirements: 4.3, 6.3, 6.4_
   
-  - [ ] 8.4 Create welcome email workflow
+  - [x] 8.4 Create welcome email workflow
     - Create index.ts with workflow definition
     - Define input type: { customer_id: string }
     - Chain: retrieve → format → send (reuse send-email step)
     - Return WorkflowResponse with success status
     - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-- [ ] 9. Implement customer created subscriber
-  - [ ] 9.1 Create customer-created subscriber
+- [~] 9. Implement customer created subscriber
+  - [~] 9.1 Create customer-created subscriber
     - Create src/subscribers/customer-created.ts
     - Implement handler function that triggers welcome email workflow
     - Export config with event: "customer.created"
     - Extract customer_id from event data
     - _Requirements: 4.1_
 
-- [ ] 10. Final checkpoint - Verify all workflows and search
+- [~] 10. Final checkpoint - Verify all workflows and search
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

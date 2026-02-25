@@ -14,7 +14,7 @@ export async function generateMetadata(props: {
   }
 
   return {
-    title: `${page.title} | G-Fashion`,
+    title: `${page.title} | MbengSend`,
     description: `Consultez notre page ${page.title}`,
   }
 }
