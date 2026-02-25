@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "name": "Auto-Validator",
+  "description": "Automatically runs build and spec completion checks when agent stops, then prompts for next steps based on results",
+  "version": "1",
+  "when": {
+    "type": "agentStop"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Continues tant que tu n'as pas fini l'executation des taches de la spec et verifie que le build passe au cas ou tu aurais fini. "
+  },
+  "workspaceFolderName": "e-commerce1",
+  "shortName": "auto-validator"
+}

@@ -1,0 +1,37 @@
+# Medusa
+node_modules/
+.medusa/
+.cache/
+/dist
+/uploads
+build/
+medusa-db.sql
+
+# Environment files
+.env
+.env.*
+!.env.template
+
+# Logs
+yarn-error.log
+npm-debug.log*
+
+# IDEs/OS
+.idea/
+.vscode/
+.DS_Store
+
+# Misc
+tsconfig.tsbuildinfo
+coverage/
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Keep src
+!src/**

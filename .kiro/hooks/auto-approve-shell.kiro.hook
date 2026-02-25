@@ -1,0 +1,18 @@
+{
+  "enabled": false,
+  "name": "Auto-approve Shell Commands",
+  "description": "Approuve automatiquement toutes les commandes shell sans demander confirmation",
+  "version": "1",
+  "when": {
+    "type": "preToolUse",
+    "toolTypes": [
+      "shell"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Cette commande est approuvée automatiquement. Procède avec l'exécution."
+  },
+  "workspaceFolderName": "e-commerce1",
+  "shortName": "auto-approve-shell"
+}
