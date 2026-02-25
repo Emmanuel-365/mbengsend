@@ -1,4 +1,4 @@
-import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework/types"
+import { SubscriberArgs, SubscriberConfig } from "@medusajs/medusa"
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 
 export default async function productUpsertHandler({

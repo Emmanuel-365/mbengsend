@@ -1,5 +1,5 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
-import WishlistModuleService from "../../../../modules/wishlist/service"
+import WishlistModuleService from "../../../../../modules/wishlist/service"
 
 export async function DELETE(
     req: MedusaRequest,

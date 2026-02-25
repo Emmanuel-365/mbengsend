@@ -5,5 +5,9 @@ export const Review = model.define("review", {
     product_id: model.text().index(),
     customer_id: model.text().index(),
     rating: model.number(),
+    title: model.text().nullable(),
+    author_name: model.text().default("Anonymous"),
     comment: model.text().nullable(),
+    verified_purchase: model.boolean().default(false),
+    status: model.enum(["pending", "approved", "rejected"]).default("pending"),
 })

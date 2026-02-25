@@ -1,4 +1,4 @@
-import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework/types"
+import { SubscriberArgs, SubscriberConfig } from "@medusajs/medusa"
 import { mbengsendShippingWorkflow } from "../workflows/mbengsend-shipping"
 
 export default async function fulfillmentCreatedHandler({
@@ -12,7 +12,9 @@ export default async function fulfillmentCreatedHandler({
     logger.info(`[Subscriber] Fulfillment created event received for: ${id}`)
 
     // On récupère le fulfillment pour avoir le tracking number
-    const fulfillment = await fulfillmentService.retrieve(id)
+    const fulfillment = await fulfillmentService.retrieveFulfillment(id, {
+        relations: ["labels"]
+    })
 
     if (fulfillment.provider_id === "mbengsend") {
         const tracking_number = (fulfillment.labels as any[])?.[0]?.tracking_number || "NO_TRACKING"

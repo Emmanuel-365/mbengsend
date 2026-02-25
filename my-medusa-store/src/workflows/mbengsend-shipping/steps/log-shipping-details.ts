@@ -9,6 +9,6 @@ export const logShippingDetailsStep = createStep(
 
         // Ici, on pourrait appeler une API Mbengsend réelle
         
-        return new StepResponse({ success: true, tracking_number: input.input.tracking_number })
+        return new StepResponse({ success: true, tracking_number: input.tracking_number })
     }
 )

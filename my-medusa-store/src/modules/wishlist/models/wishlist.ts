@@ -13,5 +13,6 @@ export const WishlistItem = model.define("wishlist_item", {
     wishlist: model.belongsTo(() => Wishlist, {
         mappedBy: "items",
     }),
-    product_id: model.text().index(),
+    product_id: model.text().index().nullable(),
+    variant_id: model.text().index().nullable(),
 })

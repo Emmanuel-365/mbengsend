@@ -11,6 +11,8 @@ import { notFound } from "next/navigation"
 import { HttpTypes } from "@medusajs/types"
 
 import ProductActionsWrapper from "./product-actions-wrapper"
+import ProductReviews from "@modules/products/components/product-reviews"
+import { retrieveCustomer } from "@lib/data/customer"
 
 type ProductTemplateProps = {
   product: HttpTypes.StoreProduct
@@ -19,7 +21,7 @@ type ProductTemplateProps = {
   images: HttpTypes.StoreProductImage[]
 }
 
-const ProductTemplate: React.FC<ProductTemplateProps> = ({
+const ProductTemplate: React.FC<ProductTemplateProps> = async ({
   product,
   region,
   countryCode,
@@ -28,6 +30,8 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
   if (!product || !product.id) {
     return notFound()
   }
+
+  const customer = await retrieveCustomer()
 
   return (
     <>
@@ -56,6 +60,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             <ProductActionsWrapper id={product.id} region={region} />
           </Suspense>
         </div>
+      </div>
+      <div className="content-container my-16 small:my-32">
+        <ProductReviews product={product} customer={customer} />
       </div>
       <div
         className="content-container my-16 small:my-32"

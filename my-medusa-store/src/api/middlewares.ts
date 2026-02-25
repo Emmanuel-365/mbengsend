@@ -1,5 +1,6 @@
 import { defineMiddlewares } from "@medusajs/framework/http"
 import { MedusaRequest, MedusaResponse, MedusaNextFunction } from "@medusajs/framework/http"
+import { authenticate } from "@medusajs/medusa"
 
 export default defineMiddlewares({
     routes: [
@@ -19,5 +20,18 @@ export default defineMiddlewares({
                 },
             ],
         },
+        {
+            matcher: "/store/wishlist*",
+            middlewares: [
+                authenticate("store"),
+            ],
+        },
+        {
+            method: "POST",
+            matcher: "/store/reviews",
+            middlewares: [
+                authenticate("store"),
+            ],
+        }
     ],
 })
