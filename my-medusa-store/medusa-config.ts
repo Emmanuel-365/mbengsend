@@ -27,8 +27,102 @@ module.exports = defineConfig({
               webhookSecret: process.env.STRIPE_WEBHOOK_SECRET, // whsec_...
             },
           },
+          {
+            resolve: "@hectasquare/medusa-payment-paypal",
+            id: "paypal",
+            options: {
+              clientId: process.env.PAYPAL_CLIENT_ID || "sb",
+              clientSecret: process.env.PAYPAL_CLIENT_SECRET || "sb",
+              sandbox: process.env.PAYPAL_SANDBOX ? process.env.PAYPAL_SANDBOX === "true" : true,
+              authWebhookId: process.env.PAYPAL_AUTH_WEBHOOK_ID || "",
+            },
+          },
         ],
       },
     },
+    {
+      resolve: "@medusajs/medusa/notification",
+      options: {
+        providers: [
+          {
+            resolve: "./src/modules/email-notifications",
+            id: "resend",
+            options: {
+              channels: ["email"],
+              api_key: process.env.RESEND_API_KEY || "re_placeholder",
+            },
+          },
+        ],
+      },
+    },
+    {
+      resolve: "@medusajs/medusa/fulfillment",
+      options: {
+        providers: [
+          {
+            resolve: "@medusajs/fulfillment-manual",
+            id: "manual",
+          },
+          {
+            resolve: "./src/modules/mbengsendLogistics/providers",
+            id: "mbengsend",
+            options: {
+              rates: {
+                air_freight: { xaf: 6500, eur: 10 },
+                sea_freight: { xaf: 3250, eur: 5 },
+                local_delivery: { xaf: 2000, eur: 3 },
+              }
+            }
+          },
+        ],
+      },
+    },
+    {
+      resolve: "./src/modules/mbengsendLogistics",
+    },
+    {
+      resolve: "./src/modules/reviews",
+    },
+    {
+      resolve: "./src/modules/cms",
+    },
+    {
+      resolve: "./src/modules/meilisearch",
+    },
+    {
+      resolve: "./src/modules/wishlist",
+    },
+    {
+      resolve: "@medusajs/medusa/cache-redis",
+      options: {
+        redisUrl: process.env.REDIS_URL,
+      },
+    },
+    {
+      resolve: "@medusajs/medusa/event-bus-redis",
+      options: {
+        redisUrl: process.env.REDIS_URL,
+      },
+    },
+    {
+      resolve: "@medusajs/medusa/file",
+      options: {
+        providers: [
+          {
+            resolve: "@medusajs/file-s3",
+            id: "s3",
+            options: {
+              file_url: `${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET}`,
+              access_key_id: process.env.MINIO_ACCESS_KEY,
+              secret_access_key: process.env.MINIO_SECRET_KEY,
+              region: "us-east-1",
+              bucket: process.env.MINIO_BUCKET,
+              endpoint: process.env.MINIO_ENDPOINT,
+              s3ForcePathStyle: true,
+            },
+          },
+        ],
+      },
+    }
   ],
 })

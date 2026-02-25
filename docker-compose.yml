@@ -16,6 +16,47 @@ services:
     container_name: medusa-redis
     ports:
       - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  minio:
+    image: minio/minio:latest
+    container_name: medusa-minio
+    ports:
+      - "9100:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+
+  createbuckets:
+    image: minio/mc:latest
+    container_name: medusa-createbuckets
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add medusa http://minio:9000 minioadmin minioadmin;
+      /usr/bin/mc mb medusa/medusa-bucket;
+      /usr/bin/mc anonymous set public medusa/medusa-bucket;
+      exit 0;
+      "
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.7
+    container_name: medusa-meilisearch
+    environment:
+      - MEILI_MASTER_KEY=meilimasterkey
+    ports:
+      - "7700:7700"
+    volumes:
+      - meili_data:/meili_data
 
 volumes:
   postgres_data:
+  redis_data:
+  minio_data:
+  meili_data:
