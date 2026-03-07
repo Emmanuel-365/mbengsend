@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import { StoreRegion } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CartButton from "@modules/layout/components/cart-button"
+import WishlistButton from "@modules/layout/components/wishlist-button"
 import SideMenu from "@modules/layout/components/side-menu"
 import SearchButton from "./search-button"
 
@@ -23,15 +24,29 @@ export default function Nav({ regions, locales, currentLocale }: {
           <div className="flex items-center h-full">
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
+              className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase tracking-widest font-bold"
               data-testid="nav-store-link"
             >
-              Medusa Store
+              Mbengsend
             </LocalizedClientLink>
+
           </div>
 
           <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
             <SearchButton />
+            <Suspense
+              fallback={
+                <LocalizedClientLink
+                  className="hover:text-ui-fg-base flex gap-2"
+                  href="/account/wishlist"
+                  data-testid="nav-wishlist-link"
+                >
+                  Wishlist (0)
+                </LocalizedClientLink>
+              }
+            >
+              <WishlistButton />
+            </Suspense>
             <div className="hidden small:flex items-center gap-x-6 h-full">
               <LocalizedClientLink
                 className="hover:text-ui-fg-base"

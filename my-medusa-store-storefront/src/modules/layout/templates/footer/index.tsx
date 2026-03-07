@@ -1,5 +1,6 @@
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
+import { getPages } from "@lib/data/strapi"
 import { Text, clx } from "@medusajs/ui"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
@@ -10,6 +11,7 @@ export default async function Footer() {
     fields: "*products",
   })
   const productCategories = await listCategories()
+  const cmsPages = await getPages()
 
   return (
     <footer className="border-t border-ui-border-base w-full">
@@ -18,12 +20,13 @@ export default async function Footer() {
           <div>
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
+              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase font-bold tracking-widest"
             >
-              Medusa Store
+              Mbengsend
             </LocalizedClientLink>
+
           </div>
-          <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
+          <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-4">
             {productCategories && productCategories?.length > 0 && (
               <div className="flex flex-col gap-y-2">
                 <span className="txt-small-plus txt-ui-fg-base">
@@ -108,49 +111,61 @@ export default async function Footer() {
                 </ul>
               </div>
             )}
+            {cmsPages && cmsPages.length > 0 && (
+              <div className="flex flex-col gap-y-2">
+                <span className="txt-small-plus txt-ui-fg-base">
+                  À propos
+                </span>
+                <ul className="grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small">
+                  {cmsPages.map((page) => {
+                    // Safety check for page structure
+                    if (!page?.handle || !page?.title) {
+                      return null
+                    }
+                    
+                    return (
+                      <li key={page.id}>
+                        <LocalizedClientLink
+                          className="hover:text-ui-fg-base"
+                          href={`/pages/${page.handle}`}
+                        >
+                          {page.title}
+                        </LocalizedClientLink>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            )}
             <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Medusa</span>
+              <span className="txt-small-plus txt-ui-fg-base">Assistance</span>
               <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
                 <li>
-                  <a
-                    href="https://github.com/medusajs"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    GitHub
-                  </a>
+                  <LocalizedClientLink href="/about" className="hover:text-ui-fg-base">
+                    À propos
+                  </LocalizedClientLink>
                 </li>
                 <li>
-                  <a
-                    href="https://docs.medusajs.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Documentation
-                  </a>
+                  <LocalizedClientLink href="/contact" className="hover:text-ui-fg-base">
+                    Contactez-nous
+                  </LocalizedClientLink>
                 </li>
                 <li>
-                  <a
-                    href="https://github.com/medusajs/nextjs-starter-medusa"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Source code
-                  </a>
+                  <LocalizedClientLink href="/faq" className="hover:text-ui-fg-base">
+                    FAQ
+                  </LocalizedClientLink>
                 </li>
               </ul>
             </div>
+
           </div>
         </div>
         <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">
-            © {new Date().getFullYear()} Medusa Store. All rights reserved.
+          <Text className="txt-compact-small text-ui-fg-subtle">
+            © {new Date().getFullYear()} Mbengsend. Tous droits réservés.
           </Text>
-          <MedusaCTA />
         </div>
+
       </div>
     </footer>
   )
