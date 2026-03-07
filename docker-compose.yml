@@ -10,6 +10,12 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7-alpine
@@ -39,9 +45,14 @@ services:
       - minio
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc config host add medusa http://minio:9000 minioadmin minioadmin;
-      /usr/bin/mc mb medusa/medusa-bucket;
-      /usr/bin/mc anonymous set public medusa/medusa-bucket;
+      sleep 5;
+      /usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin;
+      /usr/bin/mc mb myminio/medusa-bucket || true;
+      /usr/bin/mc mb myminio/strapi-uploads || true;
+      /usr/bin/mc anonymous set public myminio/medusa-bucket;
+      /usr/bin/mc anonymous set public myminio/strapi-uploads;
+      echo '{\"CORSRules\":[{\"AllowedOrigins\":[\"*\"],\"AllowedMethods\":[\"GET\",\"HEAD\",\"PUT\",\"POST\",\"DELETE\"],\"AllowedHeaders\":[\"*\"],\"ExposeHeaders\":[\"ETag\"]}]}' > /tmp/cors.json;
+      /usr/bin/mc anonymous set-json /tmp/cors.json myminio/strapi-uploads;
       exit 0;
       "
 
@@ -55,8 +66,50 @@ services:
     volumes:
       - meili_data:/meili_data
 
+  strapi:
+    build:
+      context: ./strapi-cms
+      dockerfile: Dockerfile
+    container_name: medusa-strapi
+    restart: unless-stopped
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: strapi
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_SSL: false
+      HOST: 0.0.0.0
+      PORT: 1337
+      APP_KEYS: ${STRAPI_APP_KEYS:-r4QgUrEHCXMNQrXHhKH9hg==,aK+t3YoXLTq5uMzYJnA0zg==,veLizC6fuGkkkZSrDn4drA==,t4l8ppnc2k4bXon1JQYFKQ==}
+      API_TOKEN_SALT: ${STRAPI_API_TOKEN_SALT:-t7fi4zVanDoAonDhIPfzQA==}
+      ADMIN_JWT_SECRET: ${STRAPI_ADMIN_JWT_SECRET:-eccv9tXgdQ0g1JSCYD6gfw==}
+      TRANSFER_TOKEN_SALT: ${STRAPI_TRANSFER_TOKEN_SALT:-GVfAOqS+PKK1PBUxl+bc8Q==}
+      ENCRYPTION_KEY: ${STRAPI_ENCRYPTION_KEY:-hhTJpuzG0bxgIueJm0Z1hg==}
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_REGION: us-east-1
+      MINIO_BUCKET: strapi-uploads
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_PUBLIC_URL: http://localhost:9100
+      STRAPI_DISABLE_UPDATE_NOTIFICATION: true
+      STRAPI_HIDE_STARTUP_MESSAGE: false
+    ports:
+      - "1337:1337"
+    volumes:
+      - ./strapi-cms:/srv/app
+      - ./strapi-cms/public/uploads:/srv/app/public/uploads
+      - strapi_data:/srv/app/.tmp
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_started
+
 volumes:
   postgres_data:
   redis_data:
   minio_data:
   meili_data:
+  strapi_data:

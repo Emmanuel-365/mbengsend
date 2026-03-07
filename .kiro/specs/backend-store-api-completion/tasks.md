@@ -175,15 +175,15 @@ This plan implements product search endpoints and transactional email workflows 
     - Return WorkflowResponse with success status
     - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-- [~] 9. Implement customer created subscriber
-  - [~] 9.1 Create customer-created subscriber
+- [x] 9. Implement customer created subscriber
+  - [x] 9.1 Create customer-created subscriber
     - Create src/subscribers/customer-created.ts
     - Implement handler function that triggers welcome email workflow
     - Export config with event: "customer.created"
     - Extract customer_id from event data
     - _Requirements: 4.1_
 
-- [~] 10. Final checkpoint - Verify all workflows and search
+- [x] 10. Final checkpoint - Verify all workflows and search
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
