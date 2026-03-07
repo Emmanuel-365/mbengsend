@@ -1,7 +1,7 @@
 "use client"
 
 import { addToCart } from "@lib/data/cart"
-import { addToWishlist, removeFromWishlist } from "@lib/data/wishlist"
+import { addToWishlistAction, removeFromWishlistAction } from "@modules/products/components/wishlist-toggle/actions"
 import { useIntersection } from "@lib/hooks/use-in-view"
 import { HttpTypes } from "@medusajs/types"
 import { Button, clx } from "@medusajs/ui"
@@ -73,19 +73,28 @@ export default function ProductActions({
   }, [product.variants, options])
 
   const isProductInWishlist = useMemo(() => {
-    if (!wishlist) return false
-    return wishlist.items?.some((i: any) => 
-      (selectedVariant?.id && i.variant_id === selectedVariant.id) || 
-      (!selectedVariant?.id && i.product_id === product.id)
-    )
+    if (!wishlist || !wishlist.items) return false
+    
+    // If a variant is selected, check if that specific variant is in wishlist
+    if (selectedVariant?.id) {
+      return wishlist.items.some((i: any) => i.variant_id === selectedVariant.id)
+    }
+    
+    // If no variant selected (single variant product or no selection yet)
+    // Check if the product itself is in wishlist (any variant)
+    return wishlist.items.some((i: any) => i.product_id === product.id)
   }, [wishlist, selectedVariant, product.id])
 
   const wishlistId = useMemo(() => {
-    if (!wishlist) return null
-    return wishlist.items?.find((i: any) => 
-      (selectedVariant?.id && i.variant_id === selectedVariant.id) || 
-      (!selectedVariant?.id && i.product_id === product.id)
-    )?.id
+    if (!wishlist || !wishlist.items) return null
+    
+    // If a variant is selected, find the wishlist item for that specific variant
+    if (selectedVariant?.id) {
+      return wishlist.items.find((i: any) => i.variant_id === selectedVariant.id)?.id
+    }
+    
+    // If no variant selected, find any wishlist item for this product
+    return wishlist.items.find((i: any) => i.product_id === product.id)?.id
   }, [wishlist, selectedVariant, product.id])
 
   // update the options when a variant is selected
@@ -166,26 +175,58 @@ export default function ProductActions({
 
   const handleWishlistAction = async () => {
     if (!customer) {
-      router.push(`/${countryCode}/account/login`)
+      router.push(`/${countryCode}/account`)
       return
+    }
+
+    // For products with multiple variants, require a variant to be selected
+    if ((product.variants?.length ?? 0) > 1 && !selectedVariant) {
+      return // Don't allow adding to wishlist without selecting a variant
     }
 
     setIsWishlistLoading(true)
 
-    if (isProductInWishlist && wishlistId) {
-      await removeFromWishlist(wishlistId)
-      // Optimistic update or refetch
-      const updatedItems = wishlist.items.filter((i: any) => i.id !== wishlistId)
-      setWishlist({ ...wishlist, items: updatedItems })
-    } else {
-      const { wishlist: updatedWishlist } = await addToWishlist({
-        product_id: product.id,
-        variant_id: selectedVariant?.id
-      })
-      setWishlist(updatedWishlist)
-    }
+    // Optimistic update
+    const previousWishlist = wishlist
 
-    setIsWishlistLoading(false)
+    try {
+      if (isProductInWishlist && wishlistId) {
+        // Optimistic update - remove from UI immediately
+        const updatedItems = wishlist.items.filter((i: any) => i.id !== wishlistId)
+        setWishlist({ ...wishlist, items: updatedItems })
+        
+        const result = await removeFromWishlistAction(wishlistId)
+        if (!result.success) {
+          // Revert on error
+          setWishlist(previousWishlist)
+        } else {
+          // Refresh to update navbar count
+          router.refresh()
+        }
+      } else {
+        // For multi-variant products, always send variant_id
+        // For single-variant products, send both product_id and variant_id
+        const result = await addToWishlistAction({
+          product_id: product.id,
+          variant_id: selectedVariant?.id
+        })
+        
+        if (result.success && result.wishlist) {
+          setWishlist(result.wishlist)
+          // Refresh to update navbar count
+          router.refresh()
+        }
+      }
+    } catch (error: any) {
+      console.error("Wishlist action failed:", error)
+      // Revert on error
+      setWishlist(previousWishlist)
+      if (error.status === 401 || error.message?.includes("Unauthorized")) {
+        router.push(`/${countryCode}/account`)
+      }
+    } finally {
+      setIsWishlistLoading(false)
+    }
   }
 
   return (
@@ -242,10 +283,14 @@ export default function ProductActions({
             variant="secondary"
             className="w-full h-10 flex items-center justify-center gap-x-2"
             isLoading={isWishlistLoading}
-            disabled={!!disabled}
+            disabled={!!disabled || ((product.variants?.length ?? 0) > 1 && !selectedVariant)}
           >
             <Heart className={clx("h-5 w-5", { "fill-red-500 text-red-500": isProductInWishlist })} />
-            {isProductInWishlist ? "Dans ma liste d'envies" : "Ajouter à la liste d'envies"}
+            {!selectedVariant && (product.variants?.length ?? 0) > 1
+              ? "Sélectionner une variante"
+              : isProductInWishlist 
+              ? "Dans ma liste d'envies" 
+              : "Ajouter à la liste d'envies"}
           </Button>
         </div>
 

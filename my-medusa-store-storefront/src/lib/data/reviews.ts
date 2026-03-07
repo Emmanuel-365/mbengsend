@@ -29,7 +29,7 @@ export const listReviews = async (productId?: string) => {
             next,
             cache: "no-store",
         }
-    )
+    ).catch(() => ({ reviews: [], count: 0 }))
 }
 
 export const createReview = async (data: {

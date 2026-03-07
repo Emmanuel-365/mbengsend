@@ -16,8 +16,10 @@ export async function GET(
     const service: WishlistModuleService = req.scope.resolve("wishlist")
     
     // Retrieve customer_id from authenticated session
-    const customerId = (req as any).auth_context?.actor_id
+    const customerId = (req as any).auth_context?.actor_id || (req as any).auth_context?.app_metadata?.customer_id
+    
     if (!customerId) {
+        console.error("Wishlist GET: No customerId found in auth_context. Auth context:", JSON.stringify((req as any).auth_context))
         return res.status(401).json({ message: "Not authenticated" })
     }
 
@@ -36,11 +38,15 @@ export async function POST(
     req: MedusaRequest,
     res: MedusaResponse
 ) {
+    console.log("WISHLIST_POST_START");
     const service: WishlistModuleService = req.scope.resolve("wishlist")
     
     // Retrieve customer_id from authenticated session
-    const customerId = (req as any).auth_context?.actor_id
+    console.log("AUTH_CONTEXT_POST:", JSON.stringify((req as any).auth_context));
+    const customerId = (req as any).auth_context?.actor_id || (req as any).auth_context?.app_metadata?.customer_id
+    
     if (!customerId) {
+        console.error("Wishlist POST: No customerId found in auth_context. Auth context:", JSON.stringify((req as any).auth_context))
         return res.status(401).json({ message: "Not authenticated" })
     }
 
@@ -57,11 +63,20 @@ export async function POST(
         wishlist = await service.createWishlists({ customer_id: customerId })
     }
 
-    // Vérifier si l'item est déjà présent (soit par produit, soit par variante)
-    const existingItem = wishlist.items?.find((i: any) => 
-        (product_id && i.product_id === product_id) || 
-        (variant_id && i.variant_id === variant_id)
-    )
+    // Vérifier si l'item est déjà présent
+    // Pour les produits multi-variantes, on vérifie par variant_id
+    // Pour les produits single-variante, on peut vérifier par product_id ou variant_id
+    const existingItem = wishlist.items?.find((i: any) => {
+        // Si on ajoute une variante spécifique, chercher par variant_id
+        if (variant_id) {
+            return i.variant_id === variant_id
+        }
+        // Si on ajoute juste un produit (single variant), chercher par product_id
+        if (product_id) {
+            return i.product_id === product_id && !i.variant_id
+        }
+        return false
+    })
 
     if (!existingItem) {
         await service.createWishlistItems({

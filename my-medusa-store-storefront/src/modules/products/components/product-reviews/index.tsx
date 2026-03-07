@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { Button, Heading, Text, Textarea, Input, clx } from "@medusajs/ui"
+import { Button, Heading, Text, Textarea, Input, Label, clx } from "@medusajs/ui"
 import { StarSolid } from "@medusajs/icons"
 import { listReviews, createReview, Review } from "@lib/data/reviews"
 import { HttpTypes } from "@medusajs/types"
@@ -118,7 +118,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ product, customer }) =>
         {!showForm ? (
           <Button 
             variant="secondary" 
-            onClick={() => customer ? setShowForm(true) : window.location.href = `/${window.location.pathname.split('/')[1]}/account/login`}
+            onClick={() => customer ? setShowForm(true) : window.location.href = `/${window.location.pathname.split('/')[1]}/account`}
           >
             Donner mon avis
           </Button>
