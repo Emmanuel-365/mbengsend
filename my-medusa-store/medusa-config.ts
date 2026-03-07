@@ -46,6 +46,11 @@ module.exports = defineConfig({
               webhookSecret: process.env.FLUTTERWAVE_WEBHOOK_SECRET,
             },
           },
+          {
+            resolve: "./src/modules/payment-cod",
+            id: "cod",
+            options: {},
+          },
         ],
       },
     },

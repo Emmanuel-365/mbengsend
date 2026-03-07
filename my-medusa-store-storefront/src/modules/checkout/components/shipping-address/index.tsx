@@ -130,7 +130,11 @@ const ShippingAddress = ({
           data-testid="shipping-last-name-input"
         />
         <Input
-          label="Address"
+          label={
+            formData["shipping_address.country_code"] === "cm"
+              ? "Indications de livraison (Quartier, repères)"
+              : "Address"
+          }
           name="shipping_address.address_1"
           autoComplete="address-line1"
           value={formData["shipping_address.address_1"]}
@@ -152,7 +156,7 @@ const ShippingAddress = ({
           autoComplete="postal-code"
           value={formData["shipping_address.postal_code"]}
           onChange={handleChange}
-          required
+          required={formData["shipping_address.country_code"] !== "cm"}
           data-testid="shipping-postal-code-input"
         />
         <Input

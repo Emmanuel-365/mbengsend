@@ -49,7 +49,11 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           data-testid="billing-last-name-input"
         />
         <Input
-          label="Address"
+          label={
+            formData["billing_address.country_code"] === "cm"
+              ? "Indications de facturation (Quartier, repères)"
+              : "Address"
+          }
           name="billing_address.address_1"
           autoComplete="address-line1"
           value={formData["billing_address.address_1"]}
@@ -71,7 +75,7 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           autoComplete="postal-code"
           value={formData["billing_address.postal_code"]}
           onChange={handleChange}
-          required
+          required={formData["billing_address.country_code"] !== "cm"}
           data-testid="billing-postal-input"
         />
         <Input

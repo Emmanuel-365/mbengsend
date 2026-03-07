@@ -34,6 +34,14 @@ export const paymentInfoMap: Record<
     title: "Manual Payment",
     icon: <CreditCard />,
   },
+  flutterwave: {
+    title: "Orange/MTN Money (Flutterwave)",
+    icon: <CreditCard />,
+  },
+  cod: {
+    title: "Paiement à la livraison",
+    icon: <CreditCard />,
+  },
   // Add more payment providers here
 }
 

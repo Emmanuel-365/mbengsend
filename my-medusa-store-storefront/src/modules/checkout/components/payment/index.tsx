@@ -140,26 +140,32 @@ const Payment = ({
                 value={selectedPaymentMethod}
                 onChange={(value: string) => setPaymentMethod(value)}
               >
-                {availablePaymentMethods.map((paymentMethod) => (
-                  <div key={paymentMethod.id}>
-                    {isStripeLike(paymentMethod.id) ? (
-                      <StripeCardContainer
-                        paymentProviderId={paymentMethod.id}
-                        selectedPaymentOptionId={selectedPaymentMethod}
-                        paymentInfoMap={paymentInfoMap}
-                        setCardBrand={setCardBrand}
-                        setError={setError}
-                        setCardComplete={setCardComplete}
-                      />
-                    ) : (
-                      <PaymentContainer
-                        paymentInfoMap={paymentInfoMap}
-                        paymentProviderId={paymentMethod.id}
-                        selectedPaymentOptionId={selectedPaymentMethod}
-                      />
-                    )}
-                  </div>
-                ))}
+                {availablePaymentMethods
+                  .filter((m) =>
+                    m.id === "cod"
+                      ? cart?.shipping_address?.country_code === "cm"
+                      : true
+                  )
+                  .map((paymentMethod) => (
+                    <div key={paymentMethod.id}>
+                      {isStripeLike(paymentMethod.id) ? (
+                        <StripeCardContainer
+                          paymentProviderId={paymentMethod.id}
+                          selectedPaymentOptionId={selectedPaymentMethod}
+                          paymentInfoMap={paymentInfoMap}
+                          setCardBrand={setCardBrand}
+                          setError={setError}
+                          setCardComplete={setCardComplete}
+                        />
+                      ) : (
+                        <PaymentContainer
+                          paymentInfoMap={paymentInfoMap}
+                          paymentProviderId={paymentMethod.id}
+                          selectedPaymentOptionId={selectedPaymentMethod}
+                        />
+                      )}
+                    </div>
+                  ))}
               </RadioGroup>
             </>
           )}
