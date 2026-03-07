@@ -4,9 +4,10 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import StoreTemplate from "@modules/store/templates"
 
 export const metadata: Metadata = {
-  title: "Store",
-  description: "Explore all of our products.",
+  title: "Boutique Mbengsend | Tous nos Produits",
+  description: "Explorez notre collection complète de produits disponibles pour une livraison rapide au Cameroun. Vêtements, accessoires, électronique et plus encore.",
 }
+
 
 type Params = {
   searchParams: Promise<{

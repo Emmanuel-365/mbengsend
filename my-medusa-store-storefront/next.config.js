@@ -52,6 +52,7 @@ const nextConfig = {
           ]
         : []),
     ],
+    unoptimized: true, // Désactive l'optimisation d'images pour éviter les problèmes CORS
   },
 }
 

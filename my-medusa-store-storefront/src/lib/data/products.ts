@@ -83,6 +83,12 @@ export const listProducts = async ({
         queryParams,
       }
     })
+    .catch((err) => {
+      return {
+        response: { products: [], count: 0 },
+        nextPage: null,
+      }
+    })
 }
 
 /**

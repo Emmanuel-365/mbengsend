@@ -1,7 +1,8 @@
-import { getPageByHandle } from "@lib/data/cms"
+import { getPageByHandle } from "@lib/data/strapi"
 import { notFound } from "next/navigation"
-import { Heading, Text } from "@medusajs/ui"
+import { Heading } from "@medusajs/ui"
 import { Metadata } from "next"
+import { marked } from "marked"
 
 export async function generateMetadata(props: {
   params: Promise<{ handle: string }>
@@ -14,8 +15,8 @@ export async function generateMetadata(props: {
   }
 
   return {
-    title: `${page.title} | MbengSend`,
-    description: `Consultez notre page ${page.title}`,
+    title: `${page.seo_title || page.title} | MbengSend`,
+    description: page.seo_description || `Consultez notre page ${page.title}`,
   }
 }
 
@@ -29,12 +30,15 @@ export default async function StaticPage(props: {
     return notFound()
   }
 
+  // Convert markdown to HTML
+  const htmlContent = await marked(page.content)
+
   return (
     <div className="content-container py-12 max-w-3xl">
       <Heading level="h1" className="mb-8">{page.title}</Heading>
       <div 
         className="prose prose-blue max-w-none"
-        dangerouslySetInnerHTML={{ __html: page.content }}
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
     </div>
   )

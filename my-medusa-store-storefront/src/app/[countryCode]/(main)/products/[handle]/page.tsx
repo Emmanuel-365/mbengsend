@@ -4,6 +4,8 @@ import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
 import { HttpTypes } from "@medusajs/types"
+import { getBaseURL } from "@lib/util/env"
+
 
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
@@ -44,8 +46,7 @@ export async function generateStaticParams() {
       .filter((param) => param.handle)
   } catch (error) {
     console.error(
-      `Failed to generate static paths for product pages: ${
-        error instanceof Error ? error.message : "Unknown error"
+      `Failed to generate static paths for product pages: ${error instanceof Error ? error.message : "Unknown error"
       }.`
     )
     return []
@@ -56,18 +57,19 @@ function getImagesForVariant(
   product: HttpTypes.StoreProduct,
   selectedVariantId?: string
 ) {
-  if (!selectedVariantId || !product.variants) {
-    return product.images
+  if (!selectedVariantId || !product.variants || !product.images) {
+    return product.images || []
   }
 
-  const variant = product.variants!.find((v) => v.id === selectedVariantId)
-  if (!variant || !variant.images.length) {
-    return product.images
+  const variant = product.variants.find((v) => v.id === selectedVariantId)
+  if (!variant || !variant.images?.length) {
+    return product.images || []
   }
 
   const imageIdsMap = new Map(variant.images.map((i) => [i.id, true]))
-  return product.images!.filter((i) => imageIdsMap.has(i.id))
+  return product.images.filter((i) => imageIdsMap.has(i.id))
 }
+
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
@@ -80,23 +82,35 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   const product = await listProducts({
     countryCode: params.countryCode,
-    queryParams: { handle },
+    queryParams: { handle, fields: "title,description,thumbnail,updated_at" },
   }).then(({ response }) => response.products[0])
 
   if (!product) {
     notFound()
   }
 
+  const title = `${product.title} | Mbengsend - Livraison Europe & Cameroun`
+  const description = product.description || `Achetez ${product.title} sur Mbengsend. Produit de qualité maritime avec livraison sécurisée entre l'Europe et le Cameroun.`
+
   return {
-    title: `${product.title} | Medusa Store`,
-    description: `${product.title}`,
+    title,
+    description,
     openGraph: {
-      title: `${product.title} | Medusa Store`,
-      description: `${product.title}`,
+      title,
+      description,
+      images: product.thumbnail ? [product.thumbnail] : [],
+      type: "article",
+      url: `${getBaseURL()}/${params.countryCode}/products/${handle}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
       images: product.thumbnail ? [product.thumbnail] : [],
     },
   }
 }
+
 
 export default async function ProductPage(props: Props) {
   const params = await props.params
@@ -114,18 +128,61 @@ export default async function ProductPage(props: Props) {
     queryParams: { handle: params.handle },
   }).then(({ response }) => response.products[0])
 
-  const images = getImagesForVariant(pricedProduct, selectedVariantId)
-
   if (!pricedProduct) {
     notFound()
   }
 
+  const images = getImagesForVariant(pricedProduct, selectedVariantId)
+
+
+  const averageRating = (pricedProduct.metadata?.average_rating as number) || 5
+  const reviewCount = (pricedProduct.metadata?.review_count as number) || 0
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": pricedProduct.title,
+    "description": pricedProduct.description,
+    "image": pricedProduct.thumbnail,
+    "brand": {
+      "@type": "Brand",
+      "name": "Mbengsend"
+    },
+    ...(reviewCount > 0 ? {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": averageRating,
+        "reviewCount": reviewCount
+      }
+    } : {}),
+    "offers": {
+      "@type": "Offer",
+      "price": pricedProduct.variants?.[0]?.calculated_price?.calculated_amount || 0,
+      "priceCurrency": pricedProduct.variants?.[0]?.calculated_price?.currency_code?.toUpperCase() || "XAF",
+      "availability": pricedProduct.variants?.some((v: any) => (v.inventory_quantity || 0) > 0)
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      "url": `${getBaseURL()}/${params.countryCode}/products/${params.handle}`,
+      "seller": {
+        "@type": "Organization",
+        "name": "Mbengsend"
+      }
+    }
+  }
+
   return (
-    <ProductTemplate
-      product={pricedProduct}
-      region={region}
-      countryCode={params.countryCode}
-      images={images}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <ProductTemplate
+        product={pricedProduct}
+        region={region}
+        countryCode={params.countryCode}
+        images={images}
+      />
+    </>
   )
 }
+
