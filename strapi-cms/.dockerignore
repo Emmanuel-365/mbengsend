@@ -1,0 +1,14 @@
+# node_modules
+.tmp
+.cache
+build
+dist
+.env
+.env.*
+!.env.example
+*.log
+.git
+.DS_Store
+coverage
+.vscode
+.idea
