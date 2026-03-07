@@ -3,10 +3,11 @@ import { Logger } from "@medusajs/framework/types"
 export default class MeilisearchService {
     protected client: any
     protected logger: Logger
+    protected initPromise: Promise<void>
 
     constructor({ logger }: { logger: Logger }) {
         this.logger = logger
-        this.init()
+        this.initPromise = this.init()
     }
 
     protected async init() {
@@ -19,7 +20,7 @@ export default class MeilisearchService {
 
     async indexProducts(products: any[]) {
         try {
-            if (!this.client) await this.init()
+            await this.initPromise
             const index = this.client.index("products")
             const documents = products.map(p => ({
                 id: p.id,
@@ -39,7 +40,7 @@ export default class MeilisearchService {
 
     async deleteProduct(productId: string) {
         try {
-            if (!this.client) await this.init()
+            await this.initPromise
             await this.client.index("products").deleteDocument(productId)
             this.logger.info(`[Meilisearch] Deleted product ${productId}`)
         } catch (error: any) {
@@ -52,7 +53,7 @@ export default class MeilisearchService {
         options?: { limit?: number; offset?: number }
     ): Promise<{ hits: any[]; estimatedTotalHits: number }> {
         try {
-            if (!this.client) await this.init()
+            await this.initPromise
 
             // Apply defaults and constraints
             const limit = Math.min(options?.limit || 20, 100)

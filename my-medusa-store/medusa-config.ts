@@ -37,6 +37,15 @@ module.exports = defineConfig({
               authWebhookId: process.env.PAYPAL_AUTH_WEBHOOK_ID || "",
             },
           },
+          {
+            resolve: "./src/modules/flutterwave",
+            id: "flutterwave",
+            options: {
+              secretKey: process.env.FLUTTERWAVE_SECRET_KEY,
+              publicKey: process.env.FLUTTERWAVE_PUBLIC_KEY,
+              webhookSecret: process.env.FLUTTERWAVE_WEBHOOK_SECRET,
+            },
+          },
         ],
       },
     },

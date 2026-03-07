@@ -63,6 +63,29 @@ export default async function seedDemoData({ container }: ExecArgs) {
   const salesChannelModuleService = container.resolve(Modules.SALES_CHANNEL);
   const storeModuleService = container.resolve(Modules.STORE);
 
+  logger.info("Checking for admin user...");
+  try {
+    const { data: users } = await query.graph({
+      entity: "user",
+      fields: ["id"],
+      filters: { email: "admin@mbengsend.com" },
+    });
+
+    if (users.length === 0) {
+      logger.info("Creating default admin user (admin@mbengsend.com)...");
+      const { execSync } = require("child_process");
+      // Use npx medusa user to handle user + auth identity creation
+      execSync("npx medusa user -e admin@mbengsend.com -p Mbengsend2026!", {
+        stdio: "inherit",
+      });
+      logger.info("Admin user created successfully.");
+    } else {
+      logger.info("Admin user already exists.");
+    }
+  } catch (error) {
+    logger.warn(`Failed to check/create admin user: ${error.message}`);
+  }
+
   const countriesEurope = ["fr", "de", "es", "it", "be", "lu", "ch"];
   const countriesCameroon = ["cm"];
 
