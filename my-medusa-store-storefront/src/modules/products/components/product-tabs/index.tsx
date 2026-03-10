@@ -14,11 +14,11 @@ type ProductTabsProps = {
 const ProductTabs = ({ product }: ProductTabsProps) => {
   const tabs = [
     {
-      label: "Product Information",
+      label: "Informations Produit",
       component: <ProductInfoTab product={product} />,
     },
     {
-      label: "Shipping & Returns",
+      label: "Livraison & Retours",
       component: <ShippingInfoTab />,
     },
   ]
@@ -43,29 +43,29 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 
 const ProductInfoTab = ({ product }: ProductTabsProps) => {
   return (
-    <div className="text-small-regular py-8">
+    <div className="text-sm py-8 text-ui-fg-subtle">
       <div className="grid grid-cols-2 gap-x-8">
         <div className="flex flex-col gap-y-4">
           <div>
-            <span className="font-semibold">Material</span>
+            <span className="font-bold text-brand-dark block mb-1">Matière</span>
             <p>{product.material ? product.material : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Country of origin</span>
+            <span className="font-bold text-brand-dark block mb-1">Pays d&apos;origine</span>
             <p>{product.origin_country ? product.origin_country : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Type</span>
+            <span className="font-bold text-brand-dark block mb-1">Type</span>
             <p>{product.type ? product.type.value : "-"}</p>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">
           <div>
-            <span className="font-semibold">Weight</span>
+            <span className="font-bold text-brand-dark block mb-1">Poids</span>
             <p>{product.weight ? `${product.weight} g` : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Dimensions</span>
+            <span className="font-bold text-brand-dark block mb-1">Dimensions</span>
             <p>
               {product.length && product.width && product.height
                 ? `${product.length}L x ${product.width}W x ${product.height}H`
@@ -80,36 +80,32 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
 
 const ShippingInfoTab = () => {
   return (
-    <div className="text-small-regular py-8">
+    <div className="text-sm py-8 text-ui-fg-subtle">
       <div className="grid grid-cols-1 gap-y-8">
-        <div className="flex items-start gap-x-2">
-          <FastDelivery />
+        <div className="flex items-start gap-x-3">
+          <FastDelivery className="text-brand-primary" />
           <div>
-            <span className="font-semibold">Fast delivery</span>
-            <p className="max-w-sm">
-              Your package will arrive in 3-5 business days at your pick up
-              location or in the comfort of your home.
+            <span className="font-bold text-brand-dark block mb-1 text-base">Livraison Rapide</span>
+            <p className="max-w-sm leading-relaxed">
+              Votre colis arrivera en 5 à 10 jours ouvrés directement au Cameroun (Douala/Yaoundé) ou à votre domicile.
             </p>
           </div>
         </div>
-        <div className="flex items-start gap-x-2">
-          <Refresh />
+        <div className="flex items-start gap-x-3">
+          <Refresh className="text-brand-primary" />
           <div>
-            <span className="font-semibold">Simple exchanges</span>
-            <p className="max-w-sm">
-              Is the fit not quite right? No worries - we&apos;ll exchange your
-              product for a new one.
+            <span className="font-bold text-brand-dark block mb-1 text-base">Échanges Simples</span>
+            <p className="max-w-sm leading-relaxed">
+              La taille ne convient pas ? Pas de souci - nous échangerons votre produit contre un nouveau.
             </p>
           </div>
         </div>
-        <div className="flex items-start gap-x-2">
-          <Back />
+        <div className="flex items-start gap-x-3">
+          <Back className="text-brand-primary" />
           <div>
-            <span className="font-semibold">Easy returns</span>
-            <p className="max-w-sm">
-              Just return your product and we&apos;ll refund your money. No
-              questions asked – we&apos;ll do our best to make sure your return
-              is hassle-free.
+            <span className="font-bold text-brand-dark block mb-1 text-base">Retours Faciles</span>
+            <p className="max-w-sm leading-relaxed">
+              Il suffit de nous retourner votre produit et nous vous rembourserons. Nous ferons tout pour que votre retour soit sans tracas.
             </p>
           </div>
         </div>

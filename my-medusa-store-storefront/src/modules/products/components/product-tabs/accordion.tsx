@@ -19,9 +19,9 @@ type AccordionItemProps = AccordionPrimitive.AccordionItemProps & {
 
 type AccordionProps =
   | (AccordionPrimitive.AccordionSingleProps &
-      React.RefAttributes<HTMLDivElement>)
+    React.RefAttributes<HTMLDivElement>)
   | (AccordionPrimitive.AccordionMultipleProps &
-      React.RefAttributes<HTMLDivElement>)
+    React.RefAttributes<HTMLDivElement>)
 
 const Accordion: React.FC<AccordionProps> & {
   Item: React.FC<AccordionItemProps>
@@ -34,21 +34,25 @@ const Accordion: React.FC<AccordionProps> & {
 const Item: React.FC<AccordionItemProps> = ({
   title,
   subtitle,
-  description,
   children,
   className,
-  headingSize = "large",
-  customTrigger = undefined,
-  forceMountContent = undefined,
+  headingSize,
+  complete,
+  active,
   triggerable,
+  description,
+  required,
+  tooltip,
+  forceMountContent,
+  customTrigger,
   ...props
 }) => {
   return (
     <AccordionPrimitive.Item
       {...props}
       className={clx(
-        "border-grey-20 group border-t last:mb-0 last:border-b",
-        "py-3",
+        "border-brand-dark/5 group border-t last:mb-0 last:border-b",
+        "py-4",
         className
       )}
     >
@@ -56,27 +60,25 @@ const Item: React.FC<AccordionItemProps> = ({
         <div className="flex flex-col">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-4">
-              <Text className="text-ui-fg-subtle text-sm">{title}</Text>
+              <Text className="text-brand-dark font-display font-bold text-lg tracking-tight group-hover:text-brand-primary transition-colors">{title}</Text>
             </div>
-            <AccordionPrimitive.Trigger>
-              {customTrigger || <MorphingTrigger />}
+            <AccordionPrimitive.Trigger className="focus:outline-none">
+              <MorphingTrigger />
             </AccordionPrimitive.Trigger>
           </div>
           {subtitle && (
-            <Text as="span" size="small" className="mt-1">
+            <Text as="span" className="mt-2 text-brand-dark/60 text-sm">
               {subtitle}
             </Text>
           )}
         </div>
       </AccordionPrimitive.Header>
       <AccordionPrimitive.Content
-        forceMount={forceMountContent}
         className={clx(
-          "radix-state-closed:animate-accordion-close radix-state-open:animate-accordion-open radix-state-closed:pointer-events-none px-1"
+          "overflow-hidden transition-all duration-300 radix-state-closed:animate-accordion-close radix-state-open:animate-accordion-open px-1"
         )}
       >
-        <div className="inter-base-regular group-radix-state-closed:animate-accordion-close">
-          {description && <Text>{description}</Text>}
+        <div className="py-4">
           <div className="w-full">{children}</div>
         </div>
       </AccordionPrimitive.Content>
@@ -88,10 +90,10 @@ Accordion.Item = Item
 
 const MorphingTrigger = () => {
   return (
-    <div className="text-grey-90 hover:bg-grey-5 active:bg-grey-5 active:text-violet-60 focus:border-violet-60 disabled:text-grey-30 bg-transparent disabled:bg-transparent rounded-rounded group relative p-[6px]">
-      <div className="h-5 w-5">
-        <span className="bg-grey-50 rounded-circle group-radix-state-open:rotate-90 absolute inset-y-[31.75%] left-[48%] right-1/2 w-[1.5px] duration-300" />
-        <span className="bg-grey-50 rounded-circle group-radix-state-open:rotate-90 group-radix-state-open:left-1/2 group-radix-state-open:right-1/2 absolute inset-x-[31.75%] top-[48%] bottom-1/2 h-[1.5px] duration-300" />
+    <div className="bg-brand-dark/5 hover:bg-brand-primary/10 rounded-full group relative p-2 transition-colors duration-300">
+      <div className="h-4 w-4 relative">
+        <span className="bg-brand-dark group-hover:bg-brand-primary absolute inset-y-0 left-[45%] w-[2px] transition-all duration-500 group-radix-state-open:rotate-90" />
+        <span className="bg-brand-dark group-hover:bg-brand-primary absolute inset-x-0 top-[45%] h-[2px] transition-all duration-500 group-radix-state-open:rotate-90 group-radix-state-open:opacity-0" />
       </div>
     </div>
   )

@@ -29,19 +29,28 @@ export default async function ProductPreview({
   })
 
   return (
-    <LocalizedClientLink href={`/products/${product.handle}`} className="group">
-      <div data-testid="product-wrapper">
-        <Thumbnail
-          thumbnail={product.thumbnail}
-          images={product.images}
-          size="full"
-          isFeatured={isFeatured}
-        />
-        <div className="flex flex-col mt-4">
-          <Text className="text-base font-display font-semibold text-brand-dark group-hover:text-brand-primary transition-colors" data-testid="product-title">
+    <LocalizedClientLink href={`/products/${product.handle}`} className="group h-full">
+      <div
+        className="flex flex-col h-full bg-white rounded-huge-lg border border-brand-dark/[0.03] overflow-hidden transition-all duration-500 hover:shadow-lux-lg hover:border-brand-primary/20 group-hover:-translate-y-1"
+        data-testid="product-wrapper"
+      >
+        <div className="relative aspect-[4/5] w-full overflow-hidden">
+          <Thumbnail
+            thumbnail={product.thumbnail}
+            images={product.images}
+            size="full"
+            isFeatured={isFeatured}
+            className="transition-transform duration-700 group-hover:scale-110"
+          />
+        </div>
+        <div className="flex flex-col p-6 flex-grow">
+          <Text
+            className="text-lg font-display font-bold text-brand-dark group-hover:text-brand-primary transition-colors duration-300"
+            data-testid="product-title"
+          >
             {product.title}
           </Text>
-          <div className="flex items-center mt-1">
+          <div className="flex items-center mt-3 pt-3 border-t border-brand-dark/5">
             {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
           </div>
         </div>

@@ -65,73 +65,76 @@ const EditAddress: React.FC<EditAddressProps> = ({
     <>
       <div
         className={clx(
-          "border rounded-rounded p-5 min-h-[220px] h-full w-full flex flex-col justify-between transition-colors",
+          "rounded-3xl p-8 min-h-[220px] h-full w-full flex flex-col justify-between transition-all duration-300 bg-white border shadow-lux-sm hover:shadow-lux-md group",
           {
-            "border-gray-900": isActive,
+            "border-brand-primary ring-2 ring-brand-primary/10": isActive,
+            "border-gray-100": !isActive,
           }
         )}
         data-testid="address-container"
       >
         <div className="flex flex-col">
           <Heading
-            className="text-left text-base-semi"
+            className="text-left text-xl font-display font-bold text-brand-dark mb-3 tracking-tight"
             data-testid="address-name"
           >
             {address.first_name} {address.last_name}
           </Heading>
           {address.company && (
-            <Text
-              className="txt-compact-small text-ui-fg-base"
-              data-testid="address-company"
-            >
-              {address.company}
-            </Text>
+            <div className="mb-4">
+              <span
+                className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-primary px-2 py-1 bg-brand-primary/5 rounded-md"
+                data-testid="address-company"
+              >
+                {address.company}
+              </span>
+            </div>
           )}
-          <Text className="flex flex-col text-left text-base-regular mt-2">
-            <span data-testid="address-address">
+          <div className="flex flex-col text-left text-sm text-ui-fg-subtle space-y-1 mt-auto">
+            <span data-testid="address-address" className="font-semibold text-brand-dark">
               {address.address_1}
               {address.address_2 && <span>, {address.address_2}</span>}
             </span>
-            <span data-testid="address-postal-city">
+            <span data-testid="address-postal-city" className="font-medium">
               {address.postal_code}, {address.city}
             </span>
-            <span data-testid="address-province-country">
+            <span data-testid="address-province-country" className="font-medium">
               {address.province && `${address.province}, `}
               {address.country_code?.toUpperCase()}
             </span>
-          </Text>
+          </div>
         </div>
-        <div className="flex items-center gap-x-4">
+        <div className="flex items-center gap-x-8 mt-10 pt-8 border-t border-gray-100">
           <button
-            className="text-small-regular text-ui-fg-base flex items-center gap-x-2"
+            className="text-xs font-bold text-brand-primary flex items-center gap-x-2 hover:text-brand-secondary transition-all hover:translate-x-0.5"
             onClick={open}
             data-testid="address-edit-button"
           >
-            <Edit />
-            Edit
+            <Edit width={16} height={16} />
+            MODIFIER
           </button>
           <button
-            className="text-small-regular text-ui-fg-base flex items-center gap-x-2"
+            className="text-xs font-bold text-gray-400 flex items-center gap-x-2 hover:text-red-500 transition-all"
             onClick={removeAddress}
             data-testid="address-delete-button"
           >
-            {removing ? <Spinner /> : <Trash />}
-            Remove
+            {removing ? <Spinner className="animate-spin" /> : <Trash width={16} height={16} />}
+            SUPPRIMER
           </button>
         </div>
       </div>
 
       <Modal isOpen={state} close={close} data-testid="edit-address-modal">
         <Modal.Title>
-          <Heading className="mb-2">Edit address</Heading>
+          <Heading className="mb-2 font-display">Modifier l&apos;adresse</Heading>
         </Modal.Title>
         <form action={formAction}>
           <input type="hidden" name="addressId" value={address.id} />
           <Modal.Body>
-            <div className="grid grid-cols-1 gap-y-2">
-              <div className="grid grid-cols-2 gap-x-2">
+            <div className="grid grid-cols-1 gap-y-4">
+              <div className="grid grid-cols-2 gap-x-4">
                 <Input
-                  label="First name"
+                  label="Prénom"
                   name="first_name"
                   required
                   autoComplete="given-name"
@@ -139,7 +142,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
                   data-testid="first-name-input"
                 />
                 <Input
-                  label="Last name"
+                  label="Nom"
                   name="last_name"
                   required
                   autoComplete="family-name"
@@ -148,14 +151,14 @@ const EditAddress: React.FC<EditAddressProps> = ({
                 />
               </div>
               <Input
-                label="Company"
+                label="Entreprise"
                 name="company"
                 autoComplete="organization"
                 defaultValue={address.company || undefined}
                 data-testid="company-input"
               />
               <Input
-                label="Address"
+                label="Adresse"
                 name="address_1"
                 required
                 autoComplete="address-line1"
@@ -163,15 +166,15 @@ const EditAddress: React.FC<EditAddressProps> = ({
                 data-testid="address-1-input"
               />
               <Input
-                label="Apartment, suite, etc."
+                label="Appartement, suite, etc. (optionnel)"
                 name="address_2"
                 autoComplete="address-line2"
                 defaultValue={address.address_2 || undefined}
                 data-testid="address-2-input"
               />
-              <div className="grid grid-cols-[144px_1fr] gap-x-2">
+              <div className="grid grid-cols-[144px_1fr] gap-x-4">
                 <Input
-                  label="Postal code"
+                  label="Code postal"
                   name="postal_code"
                   required
                   autoComplete="postal-code"
@@ -179,7 +182,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
                   data-testid="postal-code-input"
                 />
                 <Input
-                  label="City"
+                  label="Ville"
                   name="city"
                   required
                   autoComplete="locality"
@@ -188,7 +191,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
                 />
               </div>
               <Input
-                label="Province / State"
+                label="Région / État"
                 name="province"
                 autoComplete="address-level1"
                 defaultValue={address.province || undefined}
@@ -203,7 +206,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
                 data-testid="country-select"
               />
               <Input
-                label="Phone"
+                label="Téléphone"
                 name="phone"
                 autoComplete="phone"
                 defaultValue={address.phone || undefined}
@@ -211,7 +214,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
               />
             </div>
             {formState.error && (
-              <div className="text-rose-500 text-small-regular py-2">
+              <div className="text-red-500 text-sm py-2 px-4 bg-red-50 rounded-lg mt-4">
                 {formState.error}
               </div>
             )}
@@ -222,12 +225,12 @@ const EditAddress: React.FC<EditAddressProps> = ({
                 type="reset"
                 variant="secondary"
                 onClick={close}
-                className="h-10"
+                className="h-12 px-6 rounded-full border-gray-200 text-brand-dark font-bold hover:bg-gray-50 transition-all text-xs"
                 data-testid="cancel-button"
               >
-                Cancel
+                Annuler
               </Button>
-              <SubmitButton data-testid="save-button">Save</SubmitButton>
+              <SubmitButton data-testid="save-button" className="h-12 px-8 rounded-full bg-brand-primary hover:bg-brand-secondary text-white font-bold transition-all shadow-lux-sm hover:shadow-lux-md border-none">Enregistrer</SubmitButton>
             </div>
           </Modal.Footer>
         </form>

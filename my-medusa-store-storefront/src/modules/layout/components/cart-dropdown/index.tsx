@@ -176,7 +176,7 @@ const CartDropdown = ({
                       </div>
                     ))}
                 </div>
-                <div className="p-6 flex flex-col gap-y-4 bg-white/30 backdrop-blur-md mt-4 border-t border-white/20">
+                <div className="p-6 flex flex-col gap-y-4 bg-white/95 backdrop-blur-xl mt-4 border-t border-white/20">
                   <div className="flex items-center justify-between">
                     <span className="text-brand-dark font-semibold">
                       Sous-total{" "}

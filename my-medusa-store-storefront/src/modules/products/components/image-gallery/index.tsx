@@ -8,29 +8,29 @@ type ImageGalleryProps = {
 
 const ImageGallery = ({ images }: ImageGalleryProps) => {
   return (
-    <div className="flex items-start relative">
-      <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
+    <div className="flex items-start relative px-4 small:px-12">
+      <div className="flex flex-col flex-1 gap-y-12">
         {images.map((image, index) => {
           return (
-            <Container
+            <div
               key={image.id}
-              className="relative aspect-[29/34] w-full overflow-hidden bg-ui-bg-subtle"
+              className="relative aspect-[4/5] w-full overflow-hidden rounded-huge-lg bg-white shadow-lux-lg border border-brand-dark/5 transition-all duration-700 hover:shadow-lux-huge group"
               id={image.id}
             >
               {!!image.url && (
                 <Image
                   src={image.url}
                   priority={index <= 2 ? true : false}
-                  className="absolute inset-0 rounded-rounded"
+                  className="absolute inset-0 transition-transform duration-1000 group-hover:scale-110"
                   alt={`Product image ${index + 1}`}
                   fill
-                  sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
+                  sizes="(max-width: 576px) 100vw, (max-width: 768px) 80vw, 1000px"
                   style={{
                     objectFit: "cover",
                   }}
                 />
               )}
-            </Container>
+            </div>
           )
         })}
       </div>

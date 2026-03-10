@@ -6,30 +6,33 @@ type LineItemUnitPriceProps = {
   item: HttpTypes.StoreCartLineItem | HttpTypes.StoreOrderLineItem
   style?: "default" | "tight"
   currencyCode: string
+  className?: string
 }
 
 const LineItemUnitPrice = ({
   item,
   style = "default",
   currencyCode,
+  className,
 }: LineItemUnitPriceProps) => {
-  const { total, original_total } = item
+  const total = item.total ?? 0
+  const original_total = item.original_total ?? 0
   const hasReducedPrice = total < original_total
 
-  const percentage_diff = Math.round(
+  const percentage_diff = original_total > 0 ? Math.round(
     ((original_total - total) / original_total) * 100
-  )
+  ) : 0
 
   return (
-    <div className="flex flex-col text-ui-fg-muted justify-center h-full">
+    <div className={clx("flex flex-col text-ui-fg-muted justify-center h-full", className)}>
       {hasReducedPrice && (
-        <>
-          <p>
+        <div className="flex items-center gap-x-2">
+          <p className="text-xs">
             {style === "default" && (
-              <span className="text-ui-fg-muted">Original: </span>
+              <span className="text-ui-fg-muted font-medium">Prix initial: </span>
             )}
             <span
-              className="line-through"
+              className="line-through text-brand-dark/40"
               data-testid="product-unit-original-price"
             >
               {convertToLocale({
@@ -39,13 +42,14 @@ const LineItemUnitPrice = ({
             </span>
           </p>
           {style === "default" && (
-            <span className="text-ui-fg-interactive">-{percentage_diff}%</span>
+            <span className="text-red-500 font-bold text-xs">-{percentage_diff}%</span>
           )}
-        </>
+        </div>
       )}
       <span
-        className={clx("text-base-regular", {
-          "text-ui-fg-interactive": hasReducedPrice,
+        className={clx("text-sm font-semibold", {
+          "text-red-500": hasReducedPrice,
+          "text-brand-dark/60": !hasReducedPrice
         })}
         data-testid="product-unit-price"
       >

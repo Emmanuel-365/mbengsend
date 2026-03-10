@@ -74,12 +74,12 @@ export default function ProductActions({
 
   const isProductInWishlist = useMemo(() => {
     if (!wishlist || !wishlist.items) return false
-    
+
     // If a variant is selected, check if that specific variant is in wishlist
     if (selectedVariant?.id) {
       return wishlist.items.some((i: any) => i.variant_id === selectedVariant.id)
     }
-    
+
     // If no variant selected (single variant product or no selection yet)
     // Check if the product itself is in wishlist (any variant)
     return wishlist.items.some((i: any) => i.product_id === product.id)
@@ -87,12 +87,12 @@ export default function ProductActions({
 
   const wishlistId = useMemo(() => {
     if (!wishlist || !wishlist.items) return null
-    
+
     // If a variant is selected, find the wishlist item for that specific variant
     if (selectedVariant?.id) {
       return wishlist.items.find((i: any) => i.variant_id === selectedVariant.id)?.id
     }
-    
+
     // If no variant selected, find any wishlist item for this product
     return wishlist.items.find((i: any) => i.product_id === product.id)?.id
   }, [wishlist, selectedVariant, product.id])
@@ -194,7 +194,7 @@ export default function ProductActions({
         // Optimistic update - remove from UI immediately
         const updatedItems = wishlist.items.filter((i: any) => i.id !== wishlistId)
         setWishlist({ ...wishlist, items: updatedItems })
-        
+
         const result = await removeFromWishlistAction(wishlistId)
         if (!result.success) {
           // Revert on error
@@ -210,7 +210,7 @@ export default function ProductActions({
           product_id: product.id,
           variant_id: selectedVariant?.id
         })
-        
+
         if (result.success && result.wishlist) {
           setWishlist(result.wishlist)
           // Refresh to update navbar count
@@ -256,7 +256,7 @@ export default function ProductActions({
 
         <ProductPrice product={product} variant={selectedVariant} />
 
-        <div className="flex flex-col gap-y-2 w-full mt-4">
+        <div className="flex flex-col gap-y-3 w-full mt-8">
           <Button
             onClick={handleAddToCart}
             disabled={
@@ -266,31 +266,30 @@ export default function ProductActions({
               isAdding ||
               !isValidVariant
             }
-            variant="primary"
-            className="w-full h-10"
+            className="w-full h-14 rounded-full bg-brand-primary hover:bg-brand-secondary text-white font-bold text-lg shadow-lux-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
             isLoading={isAdding}
             data-testid="add-product-button"
           >
             {!selectedVariant && !options
-              ? "Select variant"
+              ? "Choisir une option"
               : !inStock || !isValidVariant
-              ? "Out of stock"
-              : "Add to cart"}
+                ? "Rupture de stock"
+                : "Ajouter au panier"}
           </Button>
 
           <Button
             onClick={handleWishlistAction}
             variant="secondary"
-            className="w-full h-10 flex items-center justify-center gap-x-2"
+            className="w-full h-14 rounded-full border-brand-primary/10 text-brand-dark hover:bg-brand-primary/5 flex items-center justify-center gap-x-3 font-semibold transition-all duration-300"
             isLoading={isWishlistLoading}
             disabled={!!disabled || ((product.variants?.length ?? 0) > 1 && !selectedVariant)}
           >
-            <Heart className={clx("h-5 w-5", { "fill-red-500 text-red-500": isProductInWishlist })} />
+            <Heart className={clx("h-6 w-6 transition-colors duration-300", { "fill-red-500 text-red-500": isProductInWishlist, "text-brand-dark/40 group-hover:text-brand-primary": !isProductInWishlist })} />
             {!selectedVariant && (product.variants?.length ?? 0) > 1
               ? "Sélectionner une variante"
-              : isProductInWishlist 
-              ? "Dans ma liste d'envies" 
-              : "Ajouter à la liste d'envies"}
+              : isProductInWishlist
+                ? "Dans mes favoris"
+                : "Ajouter aux favoris"}
           </Button>
         </div>
 

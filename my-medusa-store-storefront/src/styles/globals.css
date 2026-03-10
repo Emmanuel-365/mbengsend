@@ -21,11 +21,11 @@
 
 @layer utilities {
   .glass {
-    @apply backdrop-blur-[12px] bg-white/70 border border-white/20 shadow-glass-light;
+    @apply backdrop-blur-[40px] bg-white/95 border border-white/30 shadow-glass-light;
   }
 
   .glass-dark {
-    @apply backdrop-blur-[16px] bg-brand-dark/40 border border-white/10 shadow-glass-dark;
+    @apply backdrop-blur-[40px] bg-brand-dark/95 border border-white/10 shadow-glass-dark;
   }
 
   /* Chrome, Safari and Opera */

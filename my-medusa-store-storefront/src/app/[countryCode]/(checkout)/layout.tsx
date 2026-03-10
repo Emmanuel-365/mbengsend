@@ -8,35 +8,31 @@ export default function CheckoutLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="w-full bg-white relative small:min-h-screen">
-      <div className="h-16 bg-white border-b ">
+    <div className="w-full bg-[#FAFAFA] relative small:min-h-screen">
+      <div className="h-20 bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-brand-dark/5">
         <nav className="flex h-full items-center content-container justify-between">
           <LocalizedClientLink
             href="/cart"
-            className="text-small-semi text-ui-fg-base flex items-center gap-x-2 uppercase flex-1 basis-0"
+            className="text-xs font-bold uppercase tracking-widest text-brand-dark/60 hover:text-brand-primary flex items-center gap-x-2 transition-colors flex-1 basis-0 group"
             data-testid="back-to-cart-link"
           >
-            <ChevronDown className="rotate-90" size={16} />
-            <span className="mt-px hidden small:block txt-compact-plus text-ui-fg-subtle hover:text-ui-fg-base ">
-              Back to shopping cart
-            </span>
-            <span className="mt-px block small:hidden txt-compact-plus text-ui-fg-subtle hover:text-ui-fg-base">
-              Back
-            </span>
+            <ChevronDown className="rotate-90 group-hover:-translate-x-1 transition-transform" size={16} />
+            <span className="hidden small:block">Retour au panier</span>
+            <span className="block small:hidden">Retour</span>
           </LocalizedClientLink>
           <LocalizedClientLink
             href="/"
-            className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
+            className="text-2xl font-display font-bold text-brand-dark hover:text-brand-primary transition-colors tracking-tighter"
             data-testid="store-link"
           >
-            Mbengsend
+            Mbengsend<span className="text-brand-primary">.</span>
           </LocalizedClientLink>
           <div className="flex-1 basis-0" />
         </nav>
       </div>
-      <div className="relative" data-testid="checkout-container">{children}</div>
-      <div className="py-4 w-full flex items-center justify-center">
-        <MedusaCTA />
+      <div className="relative py-12" data-testid="checkout-container">{children}</div>
+      <div className="py-8 w-full flex flex-col items-center justify-center border-t border-brand-dark/5 bg-white">
+        <p className="text-xs text-brand-dark/40 font-medium">© {new Date().getFullYear()} Mbengsend. Tous droits réservés.</p>
       </div>
     </div>
   )

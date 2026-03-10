@@ -9,11 +9,11 @@ import { HttpTypes } from "@medusajs/types"
 const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
   if (orders?.length) {
     return (
-      <div className="flex flex-col gap-y-8 w-full">
+      <div className="flex flex-col gap-y-12 w-full">
         {orders.map((o) => (
           <div
             key={o.id}
-            className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
+            className="pb-12 border-b border-gray-100 last:pb-0 last:border-none"
           >
             <OrderCard order={o} />
           </div>
@@ -24,17 +24,20 @@ const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
 
   return (
     <div
-      className="w-full flex flex-col items-center gap-y-4"
+      className="w-full flex flex-col items-center gap-y-6 py-32 bg-gray-50/50 rounded-huge border border-gray-100 shadow-lux-sm"
       data-testid="no-orders-container"
     >
-      <h2 className="text-large-semi">Nothing to see here</h2>
-      <p className="text-base-regular">
-        You don&apos;t have any orders yet, let us change that {":)"}
+      <div className="w-24 h-24 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary text-4xl mb-4 border border-brand-primary/20">
+        📦
+      </div>
+      <h2 className="text-3xl font-display font-bold text-brand-dark text-center tracking-tight">Aucune commande pour le moment</h2>
+      <p className="text-ui-fg-subtle text-center max-w-[400px] leading-relaxed">
+        Vous n&apos;avez pas encore passé de commande. Découvrez notre collection exclusive pour commencer votre voyage Mbengsend.
       </p>
-      <div className="mt-4">
+      <div className="mt-8">
         <LocalizedClientLink href="/" passHref>
-          <Button data-testid="continue-shopping-button">
-            Continue shopping
+          <Button data-testid="continue-shopping-button" className="h-14 px-12 rounded-full bg-brand-primary hover:bg-brand-secondary text-white font-bold transition-all shadow-lux-md hover:shadow-lux-lg border-none text-lg">
+            Commencer mon shopping
           </Button>
         </LocalizedClientLink>
       </div>

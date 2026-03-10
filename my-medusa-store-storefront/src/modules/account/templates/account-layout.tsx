@@ -15,23 +15,30 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
   children,
 }) => {
   return (
-    <div className="flex-1 small:py-12" data-testid="account-page">
-      <div className="flex-1 content-container h-full max-w-5xl mx-auto bg-white flex flex-col">
-        <div className="grid grid-cols-1  small:grid-cols-[240px_1fr] py-12">
-          <div>{customer && <AccountNav customer={customer} />}</div>
-          <div className="flex-1">{children}</div>
-        </div>
-        <div className="flex flex-col small:flex-row items-end justify-between small:border-t border-gray-200 py-12 gap-8">
+    <div className="flex-1 py-12" data-testid="account-page">
+      <div className="content-container mx-auto max-w-5xl">
+        {customer ? (
+          <div className="grid grid-cols-1 small:grid-cols-[240px_1fr] py-12 gap-12 items-start">
+            <div className="small:sticky small:top-32 small:border-r border-gray-100 pr-0 small:pr-8">
+              <AccountNav customer={customer} />
+            </div>
+            <div className="flex-1">{children}</div>
+          </div>
+        ) : (
+          <div className="py-12">
+            {children}
+          </div>
+        )}
+        <div className="flex flex-col small:flex-row items-end justify-between border-t border-gray-100 py-12 gap-8 mt-12">
           <div>
-            <h3 className="text-xl-semi mb-4">Got questions?</h3>
-            <span className="txt-medium">
-              You can find frequently asked questions and answers on our
-              customer service page.
+            <h3 className="text-2xl font-display font-bold text-brand-dark mb-4">Des questions ?</h3>
+            <span className="text-ui-fg-subtle leading-relaxed">
+              Vous trouverez les questions fréquemment posées et les réponses sur notre page de service client.
             </span>
           </div>
-          <div>
-            <UnderlineLink href="/customer-service">
-              Customer Service
+          <div className="flex-shrink-0">
+            <UnderlineLink href="/customer-service" className="text-brand-primary font-bold hover:text-brand-secondary transition-colors underline-offset-8">
+              Service Client
             </UnderlineLink>
           </div>
         </div>

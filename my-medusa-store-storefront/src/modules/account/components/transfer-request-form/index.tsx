@@ -23,56 +23,61 @@ export default function TransferRequestForm() {
   }, [state.success, state.order])
 
   return (
-    <div className="flex flex-col gap-y-4 w-full">
-      <div className="grid sm:grid-cols-2 items-center gap-x-8 gap-y-4 w-full">
-        <div className="flex flex-col gap-y-1">
-          <Heading level="h3" className="text-lg text-neutral-950">
-            Order transfers
+    <div className="flex flex-col gap-y-6 w-full">
+      <div className="grid sm:grid-cols-2 items-start gap-x-12 gap-y-8 w-full">
+        <div className="flex flex-col gap-y-2">
+          <Heading level="h3" className="text-xl font-display font-bold text-brand-dark tracking-tight">
+            Transfert de commande
           </Heading>
-          <Text className="text-base-regular text-neutral-500">
-            Can&apos;t find the order you are looking for?
-            <br /> Connect an order to your account.
+          <Text className="text-base text-ui-fg-subtle leading-relaxed">
+            Vous ne trouvez pas une commande passée ?
+            <br /> Rattachez-la simplement à votre compte Mbengsend.
           </Text>
         </div>
         <form
           action={formAction}
-          className="flex flex-col gap-y-1 sm:items-end"
+          className="flex flex-col gap-y-1 w-full"
         >
-          <div className="flex flex-col gap-y-2 w-full">
-            <Input className="w-full" name="order_id" placeholder="Order ID" />
+          <div className="flex flex-col small:flex-row gap-4 w-full">
+            <Input
+              className="w-full h-12 bg-gray-50 border-gray-200 text-brand-dark placeholder:text-gray-400 rounded-xl focus:border-brand-primary"
+              name="order_id"
+              placeholder="Numéro de commande (ex: order_01...)"
+            />
             <SubmitButton
-              variant="secondary"
-              className="w-fit whitespace-nowrap self-end"
+              className="h-12 px-8 rounded-full bg-brand-primary hover:bg-brand-secondary text-white font-bold transition-all shadow-lux-sm hover:shadow-lux-md whitespace-nowrap border-none text-sm"
             >
-              Request transfer
+              Demander le transfert
             </SubmitButton>
           </div>
         </form>
       </div>
       {!state.success && state.error && (
-        <Text className="text-base-regular text-rose-500 text-right">
+        <Text className="text-sm font-bold text-red-500 text-right pr-4">
           {state.error}
         </Text>
       )}
       {showSuccess && (
-        <div className="flex justify-between p-4 bg-neutral-50 shadow-borders-base w-full self-stretch items-center">
-          <div className="flex gap-x-2 items-center">
-            <CheckCircleMiniSolid className="w-4 h-4 text-emerald-500" />
+        <div className="flex justify-between p-6 bg-white border border-gray-100 shadow-lux-md rounded-2xl w-full self-stretch items-center animate-in fade-in slide-in-from-right-4 duration-500">
+          <div className="flex gap-x-4 items-center">
+            <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center border border-green-100">
+              <CheckCircleMiniSolid className="w-6 h-6 text-green-600" />
+            </div>
             <div className="flex flex-col gap-y-1">
-              <Text className="text-medim-pl text-neutral-950">
-                Transfer for order {state.order?.id} requested
+              <Text className="text-base font-bold text-brand-dark">
+                Demande de transfert envoyée pour la commande {state.order?.id}
               </Text>
-              <Text className="text-base-regular text-neutral-600">
-                Transfer request email sent to {state.order?.email}
+              <Text className="text-sm text-ui-fg-subtle">
+                Un e-mail de confirmation a été envoyé à {state.order?.email}
               </Text>
             </div>
           </div>
           <IconButton
             variant="transparent"
-            className="h-fit"
+            className="h-10 w-10 hover:bg-gray-50 transition-colors rounded-full text-gray-400 hover:text-brand-dark"
             onClick={() => setShowSuccess(false)}
           >
-            <XCircleSolid className="w-4 h-4 text-neutral-500" />
+            <XCircleSolid className="w-5 h-5" />
           </IconButton>
         </div>
       )}

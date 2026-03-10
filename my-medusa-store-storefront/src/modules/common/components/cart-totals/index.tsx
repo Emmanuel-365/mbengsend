@@ -1,6 +1,7 @@
 "use client"
 
 import { convertToLocale } from "@lib/util/money"
+import { clx } from "@medusajs/ui"
 import React from "react"
 
 type CartTotalsProps = {
@@ -13,9 +14,10 @@ type CartTotalsProps = {
     shipping_subtotal?: number | null
     discount_subtotal?: number | null
   }
+  className?: string
 }
 
-const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
+const CartTotals: React.FC<CartTotalsProps> = ({ totals, className }) => {
   const {
     currency_code,
     total,
@@ -25,26 +27,31 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
     discount_subtotal,
   } = totals
 
+  const isDark = className?.includes("text-white") || className?.includes("glass")
+
   return (
-    <div>
-      <div className="flex flex-col gap-y-2 txt-medium text-ui-fg-subtle ">
+    <div className={className}>
+      <div className={clx("flex flex-col gap-y-3 text-sm", {
+        "text-white/60": isDark,
+        "text-ui-fg-subtle": !isDark
+      })}>
         <div className="flex items-center justify-between">
-          <span>Subtotal (excl. shipping and taxes)</span>
-          <span data-testid="cart-subtotal" data-value={item_subtotal || 0}>
+          <span>Sous-total</span>
+          <span data-testid="cart-subtotal" data-value={item_subtotal || 0} className={clx("font-semibold", { "text-white": isDark, "text-brand-dark": !isDark })}>
             {convertToLocale({ amount: item_subtotal ?? 0, currency_code })}
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span>Shipping</span>
-          <span data-testid="cart-shipping" data-value={shipping_subtotal || 0}>
+          <span>Livraison</span>
+          <span data-testid="cart-shipping" data-value={shipping_subtotal || 0} className={clx("font-semibold", { "text-white": isDark, "text-brand-dark": !isDark })}>
             {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code })}
           </span>
         </div>
         {!!discount_subtotal && (
           <div className="flex items-center justify-between">
-            <span>Discount</span>
+            <span>Remise</span>
             <span
-              className="text-ui-fg-interactive"
+              className="text-red-500 font-bold"
               data-testid="cart-discount"
               data-value={discount_subtotal || 0}
             >
@@ -57,24 +64,23 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
           </div>
         )}
         <div className="flex justify-between">
-          <span className="flex gap-x-1 items-center ">Taxes</span>
-          <span data-testid="cart-taxes" data-value={tax_total || 0}>
+          <span>Taxes</span>
+          <span data-testid="cart-taxes" data-value={tax_total || 0} className={clx("font-semibold", { "text-white": isDark, "text-brand-dark": !isDark })}>
             {convertToLocale({ amount: tax_total ?? 0, currency_code })}
           </span>
         </div>
       </div>
-      <div className="h-px w-full border-b border-gray-200 my-4" />
-      <div className="flex items-center justify-between text-ui-fg-base mb-2 txt-medium ">
-        <span>Total</span>
+      <div className={clx("h-px w-full my-6", { "bg-white/10": isDark, "bg-gray-200": !isDark })} />
+      <div className={clx("flex items-center justify-between mb-2", { "text-white": isDark, "text-brand-dark": !isDark })}>
+        <span className="text-lg font-bold">Total</span>
         <span
-          className="txt-xlarge-plus"
+          className="text-2xl font-display font-bold text-brand-primary"
           data-testid="cart-total"
           data-value={total || 0}
         >
           {convertToLocale({ amount: total ?? 0, currency_code })}
         </span>
       </div>
-      <div className="h-px w-full border-b border-gray-200 mt-4" />
     </div>
   )
 }

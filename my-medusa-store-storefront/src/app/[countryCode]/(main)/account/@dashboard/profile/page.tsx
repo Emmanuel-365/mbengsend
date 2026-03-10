@@ -11,8 +11,8 @@ import { listRegions } from "@lib/data/regions"
 import { retrieveCustomer } from "@lib/data/customer"
 
 export const metadata: Metadata = {
-  title: "Profile",
-  description: "View and edit your Mbengsend profile.",
+  title: "Mon Profil | Mbengsend",
+  description: "Gérez vos informations personnelles et vos préférences de compte Mbengsend.",
 }
 
 export default async function Profile() {
@@ -25,30 +25,19 @@ export default async function Profile() {
 
   return (
     <div className="w-full" data-testid="profile-page-wrapper">
-      <div className="mb-8 flex flex-col gap-y-4">
-        <h1 className="text-2xl-semi">Profile</h1>
-        <p className="text-base-regular">
-          View and update your profile information, including your name, email,
-          and phone number. You can also update your billing address, or change
-          your password.
+      <div className="mb-12 flex flex-col gap-y-2">
+        <h1 className="text-4xl font-display font-bold text-brand-dark">Profil</h1>
+        <p className="text-base text-ui-fg-subtle max-w-[600px] leading-relaxed">
+          Consultez et mettez à jour votre profil Mbengsend. Gérez vos informations personnelles, vos coordonnées ainsi que votre adresse de facturation.
         </p>
       </div>
-      <div className="flex flex-col gap-y-8 w-full">
+      <div className="flex flex-col w-full">
         <ProfileName customer={customer} />
-        <Divider />
         <ProfileEmail customer={customer} />
-        <Divider />
         <ProfilePhone customer={customer} />
-        <Divider />
-        {/* <ProfilePassword customer={customer} />
-        <Divider /> */}
         <ProfileBillingAddress customer={customer} regions={regions} />
       </div>
     </div>
   )
 }
 
-const Divider = () => {
-  return <div className="w-full h-px bg-gray-200" />
-}
-;``

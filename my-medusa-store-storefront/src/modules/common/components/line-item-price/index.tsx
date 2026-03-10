@@ -7,52 +7,54 @@ type LineItemPriceProps = {
   item: HttpTypes.StoreCartLineItem | HttpTypes.StoreOrderLineItem
   style?: "default" | "tight"
   currencyCode: string
+  className?: string
 }
 
 const LineItemPrice = ({
   item,
   style = "default",
   currencyCode,
+  className,
 }: LineItemPriceProps) => {
-  const { total, original_total } = item
-  const originalPrice = original_total
-  const currentPrice = total
-  const hasReducedPrice = currentPrice < originalPrice
+  const total = item.total ?? 0
+  const original_total = item.original_total ?? 0
+  const hasReducedPrice = total < original_total
 
   return (
-    <div className="flex flex-col gap-x-2 text-ui-fg-subtle items-end">
-      <div className="text-left">
+    <div className={clx("flex flex-col gap-x-2 text-ui-fg-subtle items-end", className)}>
+      <div className="text-right">
         {hasReducedPrice && (
           <>
-            <p>
+            <p className="text-xs">
               {style === "default" && (
-                <span className="text-ui-fg-subtle">Original: </span>
+                <span className="text-ui-fg-muted font-medium">Prix initial: </span>
               )}
               <span
-                className="line-through text-ui-fg-muted"
+                className="line-through text-brand-dark/40"
                 data-testid="product-original-price"
               >
                 {convertToLocale({
-                  amount: originalPrice,
+                  amount: original_total,
                   currency_code: currencyCode,
                 })}
               </span>
             </p>
             {style === "default" && (
-              <span className="text-ui-fg-interactive">
-                -{getPercentageDiff(originalPrice, currentPrice || 0)}%
+              <span className="text-red-500 font-bold text-xs">
+                -{getPercentageDiff(original_total, total)}%
               </span>
             )}
           </>
         )}
         <span
-          className={clx("text-base-regular", {
-            "text-ui-fg-interactive": hasReducedPrice,
+          className={clx("text-base font-bold", {
+            "text-red-500": hasReducedPrice,
+            "text-brand-primary": !hasReducedPrice
           })}
           data-testid="product-price"
         >
           {convertToLocale({
-            amount: currentPrice,
+            amount: total,
             currency_code: currencyCode,
           })}
         </span>

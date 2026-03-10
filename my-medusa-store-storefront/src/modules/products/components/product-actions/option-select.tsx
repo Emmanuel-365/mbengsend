@@ -21,24 +21,36 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
 }) => {
   const filteredOptions = (option.values ?? []).map((v) => v.value)
 
+  const translateTitle = (t: string) => {
+    const titles: Record<string, string> = {
+      Color: "Couleur",
+      Size: "Taille",
+      Material: "Matière",
+      Style: "Style",
+    }
+    return titles[t] || t
+  }
+
   return (
-    <div className="flex flex-col gap-y-3">
-      <span className="text-sm">Select {title}</span>
+    <div className="flex flex-col gap-y-4">
+      <span className="text-sm font-bold uppercase tracking-widest text-brand-dark/40 font-display">
+        {translateTitle(title)}
+      </span>
       <div
-        className="flex flex-wrap justify-between gap-2"
+        className="flex flex-wrap gap-3"
         data-testid={dataTestId}
       >
         {filteredOptions.map((v) => {
+          const isSelected = v === current
           return (
             <button
               onClick={() => updateOption(option.id, v)}
               key={v}
               className={clx(
-                "border-ui-border-base bg-ui-bg-subtle border text-small-regular h-10 rounded-rounded p-2 flex-1 ",
+                "min-w-[64px] h-12 px-4 rounded-xl border flex items-center justify-center text-sm font-bold transition-all duration-300",
                 {
-                  "border-ui-border-interactive": v === current,
-                  "hover:shadow-elevation-card-rest transition-shadow ease-in-out duration-150":
-                    v !== current,
+                  "border-brand-primary bg-brand-primary/5 text-brand-primary shadow-lux-sm": isSelected,
+                  "border-brand-dark/10 bg-white text-brand-dark/60 hover:border-brand-primary/50 hover:text-brand-primary": !isSelected,
                 }
               )}
               disabled={disabled}

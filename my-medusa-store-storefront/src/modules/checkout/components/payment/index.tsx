@@ -105,29 +105,29 @@ const Payment = ({
   }, [isOpen])
 
   return (
-    <div className="bg-white">
-      <div className="flex flex-row items-center justify-between mb-6">
+    <div className="bg-white p-8 rounded-2xl shadow-lux-sm border border-brand-dark/5">
+      <div className="flex flex-row items-center justify-between mb-8">
         <Heading
           level="h2"
           className={clx(
-            "flex flex-row text-3xl-regular gap-x-2 items-baseline",
+            "flex flex-row text-3xl font-display font-bold text-brand-dark gap-x-2 items-center",
             {
               "opacity-50 pointer-events-none select-none":
                 !isOpen && !paymentReady,
             }
           )}
         >
-          Payment
-          {!isOpen && paymentReady && <CheckCircleSolid />}
+          Paiement
+          {!isOpen && paymentReady && <CheckCircleSolid className="text-brand-primary" />}
         </Heading>
         {!isOpen && paymentReady && (
           <Text>
             <button
               onClick={handleEdit}
-              className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+              className="text-brand-primary font-bold hover:text-brand-secondary transition-colors"
               data-testid="edit-payment-button"
             >
-              Edit
+              Modifier
             </button>
           </Text>
         )}
@@ -171,15 +171,15 @@ const Payment = ({
           )}
 
           {paidByGiftcard && (
-            <div className="flex flex-col w-1/3">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                Payment method
+            <div className="flex flex-col mb-6">
+              <Text className="text-brand-dark font-bold mb-1">
+                Mode de paiement
               </Text>
               <Text
-                className="txt-medium text-ui-fg-subtle"
+                className="text-ui-fg-subtle"
                 data-testid="payment-method-summary"
               >
-                Gift card
+                Carte cadeau
               </Text>
             </div>
           )}
@@ -191,7 +191,7 @@ const Payment = ({
 
           <Button
             size="large"
-            className="mt-6"
+            className="w-full h-14 rounded-full bg-brand-primary hover:bg-brand-secondary text-white font-bold text-lg shadow-lux-md hover:shadow-lux-lg transition-all duration-300 mt-6"
             onClick={handleSubmit}
             isLoading={isLoading}
             disabled={
@@ -201,63 +201,63 @@ const Payment = ({
             data-testid="submit-payment-button"
           >
             {!activeSession && isStripeLike(selectedPaymentMethod)
-              ? " Enter card details"
-              : "Continue to review"}
+              ? "Saisir les coordonnées bancaires"
+              : "Continuer vers la vérification"}
           </Button>
         </div>
 
         <div className={isOpen ? "hidden" : "block"}>
           {cart && paymentReady && activeSession ? (
-            <div className="flex items-start gap-x-1 w-full">
-              <div className="flex flex-col w-1/3">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Payment method
+            <div className="grid grid-cols-1 small:grid-cols-2 gap-8 w-full">
+              <div className="flex flex-col">
+                <Text className="text-brand-dark font-bold mb-1">
+                  Mode de paiement
                 </Text>
                 <Text
-                  className="txt-medium text-ui-fg-subtle"
+                  className="text-ui-fg-subtle"
                   data-testid="payment-method-summary"
                 >
                   {paymentInfoMap[activeSession?.provider_id]?.title ||
                     activeSession?.provider_id}
                 </Text>
               </div>
-              <div className="flex flex-col w-1/3">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Payment details
+              <div className="flex flex-col">
+                <Text className="text-brand-dark font-bold mb-1">
+                  Détails du paiement
                 </Text>
                 <div
-                  className="flex gap-2 txt-medium text-ui-fg-subtle items-center"
+                  className="flex gap-4 text-ui-fg-subtle items-center"
                   data-testid="payment-details-summary"
                 >
-                  <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover">
+                  <Container className="flex items-center h-10 w-fit p-3 bg-brand-dark/[0.02] border border-brand-dark/5 rounded-lg shadow-lux-sm">
                     {paymentInfoMap[selectedPaymentMethod]?.icon || (
-                      <CreditCard />
+                      <CreditCard className="text-brand-primary" />
                     )}
                   </Container>
-                  <Text>
+                  <Text className="font-medium">
                     {isStripeLike(selectedPaymentMethod) && cardBrand
                       ? cardBrand
-                      : "Another step will appear"}
+                      : "Une étape supplémentaire apparaîtra"}
                   </Text>
                 </div>
               </div>
             </div>
           ) : paidByGiftcard ? (
-            <div className="flex flex-col w-1/3">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                Payment method
+            <div className="flex flex-col">
+              <Text className="text-brand-dark font-bold mb-1">
+                Mode de paiement
               </Text>
               <Text
-                className="txt-medium text-ui-fg-subtle"
+                className="text-ui-fg-subtle"
                 data-testid="payment-method-summary"
               >
-                Gift card
+                Carte cadeau
               </Text>
             </div>
           ) : null}
         </div>
       </div>
-      <Divider className="mt-8" />
+      <Divider className="mt-10 opacity-10" />
     </div>
   )
 }

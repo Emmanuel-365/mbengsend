@@ -62,41 +62,36 @@ const MobileActions: React.FC<MobileActionsProps> = ({
         <Transition
           as={Fragment}
           show={show}
-          enter="ease-in-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-300"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+          enter="transition-all ease-out duration-500"
+          enterFrom="translate-y-full opacity-0"
+          enterTo="translate-y-0 opacity-100"
+          leave="transition-all ease-in duration-300"
+          leaveFrom="translate-y-0 opacity-100"
+          leaveTo="translate-y-full opacity-0"
         >
           <div
-            className="bg-white flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-gray-200"
+            className="bg-white/95 backdrop-blur-xl flex flex-col gap-y-4 justify-center items-center p-6 w-full border-t border-brand-dark/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] rounded-t-[2.5rem]"
             data-testid="mobile-actions"
           >
-            <div className="flex items-center gap-x-2">
-              <span data-testid="mobile-title">{product.title}</span>
-              <span>—</span>
+            <div className="flex items-center gap-x-3 w-full justify-between">
+              <span data-testid="mobile-title" className="font-display font-bold text-brand-dark text-lg truncate flex-1">{product.title}</span>
               {selectedPrice ? (
-                <div className="flex items-end gap-x-2 text-ui-fg-base">
+                <div className="flex items-center gap-x-2 text-brand-dark">
                   {selectedPrice.price_type === "sale" && (
-                    <p>
-                      <span className="line-through text-small-regular">
-                        {selectedPrice.original_price}
-                      </span>
-                    </p>
+                    <span className="line-through text-brand-dark/40 text-xs">
+                      {selectedPrice.original_price}
+                    </span>
                   )}
                   <span
-                    className={clx({
-                      "text-ui-fg-interactive":
-                        selectedPrice.price_type === "sale",
+                    className={clx("font-bold text-lg", {
+                      "text-red-500": selectedPrice.price_type === "sale",
+                      "text-brand-primary": selectedPrice.price_type !== "sale",
                     })}
                   >
                     {selectedPrice.calculated_price}
                   </span>
                 </div>
-              ) : (
-                <div></div>
-              )}
+              ) : null}
             </div>
             <div className={clx("grid grid-cols-2 w-full gap-x-4", {
               "!grid-cols-1": isSimple
@@ -104,30 +99,30 @@ const MobileActions: React.FC<MobileActionsProps> = ({
               {!isSimple && <Button
                 onClick={open}
                 variant="secondary"
-                className="w-full"
+                className="w-full h-14 rounded-full border-brand-dark/10 text-brand-dark font-bold hover:bg-brand-dark/5 transition-all text-sm"
                 data-testid="mobile-actions-button"
               >
-                <div className="flex items-center justify-between w-full">
-                  <span>
+                <div className="flex items-center justify-between w-full px-2">
+                  <span className="truncate">
                     {variant
-                      ? Object.values(options).join(" / ")
-                      : "Select Options"}
+                      ? Object.values(options).join(" / ")
+                      : "Options"}
                   </span>
-                  <ChevronDown />
+                  <ChevronDown className="flex-shrink-0 ml-2" />
                 </div>
               </Button>}
               <Button
                 onClick={handleAddToCart}
                 disabled={!inStock || !variant}
-                className="w-full"
+                className="w-full h-14 rounded-full bg-brand-primary hover:bg-brand-secondary text-white font-bold shadow-lux-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-sm"
                 isLoading={isAdding}
                 data-testid="mobile-cart-button"
               >
                 {!variant
-                  ? "Select variant"
+                  ? "Choisir une variante"
                   : !inStock
-                  ? "Out of stock"
-                  : "Add to cart"}
+                    ? "Rupture de stock"
+                    : "Ajouter au panier"}
               </Button>
             </div>
           </div>
