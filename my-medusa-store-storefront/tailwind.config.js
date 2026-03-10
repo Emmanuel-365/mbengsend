@@ -35,20 +35,29 @@ module.exports = {
           90: "#111827",
         },
         brand: {
-          primary: "#0066CC",
-          secondary: "#004792",
-          accent: "#CE1126",
+          primary: "#0066CC", // Electric Blue from logo
+          secondary: "#003B73", // Deep Navy for luxury
+          dark: "#001B3D", // Even darker for contrast
+          accent: "#CE1126", // Red from flags (use sparingly)
           light: "#F9FAFB",
           white: "#FFFFFF",
         },
       },
       borderRadius: {
         none: "0px",
-        soft: "2px",
-        base: "4px",
-        rounded: "8px",
-        large: "16px",
+        soft: "4px",
+        base: "8px",
+        rounded: "12px",
+        large: "24px",
+        huge: "32px",
         circle: "9999px",
+      },
+      boxShadow: {
+        "lux-sm": "0 2px 8px rgba(0, 0, 0, 0.05)",
+        "lux-md": "0 8px 16px rgba(0, 0, 0, 0.08)",
+        "lux-lg": "0 12px 32px rgba(0, 0, 0, 0.12)",
+        "glass-light": "0 8px 32px 0 rgba(31, 38, 135, 0.07)",
+        "glass-dark": "0 8px 32px 0 rgba(0, 0, 0, 0.3)",
       },
       maxWidth: {
         "8xl": "100rem",
@@ -68,12 +77,10 @@ module.exports = {
       fontFamily: {
         sans: [
           "Inter",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "Roboto",
-          "Helvetica Neue",
-          "Ubuntu",
+          "sans-serif",
+        ],
+        display: [
+          "Outfit",
           "sans-serif",
         ],
       },

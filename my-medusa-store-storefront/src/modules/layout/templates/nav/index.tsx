@@ -2,9 +2,10 @@ import { Suspense } from "react"
 import { StoreRegion } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CartButton from "@modules/layout/components/cart-button"
-import WishlistButton from "@modules/layout/components/wishlist-button"
 import SideMenu from "@modules/layout/components/side-menu"
 import SearchButton from "./search-button"
+import Image from "next/image"
+import WishlistButton from "@modules/layout/components/wishlist-button"
 
 export default function Nav({ regions, locales, currentLocale }: { 
   regions: StoreRegion[]
@@ -12,11 +13,11 @@ export default function Nav({ regions, locales, currentLocale }: {
   currentLocale: string
 }) {
   return (
-    <div className="sticky top-0 inset-x-0 z-50 group">
-      <header className="relative h-16 mx-auto border-b duration-200 bg-white border-ui-border-base">
-        <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
+    <div className="sticky top-4 inset-x-0 z-50 flex justify-center px-4 small:px-8">
+      <header className="w-full max-w-[1440px] h-16 rounded-full glass flex items-center px-6 small:px-10 transition-all duration-300 hover:shadow-lux-lg group">
+        <nav className="flex items-center justify-between w-full h-full text-small-regular font-medium">
           <div className="flex-1 basis-0 h-full flex items-center">
-            <div className="h-full">
+            <div className="h-full flex items-center">
               <SideMenu regions={regions} locales={locales} currentLocale={currentLocale} />
             </div>
           </div>
@@ -24,47 +25,41 @@ export default function Nav({ regions, locales, currentLocale }: {
           <div className="flex items-center h-full">
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase tracking-widest font-bold"
+              className="flex items-center gap-2 group/logo"
               data-testid="nav-store-link"
             >
-              Mbengsend
+              <div className="relative w-10 h-10 transition-transform duration-500 group-hover/logo:rotate-[360deg]">
+                <Image 
+                  src="/logo.png" 
+                  alt="Mbengsend Logo" 
+                  fill 
+                  className="object-contain"
+                />
+              </div>
+              <span className="text-xl font-display font-bold text-brand-secondary tracking-tight">
+                Mbengsend
+              </span>
             </LocalizedClientLink>
-
           </div>
 
-          <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
-            <SearchButton />
-            <Suspense
-              fallback={
-                <LocalizedClientLink
-                  className="hover:text-ui-fg-base flex gap-2"
-                  href="/account/wishlist"
-                  data-testid="nav-wishlist-link"
-                >
-                  Wishlist (0)
-                </LocalizedClientLink>
-              }
-            >
-              <WishlistButton />
-            </Suspense>
-            <div className="hidden small:flex items-center gap-x-6 h-full">
+          <div className="flex items-center gap-x-4 small:gap-x-8 h-full flex-1 basis-0 justify-end">
+            <div className="hidden small:flex items-center gap-x-8 h-full">
+              <SearchButton />
+              <Suspense fallback={<div className="w-8 h-8 rounded-full bg-grey-10 animate-pulse" />}>
+                <WishlistButton />
+              </Suspense>
               <LocalizedClientLink
-                className="hover:text-ui-fg-base"
+                className="hover:text-brand-primary transition-colors font-semibold"
                 href="/account"
                 data-testid="nav-account-link"
               >
-                Account
+                Compte
               </LocalizedClientLink>
             </div>
+            
             <Suspense
               fallback={
-                <LocalizedClientLink
-                  className="hover:text-ui-fg-base flex gap-2"
-                  href="/cart"
-                  data-testid="nav-cart-link"
-                >
-                  Cart (0)
-                </LocalizedClientLink>
+                <div className="w-8 h-8 rounded-full bg-grey-10 animate-pulse" />
               }
             >
               <CartButton />

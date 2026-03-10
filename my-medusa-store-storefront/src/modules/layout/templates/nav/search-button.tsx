@@ -14,10 +14,10 @@ export default function SearchButton() {
     <>
       <button
         onClick={() => setIsSearchOpen(true)}
-        className="hover:text-ui-fg-base flex items-center gap-x-2"
+        className="hover:text-brand-primary transition-colors flex items-center gap-x-2 font-semibold"
         data-testid="nav-search-button"
       >
-        <MagnifyingGlass />
+        <MagnifyingGlass className="w-5 h-5" />
         <span className="hidden small:inline">Rechercher</span>
       </button>
       

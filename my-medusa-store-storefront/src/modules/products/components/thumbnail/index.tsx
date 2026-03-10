@@ -27,16 +27,13 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   return (
     <Container
       className={clx(
-        "relative w-full overflow-hidden p-4 bg-ui-bg-subtle shadow-elevation-card-rest rounded-large group-hover:shadow-elevation-card-hover transition-shadow ease-in-out duration-150",
+        "relative w-full overflow-hidden p-4 bg-white/50 backdrop-blur-sm border border-grey-10 shadow-lux-sm group-hover:shadow-lux-md transition-all ease-out duration-300 group-hover:-translate-y-1 rounded-large",
         className,
         {
           "aspect-[11/14]": isFeatured,
-          "aspect-[9/16]": !isFeatured && size !== "square",
+          "aspect-[3/4]": !isFeatured && size !== "square", // Slightly more standard premium ratio
           "aspect-[1/1]": size === "square",
-          "w-[180px]": size === "small",
-          "w-[290px]": size === "medium",
-          "w-[440px]": size === "large",
-          "w-full": size === "full",
+          "w-full": true,
         }
       )}
       data-testid={dataTestid}
