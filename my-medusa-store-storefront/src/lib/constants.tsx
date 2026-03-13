@@ -11,11 +11,11 @@ export const paymentInfoMap: Record<
   { title: string; icon: React.JSX.Element }
 > = {
   pp_stripe_stripe: {
-    title: "Credit card",
+    title: "Carte bancaire (Stripe)",
     icon: <CreditCard />,
   },
   "pp_medusa-payments_default": {
-    title: "Credit card",
+    title: "Carte bancaire",
     icon: <CreditCard />,
   },
   "pp_stripe-ideal_stripe": {
@@ -31,15 +31,15 @@ export const paymentInfoMap: Record<
     icon: <PayPal />,
   },
   pp_system_default: {
-    title: "Manual Payment",
+    title: "Paiement de Test (Simulé)",
     icon: <CreditCard />,
   },
-  flutterwave: {
-    title: "Orange/MTN Money (Flutterwave)",
+  pp_flutterwave_flutterwave: {
+    title: "Orange Money / MTN MoMo",
     icon: <CreditCard />,
   },
-  cod: {
-    title: "Paiement à la livraison",
+  pp_cod_cod: {
+    title: "Paiement à la livraison (COD)",
     icon: <CreditCard />,
   },
   // Add more payment providers here
@@ -48,15 +48,19 @@ export const paymentInfoMap: Record<
 // This only checks if it is native stripe or medusa payments for card payments, it ignores the other stripe-based providers
 export const isStripeLike = (providerId?: string) => {
   return (
-    providerId?.startsWith("pp_stripe_") || providerId?.startsWith("pp_medusa-")
+    providerId === "stripe" ||
+    providerId?.startsWith("pp_stripe_") ||
+    providerId?.startsWith("pp_medusa-")
   )
 }
 
 export const isPaypal = (providerId?: string) => {
-  return providerId?.startsWith("pp_paypal")
+  return providerId === "paypal" || providerId?.startsWith("pp_paypal")
 }
 export const isManual = (providerId?: string) => {
-  return providerId?.startsWith("pp_system_default")
+  return (
+    providerId === "manual" || providerId?.startsWith("pp_system_default")
+  )
 }
 
 // Add currencies that don't need to be divided by 100

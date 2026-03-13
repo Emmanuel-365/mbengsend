@@ -12,7 +12,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -44,17 +44,7 @@ services:
     depends_on:
       - minio
     entrypoint: >
-      /bin/sh -c "
-      sleep 5;
-      /usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin;
-      /usr/bin/mc mb myminio/medusa-bucket || true;
-      /usr/bin/mc mb myminio/strapi-uploads || true;
-      /usr/bin/mc anonymous set public myminio/medusa-bucket;
-      /usr/bin/mc anonymous set public myminio/strapi-uploads;
-      echo '{\"CORSRules\":[{\"AllowedOrigins\":[\"*\"],\"AllowedMethods\":[\"GET\",\"HEAD\",\"PUT\",\"POST\",\"DELETE\"],\"AllowedHeaders\":[\"*\"],\"ExposeHeaders\":[\"ETag\"]}]}' > /tmp/cors.json;
-      /usr/bin/mc anonymous set-json /tmp/cors.json myminio/strapi-uploads;
-      exit 0;
-      "
+      /bin/sh -c " sleep 5; /usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin; /usr/bin/mc mb myminio/medusa-bucket || true; /usr/bin/mc mb myminio/strapi-uploads || true; /usr/bin/mc anonymous set public myminio/medusa-bucket; /usr/bin/mc anonymous set public myminio/strapi-uploads; echo '{\"CORSRules\":[{\"AllowedOrigins\":[\"*\"],\"AllowedMethods\":[\"GET\",\"HEAD\",\"PUT\",\"POST\",\"DELETE\"],\"AllowedHeaders\":[\"*\"],\"ExposeHeaders\":[\"ETag\"]}]}' > /tmp/cors.json; /usr/bin/mc anonymous set-json /tmp/cors.json myminio/strapi-uploads; exit 0; "
 
   meilisearch:
     image: getmeili/meilisearch:v1.7
@@ -106,6 +96,15 @@ services:
         condition: service_healthy
       minio:
         condition: service_started
+
+  stripe:
+    image: stripe/stripe-cli:latest
+    container_name: medusa-stripe
+    command: listen --forward-to host.docker.internal:9000/hooks/payment/stripe --api-key ${STRIPE_API_KEY}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./my-medusa-store/.env
 
 volumes:
   postgres_data:

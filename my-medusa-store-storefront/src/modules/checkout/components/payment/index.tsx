@@ -142,7 +142,7 @@ const Payment = ({
               >
                 {availablePaymentMethods
                   .filter((m) =>
-                    m.id === "cod"
+                    m.id === "pp_cod_cod" || m.id === "cod"
                       ? cart?.shipping_address?.country_code === "cm"
                       : true
                   )
