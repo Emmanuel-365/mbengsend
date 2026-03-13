@@ -10,8 +10,10 @@ RUN npm install
 
 COPY . .
 
+# On build explicitement pendant l'étape Docker
 RUN npm run build
 
 EXPOSE 9000
 
-CMD ["npx", "medusa", "develop"]
+# En production, on utilise 'start' au lieu de 'develop'
+CMD ["npm", "run", "start"]

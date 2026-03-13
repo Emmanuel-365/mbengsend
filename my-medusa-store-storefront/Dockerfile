@@ -2,15 +2,26 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Enable corepack for yarn
+RUN npm install -g corepack && corepack enable
+
 COPY package.json yarn.lock* ./
 
-# Next.js 15 might need higher memory
-ENV NODE_OPTIONS="--max-old-space-size=4096"
-
-RUN npm install -g corepack && corepack enable && yarn install
+# Installation des dépendances
+RUN yarn install
 
 COPY . .
 
+# Variables d'environnement nécessaires au build de Next.js
+# Ces valeurs seront remplacées par Coolify si elles sont marquées comme "Build Variable"
+ARG NEXT_PUBLIC_MEDUSA_BACKEND_URL
+ARG NEXT_PUBLIC_STRIPE_KEY
+ARG NEXT_PUBLIC_BASE_URL
+
+# Exécution du build explicitement
+RUN yarn build
+
 EXPOSE 8000
 
-CMD ["yarn", "dev"]
+# En production, on utilise 'start'
+CMD ["yarn", "start"]
