@@ -2,18 +2,18 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Enable corepack for yarn
-RUN npm install -g corepack && corepack enable
+COPY package.json package-lock.json* ./
 
-COPY package.json yarn.lock* ./
+# Disable telemetry
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-# Installation des dépendances
-RUN yarn install
+RUN npm install
 
 COPY . .
 
-# Variables d'environnement nécessaires au build de Next.js
-# Ces valeurs seront remplacées par Coolify si elles sont marquées comme "Build Variable"
+# Variables d'environnement pour le build de Next.js
+# Celles-ci DOIVENT être marquées comme "Build Variable" dans Coolify
 ARG NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_DEFAULT_REGION
@@ -23,10 +23,9 @@ ARG NEXT_PUBLIC_MEDUSA_PAYMENTS_ACCOUNT_ID
 ARG NEXT_PUBLIC_STRAPI_URL
 ARG NEXT_PUBLIC_MEDUSA_BACKEND_URL
 
-# Exécution du build explicitement
-RUN yarn build
+# Exécution du build
+RUN npm run build
 
 EXPOSE 8000
 
-# En production, on utilise 'start'
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]

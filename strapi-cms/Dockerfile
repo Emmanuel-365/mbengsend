@@ -1,8 +1,17 @@
 FROM node:20-alpine
 
-WORKDIR /srv/app
+WORKDIR /app
+
+RUN apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev > /dev/null 2>&1
+
+COPY package.json package-lock.json* ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
 
 EXPOSE 1337
 
-# Start in development mode
-CMD ["npm", "run", "develop"]
+CMD ["npm", "run", "start"]
