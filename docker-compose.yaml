@@ -83,7 +83,7 @@ services:
       MINIO_BUCKET: strapi-uploads
       MINIO_ENDPOINT: http://minio:9000
       MINIO_PUBLIC_URL: ${MINIO_PUBLIC_URL}
-      JWT_SECRET: ${STRAI_JWT_SECRET}
+      JWT_SECRET: ${STRAPI_JWT_SECRET}
       CORS_ORIGINS: ${STRAPI_CORS_ORIGINS}
     ports:
       - "1337:1337"
