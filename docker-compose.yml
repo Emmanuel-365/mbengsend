@@ -114,6 +114,8 @@ services:
       - MEDUSA_CACHE_REDIS_URL=redis://redis:6379
       - MEDUSA_EVENT_BUS_REDIS_URL=redis://redis:6379
       - MINIO_ENDPOINT=http://minio:9000
+      - STORE_CORS=http://localhost:8001
+      - AUTH_CORS=http://localhost:8001,http://localhost:9000
     depends_on:
       postgres:
         condition: service_healthy
@@ -129,13 +131,13 @@ services:
     container_name: medusa-storefront
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "8001:8000"
     env_file:
       - ./my-medusa-store-storefront/.env.local
     environment:
       - MEDUSA_BACKEND_URL=http://backend:9000
       - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
-      - NEXT_PUBLIC_BASE_URL=http://localhost:8000
+      - NEXT_PUBLIC_BASE_URL=http://localhost:8001
     depends_on:
       - backend
 
