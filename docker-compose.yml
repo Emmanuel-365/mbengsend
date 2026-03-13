@@ -97,14 +97,56 @@ services:
       minio:
         condition: service_started
 
+  backend:
+    build:
+      context: ./my-medusa-store
+      dockerfile: Dockerfile
+    container_name: medusa-backend
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    env_file:
+      - ./my-medusa-store/.env
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/medusa-store
+      - REDIS_URL=redis://redis:6379
+      - MEILISEARCH_HOST=http://meilisearch:7700
+      - MEDUSA_CACHE_REDIS_URL=redis://redis:6379
+      - MEDUSA_EVENT_BUS_REDIS_URL=redis://redis:6379
+      - MINIO_ENDPOINT=http://minio:9000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      meilisearch:
+        condition: service_started
+
+  storefront:
+    build:
+      context: ./my-medusa-store-storefront
+      dockerfile: Dockerfile
+    container_name: medusa-storefront
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./my-medusa-store-storefront/.env.local
+    environment:
+      - MEDUSA_BACKEND_URL=http://backend:9000
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
+      - NEXT_PUBLIC_BASE_URL=http://localhost:8000
+    depends_on:
+      - backend
+
   stripe:
     image: stripe/stripe-cli:latest
     container_name: medusa-stripe
-    command: listen --forward-to host.docker.internal:9000/hooks/payment/stripe --api-key ${STRIPE_API_KEY}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    command: listen --forward-to backend:9000/hooks/payment/stripe --api-key ${STRIPE_API_KEY}
     env_file:
       - ./my-medusa-store/.env
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
