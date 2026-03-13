@@ -2,30 +2,28 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
+# Enable corepack for yarn (essential for Yarn 4)
+RUN corepack enable && corepack prepare yarn@4.12.0 --activate
 
-# Disable telemetry
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_OPTIONS="--max-old-space-size=4096"
+COPY .yarn ./.yarn
+COPY package.json yarn.lock* .yarnrc.yml ./
 
-RUN npm install
+# Installation des dépendances avec Yarn
+RUN yarn install
 
 COPY . .
 
-# Variables d'environnement pour le build de Next.js
-# Celles-ci DOIVENT être marquées comme "Build Variable" dans Coolify
+# Définition des ARGs (Coolify les injectera via les Build Secrets)
 ARG NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_DEFAULT_REGION
 ARG NEXT_PUBLIC_STRIPE_KEY
-ARG NEXT_PUBLIC_MEDUSA_PAYMENTS_PUBLISHABLE_KEY
-ARG NEXT_PUBLIC_MEDUSA_PAYMENTS_ACCOUNT_ID
 ARG NEXT_PUBLIC_STRAPI_URL
 ARG NEXT_PUBLIC_MEDUSA_BACKEND_URL
 
 # Exécution du build
-RUN npm run build
+RUN yarn build
 
 EXPOSE 8000
 
-CMD ["npm", "run", "start"]
+CMD ["yarn", "start"]

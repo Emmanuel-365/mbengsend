@@ -16,11 +16,11 @@ function checkEnvVariables() {
 
   if (missingEnvs.length > 0) {
     console.error(
-      c.red.bold("\n🚫 Error: Missing required environment variables\n")
+      c.red.bold("\n\u274C Error: Missing required environment variables\n")
     )
 
     missingEnvs.forEach(function (env) {
-      console.error(c.yellow(`  ${c.bold(env.key)}`))
+      console.error(c.yellow(`  VARIABLE MANQUANTE : ${c.bold(env.key)}`))
       if (env.description) {
         console.error(c.dim(`    ${env.description}\n`))
       }
@@ -28,7 +28,7 @@ function checkEnvVariables() {
 
     console.error(
       c.yellow(
-        "\nPlease set these variables in your .env file or environment before starting the application.\n"
+        "\nIMPORTANT : Si vous utilisez Coolify, vérifiez que ces variables sont bien ajoutées ET que la case 'Build Variable' est cochée.\n"
       )
     )
 
