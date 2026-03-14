@@ -35,5 +35,5 @@ ENV NODE_ENV=production
 
 EXPOSE 9000
 
-CMD ["sh", "-c", "echo 'Vérification de la base de données...' && npx medusa db:migrate --verbose && echo 'Migrations terminées avec succès!' && npm run start"]
+CMD ["sh", "-c", "echo 'Vérification binaire...' && ./node_modules/.bin/medusa -v && echo 'Lancement migrations...' && ./node_modules/.bin/medusa db:migrate && echo 'Lancement serveur...' && npm run start"]
 
