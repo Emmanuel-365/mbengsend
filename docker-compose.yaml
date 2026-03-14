@@ -155,7 +155,7 @@ services:
     ports:
       - "8001:8000"
     environment:
-      - MEDUSA_BACKEND_URL=http://medusa-backend:9000
+      - MEDUSA_BACKEND_URL=http://backend:9000
       - NEXT_PUBLIC_MEDUSA_BACKEND_URL=${NEXT_PUBLIC_MEDUSA_BACKEND_URL}
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
       - NEXT_PUBLIC_STRIPE_KEY=${NEXT_PUBLIC_STRIPE_KEY}
