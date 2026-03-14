@@ -132,12 +132,12 @@ services:
         condition: service_started
       meilisearch:
         condition: service_started
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9000/health" ]
-      interval: 20s
-      timeout: 10s
-      retries: 15
-      start_period: 300s
+  #    healthcheck:
+  #      test: [ "CMD", "curl", "-f", "http://localhost:9000/health" ]
+  #      interval: 20s
+  #      timeout: 10s
+  #      retries: 15
+  #      start_period: 300s
 
   storefront:
     build:
@@ -163,8 +163,7 @@ services:
       - REVALIDATE_SECRET=${REVALIDATE_SECRET}
       - STRAPI_API_TOKEN=${STRAPI_API_TOKEN}
     depends_on:
-      backend:
-        condition: service_healthy
+      - backend
 
   stripe:
     image: stripe/stripe-cli:latest
