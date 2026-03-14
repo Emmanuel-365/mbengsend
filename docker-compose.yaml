@@ -132,6 +132,12 @@ services:
         condition: service_started
       meilisearch:
         condition: service_started
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   storefront:
     build:
@@ -149,7 +155,7 @@ services:
     ports:
       - "8001:8000"
     environment:
-      - MEDUSA_BACKEND_URL=http://backend:9000
+      - MEDUSA_BACKEND_URL=http://medusa-backend:9000
       - NEXT_PUBLIC_MEDUSA_BACKEND_URL=${NEXT_PUBLIC_MEDUSA_BACKEND_URL}
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
       - NEXT_PUBLIC_STRIPE_KEY=${NEXT_PUBLIC_STRIPE_KEY}
@@ -157,7 +163,8 @@ services:
       - REVALIDATE_SECRET=${REVALIDATE_SECRET}
       - STRAPI_API_TOKEN=${STRAPI_API_TOKEN}
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
 
   stripe:
     image: stripe/stripe-cli:latest
