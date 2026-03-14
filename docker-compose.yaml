@@ -46,52 +46,52 @@ services:
     entrypoint: >
       /bin/sh -c " sleep 5; /usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin; /usr/bin/mc mb myminio/medusa-bucket || true; /usr/bin/mc mb myminio/strapi-uploads || true; /usr/bin/mc anonymous set public myminio/medusa-bucket; /usr/bin/mc anonymous set public myminio/strapi-uploads; exit 0; "
 
-  meilisearch:
-    image: getmeili/meilisearch:v1.7
-    container_name: medusa-meilisearch
-    environment:
-      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY:-meilimasterkey}
-    ports:
-      - "7700:7700"
-    volumes:
-      - meili_data:/meili_data
+  # meilisearch:
+  #   image: getmeili/meilisearch:v1.7
+  #   container_name: medusa-meilisearch
+  #   environment:
+  #     - MEILI_MASTER_KEY=${MEILI_MASTER_KEY:-meilimasterkey}
+  #   ports:
+  #     - "7700:7700"
+  #   volumes:
+  #     - meili_data:/meili_data
 
-  strapi:
-    build:
-      context: ./strapi-cms
-      dockerfile: Dockerfile
-    container_name: medusa-strapi
-    restart: unless-stopped
-    environment:
-      DATABASE_CLIENT: postgres
-      DATABASE_HOST: postgres
-      DATABASE_PORT: 5432
-      DATABASE_NAME: strapi
-      DATABASE_USERNAME: ${DATABASE_USERNAME:-postgres}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-postgres}
-      DATABASE_SSL: false
-      HOST: 0.0.0.0
-      PORT: 1337
-      APP_KEYS: ${STRAPI_APP_KEYS}
-      API_TOKEN_SALT: ${STRAPI_API_TOKEN_SALT}
-      ADMIN_JWT_SECRET: ${STRAPI_ADMIN_JWT_SECRET}
-      TRANSFER_TOKEN_SALT: ${STRAPI_TRANSFER_TOKEN_SALT}
-      ENCRYPTION_KEY: ${STRAPI_ENCRYPTION_KEY}
-      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
-      MINIO_REGION: ${MINIO_REGION:-us-east-1}
-      MINIO_BUCKET: strapi-uploads
-      MINIO_ENDPOINT: http://minio:9000
-      MINIO_PUBLIC_URL: ${MINIO_PUBLIC_URL}
-      JWT_SECRET: ${STRAPI_JWT_SECRET}
-      CORS_ORIGINS: ${STRAPI_CORS_ORIGINS}
-    ports:
-      - "1337:1337"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      minio:
-        condition: service_started
+  # strapi:
+  #   build:
+  #     context: ./strapi-cms
+  #     dockerfile: Dockerfile
+  #   container_name: medusa-strapi
+  #   restart: unless-stopped
+  #   environment:
+  #     DATABASE_CLIENT: postgres
+  #     DATABASE_HOST: postgres
+  #     DATABASE_PORT: 5432
+  #     DATABASE_NAME: strapi
+  #     DATABASE_USERNAME: ${DATABASE_USERNAME:-postgres}
+  #     DATABASE_PASSWORD: ${DATABASE_PASSWORD:-postgres}
+  #     DATABASE_SSL: false
+  #     HOST: 0.0.0.0
+  #     PORT: 1337
+  #     APP_KEYS: ${STRAPI_APP_KEYS}
+  #     API_TOKEN_SALT: ${STRAPI_API_TOKEN_SALT}
+  #     ADMIN_JWT_SECRET: ${STRAPI_ADMIN_JWT_SECRET}
+  #     TRANSFER_TOKEN_SALT: ${STRAPI_TRANSFER_TOKEN_SALT}
+  #     ENCRYPTION_KEY: ${STRAPI_ENCRYPTION_KEY}
+  #     MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+  #     MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+  #     MINIO_REGION: ${MINIO_REGION:-us-east-1}
+  #     MINIO_BUCKET: strapi-uploads
+  #     MINIO_ENDPOINT: http://minio:9000
+  #     MINIO_PUBLIC_URL: ${MINIO_PUBLIC_URL}
+  #     JWT_SECRET: ${STRAPI_JWT_SECRET}
+  #     CORS_ORIGINS: ${STRAPI_CORS_ORIGINS}
+  #   ports:
+  #     - "1337:1337"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     minio:
+  #       condition: service_started
 
   backend:
     build:
