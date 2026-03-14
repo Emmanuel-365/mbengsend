@@ -14,7 +14,7 @@ RUN npm ci --no-audit --no-fund
 COPY . .
 
 # Build the application
-RUN npm run build
+RUN npm run build && ls -R .medusa
 
 # Runner stage
 FROM node:20-alpine AS runner
