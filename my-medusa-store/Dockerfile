@@ -18,6 +18,7 @@ RUN npm run build
 
 # Runner stage
 FROM node:20-alpine AS runner
+RUN apk add --no-cache curl
 
 WORKDIR /app
 
