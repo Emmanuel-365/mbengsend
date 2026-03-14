@@ -35,5 +35,5 @@ ENV NODE_ENV=production
 
 EXPOSE 9000
 
-CMD ["sh", "-c", "ls -la && (npm run start || (echo 'BACKEND_FAILED' && sleep 3600))"]
+CMD ["sh", "-c", "npx medusa db:migrate && npm run start"]
 
