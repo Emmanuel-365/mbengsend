@@ -1,21 +1,18 @@
-FROM node:20-alpine
-
+# Stage 1: Dependencies
+FROM node:20-alpine AS deps
 WORKDIR /app
-
-# On utilise npm car un fichier package-lock.json est présent
-# et c'est plus stable dans cet environnement Docker
 COPY package.json package-lock.json* ./
+RUN npm ci --no-audit --no-fund
 
-# Désactivation de la télémétrie Next.js pour accélérer le build
+# Stage 2: Builder
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+# We keep a high limit but will monitor if it needs to be lower
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-RUN npm install
-
-COPY . .
-
-# Variables d'environnement pour le build de Next.js
-# Celles-ci DOIVENT être marquées comme "Build Variable" dans Coolify
 ARG NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_DEFAULT_REGION
@@ -23,9 +20,22 @@ ARG NEXT_PUBLIC_STRIPE_KEY
 ARG NEXT_PUBLIC_STRAPI_URL
 ARG NEXT_PUBLIC_MEDUSA_BACKEND_URL
 
-# Exécution du build
 RUN npm run build
 
-EXPOSE 8000
+# Stage 3: Runner
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-CMD ["npm", "run", "start"]
+# Copy standalone output from builder
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+
+EXPOSE 8000
+ENV PORT=8000
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["node", "server.js"]
+
