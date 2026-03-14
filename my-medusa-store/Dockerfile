@@ -18,7 +18,7 @@ RUN npm run build && ls -la .medusa
 
 # Runner stage
 FROM node:20-alpine AS runner
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl postgresql-client
 
 WORKDIR /app
 
