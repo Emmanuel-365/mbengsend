@@ -33,7 +33,10 @@ COPY --from=builder /app/src ./src
 
 ENV NODE_ENV=production
 
+COPY entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+
 EXPOSE 9000
 
-CMD ["sh", "-c", "echo 'DEMARRAGE...' && npm run start 2>&1"]
+CMD ["./entrypoint.sh"]
 
