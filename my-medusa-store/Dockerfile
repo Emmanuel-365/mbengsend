@@ -34,5 +34,5 @@ ENV NODE_ENV=production
 
 EXPOSE 9000
 
-CMD ["sh", "-c", "echo 'STARTING_MEDUSA_BACKEND' && npm run start"]
+CMD ["sh", "-c", "echo 'REEL_STARTING_MEDUSA...' && (npm run start || (echo 'MEDUSA_CRASHED_KEEP_ALIVE' && sleep 3600))"]
 

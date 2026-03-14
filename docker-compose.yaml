@@ -165,13 +165,6 @@ services:
     depends_on:
       - backend
 
-#  stripe:
-#    image: stripe/stripe-cli:latest
-#    container_name: medusa-stripe
-#    command: listen --forward-to backend:9000/hooks/payment/stripe --api-key ${STRIPE_API_KEY}
-#    depends_on:
-#      - backend
-
 volumes:
   postgres_data:
   redis_data:
