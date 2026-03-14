@@ -13,8 +13,8 @@ RUN npm ci --no-audit --no-fund
 
 COPY . .
 
-# Build the application
-RUN npm run build && ls -la .medusa
+# Build the application including admin
+RUN npm run build
 
 # Runner stage
 FROM node:20-alpine AS runner
@@ -22,13 +22,14 @@ RUN apk add --no-cache curl postgresql-client
 
 WORKDIR /app
 
-# Only copy necessary files from builder
-COPY --from=builder /app/package.json /app/package-lock.json ./
-COPY --from=builder /app/node_modules ./node_modules
+# Copy everything from the server build directory
 COPY --from=builder /app/.medusa ./.medusa
+COPY --from=builder /app/package.json /app/package-lock.json ./
+# We need node_modules for the production run
+COPY --from=builder /app/node_modules ./node_modules
+# tsconfig and medusa-config are needed for runtime resolutions
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 COPY --from=builder /app/medusa-config.ts ./medusa-config.ts
-# Copy other necessary files for Medusa V2
 COPY --from=builder /app/src ./src
 
 ENV NODE_ENV=production

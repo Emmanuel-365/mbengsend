@@ -14,6 +14,9 @@ module.exports = defineConfig({
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     }
   },
+  admin: {
+    disable: process.env.NODE_ENV === 'production'
+  },
   modules: [
     {
       resolve: "@medusajs/medusa/payment",
