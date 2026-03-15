@@ -16,8 +16,15 @@ echo "Postgres est prêt !"
 echo "Lancement des migrations Medusa..."
 ./node_modules/.bin/medusa db:migrate
 
-# IMPORTANT : On reste dans /app (la racine)
-echo "Démarrage du serveur Medusa..."
+echo "Migrations completed"
 
-# On utilise la CLI locale. Elle sait gérer le dossier .medusa toute seule.
+# --- LE FIX CRUCIAL POUR L'ADMIN V2 ---
+echo "Lien symbolique pour l'admin..."
+# On crée le dossier s'il n'existe pas
+mkdir -p /app/.medusa/server/.medusa
+# On lie le dossier admin buildé vers l'endroit où le serveur compilé le cherche
+ln -s /app/.medusa/admin /app/.medusa/server/.medusa/admin
+
+echo "Démarrage du serveur Medusa..."
+# On lance le serveur depuis la racine
 exec ./node_modules/.bin/medusa start
