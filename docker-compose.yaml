@@ -41,6 +41,7 @@ services:
   createbuckets:
     image: minio/mc:latest
     container_name: medusa-createbuckets
+    restart: "no"
     depends_on:
       - minio
     entrypoint: >
