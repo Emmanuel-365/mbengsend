@@ -16,7 +16,7 @@ ENV NODE_ENV=production
 # Un seul build suffit pour tout générer (Server + Admin)
 # Medusa place tout dans le dossier .medusa/
 RUN npx medusa build
-RUN npx medusa build --admin-only
+RUN ln -s .medusa/server/public/ public
 
 # Étape cruciale : on vérifie que le dossier existe avant de finir le build
 RUN ls -la .medusa/admin && [ -f .medusa/admin/index.html ] || (echo "ERREUR: Admin non généré" && exit 1)
