@@ -22,4 +22,5 @@ echo "Lancement des migrations Medusa..."
 ./node_modules/.bin/medusa db:migrate
 
 echo "Démarrage du serveur Medusa..."
-exec npm run start
+# Remplace exec npm run start par :
+exec ./node_modules/.bin/medusa start
