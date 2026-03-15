@@ -10,7 +10,6 @@ COPY package.json package-lock.json* ./
 RUN npm ci --no-audit --no-fund
 
 COPY . .
-COPY .env.production .env
 
 # Variables d'environnement nécessaires pour le build
 ENV NODE_ENV=production
@@ -36,6 +35,7 @@ COPY --from=builder /app/.medusa ./.medusa
 COPY --from=builder /app/package.json /app/package-lock.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/medusa-config.ts ./medusa-config.ts
+COPY --from=builder /app/entrypoint.sh ./entrypoint.sh
 # TSConfig et SRC ne sont techniquement plus nécessaires car tout est compilé dans .medusa/server
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 COPY --from=builder /app/src ./src
@@ -45,7 +45,6 @@ RUN ln -sf /app/.medusa/server/public /app/public
 
 ENV NODE_ENV=production
 
-COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
 EXPOSE 9000
