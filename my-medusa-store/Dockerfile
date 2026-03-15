@@ -14,7 +14,7 @@ RUN npm ci --no-audit --no-fund
 COPY . .
 
 # Build the application including admin
-RUN npm run build
+RUN npm run build && ls -R .medusa/admin || echo "Admin build folder not found in .medusa/admin"
 
 # Runner stage
 FROM node:20-alpine AS runner
