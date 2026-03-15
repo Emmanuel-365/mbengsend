@@ -42,7 +42,8 @@ COPY --from=builder /app/src ./src
 
 # Créer le lien symbolique public -> .medusa/server/public dans le runner
 RUN ln -sf /app/.medusa/server/public /app/public
-# Laisser l'environnement déterminer NODE_ENV
+
+ENV NODE_ENV=development
 
 RUN chmod +x ./entrypoint.sh
 
