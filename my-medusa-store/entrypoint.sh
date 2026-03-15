@@ -15,6 +15,9 @@ echo "Postgres est prêt !"
 echo "Lancement des migrations..."
 npx medusa db:migrate
 
+echo "Lancement du seed..."
+npx medusa exec ./src/scripts/seed.ts || echo "Seed échoué ou déjà exécuté, on continue..."
+
 # Vérification de l'admin
 echo "Vérification de l'admin..."
 if [ -f ".medusa/server/public/admin/index.html" ]; then
