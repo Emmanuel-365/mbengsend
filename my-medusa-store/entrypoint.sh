@@ -12,19 +12,18 @@ done
 
 echo "Postgres est prêt !"
 
-# Lancement des migrations (via le binaire local pour être sûr)
-echo "Lancement des migrations Medusa..."
-./node_modules/.bin/medusa db:migrate
+echo "Lancement des migrations..."
+npx medusa db:migrate
 
-echo "Migrations completed"
+# FIX TOTAL : On s'assure que l'admin est présent là où Medusa le cherche par défaut
+# Medusa cherche souvent dans .medusa/admin à la racine OU dans node_modules
+echo "Configuration de l'admin..."
+mkdir -p .medusa/admin
 
-# --- LE FIX CRUCIAL POUR L'ADMIN V2 ---
-echo "Lien symbolique pour l'admin..."
-# On crée le dossier s'il n'existe pas
-mkdir -p /app/.medusa/server/.medusa
-# On lie le dossier admin buildé vers l'endroit où le serveur compilé le cherche
-ln -s /app/.medusa/admin /app/.medusa/server/.medusa/admin
+# On liste pour debugger dans les logs Coolify
+echo "Contenu de /app/.medusa :"
+ls -R /app/.medusa | grep index.html || echo "index.html introuvable dans .medusa"
 
 echo "Démarrage du serveur Medusa..."
-# On lance le serveur depuis la racine
+# On utilise directement la commande medusa du dossier bin
 exec ./node_modules/.bin/medusa start
