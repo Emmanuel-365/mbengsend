@@ -14,7 +14,8 @@ RUN npm ci --no-audit --no-fund
 COPY . .
 
 # Build the application including admin
-RUN npm run build && ls -R .medusa/admin || echo "Admin build folder not found in .medusa/admin"
+ENV NODE_ENV=production
+RUN npm run build && find .medusa -name index.html || echo "index.html not found in .medusa"
 
 # Runner stage
 FROM node:20-alpine AS runner
