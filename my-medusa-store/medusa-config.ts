@@ -19,6 +19,7 @@ module.exports = defineConfig({
     backendUrl: process.env.MEDUSA_BACKEND_URL || "http://localhost:9000",
     // Ajoute ceci pour être sûr du chemin
     path: "/app", 
+    outDir: "/app/.medusa/admin"
   },
   modules: [
     {
