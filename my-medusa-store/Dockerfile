@@ -19,7 +19,7 @@ ENV NODE_ENV=production
 RUN npx medusa build
 
 #build de l'admin separement 
-RUN npx run build --admin
+RUN npx run build --admin-only
     
 # Runner stage
 FROM node:20-alpine AS runner
