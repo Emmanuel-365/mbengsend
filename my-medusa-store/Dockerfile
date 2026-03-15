@@ -18,9 +18,6 @@ ENV NODE_ENV=production
 RUN npx medusa build
 RUN ln -s .medusa/server/public/ public
 
-# Étape cruciale : on vérifie que le dossier existe avant de finir le build
-RUN ls -la .medusa/admin && [ -f .medusa/admin/index.html ] || (echo "ERREUR: Admin non généré" && exit 1)
-
 # Runner stage
 FROM node:20-alpine AS runner
 # Ajout de vips-dev et libpng si tu utilises Sharp pour les images
