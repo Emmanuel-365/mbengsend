@@ -15,6 +15,8 @@ COPY . .
 
 # Build the application including admin
 ENV NODE_ENV=production
+
+RUN npx medusa build
     
 # Runner stage
 FROM node:20-alpine AS runner
