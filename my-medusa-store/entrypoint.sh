@@ -2,6 +2,7 @@
 set +e
 
 echo "--- DEMARRAGE DU SCRIPT D'ENTREE ---"
+echo "NODE_ENV actuel : $NODE_ENV"
 DB_HOST="postgres"
 
 # Attendre Postgres
