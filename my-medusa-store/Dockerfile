@@ -15,8 +15,7 @@ COPY . .
 
 # Build the application including admin
 ENV NODE_ENV=production
-RUN npm run build && find .medusa -name index.html || echo "index.html not found in .medusa"
-
+    
 # Runner stage
 FROM node:20-alpine AS runner
 RUN apk add --no-cache curl postgresql-client
@@ -32,6 +31,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 COPY --from=builder /app/medusa-config.ts ./medusa-config.ts
 COPY --from=builder /app/src ./src
+COPY --from=builder /app/.medusa/server ./server
 
 ENV NODE_ENV=production
 
