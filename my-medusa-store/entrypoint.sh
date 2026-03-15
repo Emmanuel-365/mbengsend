@@ -15,14 +15,16 @@ echo "Postgres est prêt !"
 echo "Lancement des migrations..."
 npx medusa db:migrate
 
-# FIX TOTAL : On s'assure que l'admin est présent là où Medusa le cherche par défaut
-# Medusa cherche souvent dans .medusa/admin à la racine OU dans node_modules
-echo "Configuration de l'admin..."
-mkdir -p .medusa/admin
-
-# On liste pour debugger dans les logs Coolify
-echo "Contenu de /app/.medusa :"
-ls -R /app/.medusa | grep index.html || echo "index.html introuvable dans .medusa"
+# Vérification de l'admin
+echo "Vérification de l'admin..."
+if [ -f ".medusa/server/public/admin/index.html" ]; then
+  echo "✓ Admin trouvé dans .medusa/server/public/admin/"
+else
+  echo "✗ ERREUR: Admin index.html non trouvé!"
+  echo "Contenu de .medusa/server/public:"
+  ls -la .medusa/server/public/ || echo "Dossier public non trouvé"
+  exit 1
+fi
 
 echo "Démarrage du serveur Medusa..."
 # On utilise directement la commande medusa du dossier bin

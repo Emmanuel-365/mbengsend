@@ -10,13 +10,19 @@ COPY package.json package-lock.json* ./
 RUN npm ci --no-audit --no-fund
 
 COPY . .
+COPY .env.production .env
 
+# Variables d'environnement nécessaires pour le build
 ENV NODE_ENV=production
+ENV MEDUSA_BACKEND_URL=http://localhost:9000
 
 # Un seul build suffit pour tout générer (Server + Admin)
 # Medusa place tout dans le dossier .medusa/
 RUN npx medusa build
-RUN ln -s .medusa/server/public/ public
+
+# Vérifier que l'admin a bien été généré
+RUN ls -la .medusa/server/public/admin/index.html || (echo "ERREUR: Admin non généré!" && exit 1)
+
 
 # Runner stage
 FROM node:20-alpine AS runner
@@ -33,6 +39,9 @@ COPY --from=builder /app/medusa-config.ts ./medusa-config.ts
 # TSConfig et SRC ne sont techniquement plus nécessaires car tout est compilé dans .medusa/server
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 COPY --from=builder /app/src ./src
+
+# Créer le lien symbolique public -> .medusa/server/public dans le runner
+RUN ln -sf /app/.medusa/server/public /app/public
 
 ENV NODE_ENV=production
 

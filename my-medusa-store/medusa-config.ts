@@ -14,10 +14,10 @@ module.exports = defineConfig({
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     }
   },
-  // admin: {
-  //   // Force Medusa à servir l'admin lui-même
-  //   backendUrl: process.env.MEDUSA_BACKEND_URL || "http://localhost:9000",
-  // },
+  admin: {
+    // En production, l'admin est servi depuis .medusa/server/public/admin/
+    backendUrl: process.env.MEDUSA_BACKEND_URL || "http://localhost:9000",
+  },
   modules: [
     {
       resolve: "@medusajs/medusa/payment",
