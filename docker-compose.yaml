@@ -141,32 +141,32 @@ services:
   #      retries: 20
   #      start_period: 400s
 
-  # storefront:
-  #   build:
-  #     context: ./my-medusa-store-storefront
-  #     dockerfile: Dockerfile
-  #     args:
-  #       - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
-  #       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
-  #       - NEXT_PUBLIC_DEFAULT_REGION=${NEXT_PUBLIC_DEFAULT_REGION}
-  #       - NEXT_PUBLIC_STRIPE_KEY=${NEXT_PUBLIC_STRIPE_KEY}
-  #       - NEXT_PUBLIC_STRAPI_URL=${NEXT_PUBLIC_STRAPI_URL}
-  #       - NEXT_PUBLIC_MEDUSA_BACKEND_URL=${NEXT_PUBLIC_MEDUSA_BACKEND_URL}
-  #   container_name: medusa-storefront
-  #   restart: unless-stopped
-  #   ports:
-  #     - "8001:8000"
-  #   environment:
-  #     - MEDUSA_BACKEND_URL=http://backend:9000
-  #     - NEXT_PUBLIC_MEDUSA_BACKEND_URL=${NEXT_PUBLIC_MEDUSA_BACKEND_URL}
-  #     - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
-  #     - NEXT_PUBLIC_STRIPE_KEY=${NEXT_PUBLIC_STRIPE_KEY}
-  #     - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
-  #     - REVALIDATE_SECRET=${REVALIDATE_SECRET}
-  #     - STRAPI_API_TOKEN=${STRAPI_API_TOKEN}
-  #   depends_on:
-  #     backend:
-  #       condition: service_started
+  storefront:
+    build:
+      context: ./my-medusa-store-storefront
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
+        - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+        - NEXT_PUBLIC_DEFAULT_REGION=${NEXT_PUBLIC_DEFAULT_REGION}
+        - NEXT_PUBLIC_STRIPE_KEY=${NEXT_PUBLIC_STRIPE_KEY}
+        - NEXT_PUBLIC_STRAPI_URL=${NEXT_PUBLIC_STRAPI_URL}
+        - NEXT_PUBLIC_MEDUSA_BACKEND_URL=${NEXT_PUBLIC_MEDUSA_BACKEND_URL}
+    container_name: medusa-storefront
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    environment:
+      - MEDUSA_BACKEND_URL=http://backend:9000
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=${NEXT_PUBLIC_MEDUSA_BACKEND_URL}
+      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+      - NEXT_PUBLIC_STRIPE_KEY=${NEXT_PUBLIC_STRIPE_KEY}
+      - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
+      - REVALIDATE_SECRET=${REVALIDATE_SECRET}
+      - STRAPI_API_TOKEN=${STRAPI_API_TOKEN}
+    depends_on:
+      backend:
+        condition: service_started
 
 volumes:
   postgres_data:
