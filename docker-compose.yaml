@@ -37,6 +37,15 @@ services:
     volumes:
       - minio_data:/data
     command: server /data --console-address ":9001"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.medusa-minio-http.rule=Host(`storage.mbengsend.com`)"
+      - "traefik.http.routers.medusa-minio-http.entrypoints=http"
+      - "traefik.http.routers.medusa-minio-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.medusa-minio-https.rule=Host(`storage.mbengsend.com`)"
+      - "traefik.http.routers.medusa-minio-https.entrypoints=https"
+      - "traefik.http.routers.medusa-minio-https.tls.certresolver=letsencrypt"
+      - "traefik.http.services.medusa-minio.loadbalancer.server.port=9000"
 
   createbuckets:
     image: minio/mc:latest
