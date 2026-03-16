@@ -77,47 +77,51 @@ export default function SearchModal({ isOpen, onClose, countryCode }: SearchModa
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center small:pt-20 pt-0 pb-20 small:pb-0">
-      <div className="bg-white w-full small:rounded-lg small:shadow-2xl small:max-w-2xl small:mx-4 small:max-h-[80vh] h-full small:h-auto flex flex-col max-h-[calc(100vh-5rem)] small:max-h-[80vh]">
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center small:pt-20 pt-0 pb-20 small:pb-0 animate-in fade-in duration-200">
+      <div className="bg-white w-full small:rounded-lg small:shadow-2xl small:max-w-2xl small:mx-4 small:max-h-[80vh] h-full small:h-auto flex flex-col max-h-[calc(100vh-5rem)] small:max-h-[80vh] animate-in slide-in-from-bottom-5 small:slide-in-from-top-5 duration-300">
         {/* Header */}
-        <div className="p-4 small:p-4 border-b border-gray-200 flex items-center gap-x-3 sticky top-0 bg-white z-10">
-          <MagnifyingGlass className="text-gray-400 flex-shrink-0" />
+        <div className="p-3 small:p-4 border-b border-gray-200 flex items-center gap-x-2 small:gap-x-3 sticky top-0 bg-white z-10">
+          <MagnifyingGlass className="text-gray-400 flex-shrink-0 w-5 h-5 small:w-6 small:h-6" />
           <Input
             autoFocus
-            placeholder="Rechercher des produits..."
+            placeholder="Rechercher..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="flex-1 border-none focus:ring-0 text-base"
+            className="flex-1 border-none focus:ring-0 text-sm small:text-base px-0"
           />
           <button
             onClick={handleClose}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors flex-shrink-0"
             aria-label="Fermer la recherche"
           >
-            <XMark className="text-gray-600" />
+            <XMark className="text-gray-600 w-5 h-5" />
           </button>
         </div>
 
         {/* Results */}
-        <div className="flex-1 overflow-y-auto p-4 small:p-4">
+        <div className="flex-1 overflow-y-auto p-3 small:p-4">
           {isLoading ? (
-            <div className="flex items-center justify-center py-12">
-              <Text className="text-gray-500">Recherche en cours...</Text>
+            <div className="flex items-center justify-center py-8">
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-8 h-8 border-2 border-gray-200 border-t-brand-primary rounded-full animate-spin" />
+                <Text className="text-sm text-gray-500">Recherche en cours...</Text>
+              </div>
             </div>
           ) : hasSearched && results.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 gap-y-2">
-              <Text className="text-gray-500">Aucun produit trouvé</Text>
-              <Text className="text-sm text-gray-400">
+            <div className="flex flex-col items-center justify-center py-8 gap-y-2">
+              <MagnifyingGlass className="text-gray-300 w-10 h-10" />
+              <Text className="text-sm text-gray-500">Aucun produit trouvé</Text>
+              <Text className="text-xs text-gray-400">
                 Essayez avec d'autres mots-clés
               </Text>
             </div>
           ) : results.length > 0 ? (
-            <div className="grid grid-cols-1 small:grid-cols-2 gap-3 small:gap-4">
+            <div className="grid grid-cols-2 small:grid-cols-2 gap-2 small:gap-4">
               {results.map((product) => (
                 <button
                   key={product.id}
                   onClick={() => handleProductClick(product.handle)}
-                  className="flex flex-col small:flex-col gap-3 p-3 small:p-4 hover:bg-gray-50 rounded-lg transition-colors text-left border border-gray-100 hover:border-brand-primary/20"
+                  className="flex flex-col gap-2 p-2 small:p-3 hover:bg-gray-50 rounded-lg transition-colors text-left border border-gray-100 hover:border-brand-primary/20"
                 >
                   {product.thumbnail ? (
                     <img
@@ -127,13 +131,13 @@ export default function SearchModal({ isOpen, onClose, countryCode }: SearchModa
                     />
                   ) : (
                     <div className="w-full aspect-square bg-gray-200 rounded-md flex items-center justify-center">
-                      <MagnifyingGlass className="text-gray-400 w-8 h-8" />
+                      <MagnifyingGlass className="text-gray-400 w-6 h-6" />
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <Text className="font-medium line-clamp-2 text-sm small:text-base">{product.title}</Text>
+                    <Text className="font-medium line-clamp-2 text-xs small:text-sm">{product.title}</Text>
                     {product.description && (
-                      <Text className="text-xs small:text-sm text-gray-500 line-clamp-2 mt-1">
+                      <Text className="text-xs text-gray-500 line-clamp-1 mt-0.5">
                         {product.description}
                       </Text>
                     )}
@@ -142,9 +146,9 @@ export default function SearchModal({ isOpen, onClose, countryCode }: SearchModa
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-12 gap-y-2">
+            <div className="flex flex-col items-center justify-center py-8 gap-y-2">
               <MagnifyingGlass className="text-gray-300 w-12 h-12" />
-              <Text className="text-gray-500">
+              <Text className="text-sm text-gray-500">
                 Commencez à taper pour rechercher
               </Text>
             </div>
