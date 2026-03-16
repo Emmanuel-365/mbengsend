@@ -88,6 +88,15 @@ services:
       CORS_ORIGINS: ${STRAPI_CORS_ORIGINS}
     ports:
       - "1337:1337"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.medusa-strapi-http.rule=Host(`cms.mbengsend.com`)" # Mettez votre vrai domaine ici
+      - "traefik.http.routers.medusa-strapi-http.entrypoints=http"
+      - "traefik.http.routers.medusa-strapi-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.medusa-strapi-https.rule=Host(`cms.mbengsend.com`)" # Mettez votre vrai domaine ici
+      - "traefik.http.routers.medusa-strapi-https.entrypoints=https"
+      - "traefik.http.routers.medusa-strapi-https.tls.certresolver=letsencrypt"
+      - "traefik.http.services.medusa-strapi.loadbalancer.server.port=1337"
     depends_on:
       postgres:
         condition: service_healthy
@@ -127,6 +136,15 @@ services:
       - STORE_CORS=${STORE_CORS}
       - ADMIN_CORS=${ADMIN_CORS}
       - AUTH_CORS=${AUTH_CORS}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.medusa-backend-http.rule=Host(`api.mbengsend.com`)"
+      - "traefik.http.routers.medusa-backend-http.entrypoints=http"
+      - "traefik.http.routers.medusa-backend-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.medusa-backend-https.rule=Host(`api.mbengsend.com`)"
+      - "traefik.http.routers.medusa-backend-https.entrypoints=https"
+      - "traefik.http.routers.medusa-backend-https.tls.certresolver=letsencrypt"
+      - "traefik.http.services.medusa-backend.loadbalancer.server.port=9000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -164,6 +182,15 @@ services:
       - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
       - REVALIDATE_SECRET=${REVALIDATE_SECRET}
       - STRAPI_API_TOKEN=${STRAPI_API_TOKEN}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.medusa-storefront-http.rule=Host(`mbengsend.com`)"
+      - "traefik.http.routers.medusa-storefront-http.entrypoints=http"
+      - "traefik.http.routers.medusa-storefront-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.medusa-storefront-https.rule=Host(`mbengsend.com`)"
+      - "traefik.http.routers.medusa-storefront-https.entrypoints=https"
+      - "traefik.http.routers.medusa-storefront-https.tls.certresolver=letsencrypt"
+      - "traefik.http.services.medusa-storefront.loadbalancer.server.port=8001"
     depends_on:
       backend:
         condition: service_started
