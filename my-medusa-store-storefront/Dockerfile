@@ -2,7 +2,7 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci --no-audit --no-fund --include=dev
+RUN npm ci --no-audit --no-fund
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
@@ -11,7 +11,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-# Increase memory limit for Next.js build
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 
 ARG NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
@@ -30,10 +29,7 @@ ENV NEXT_PUBLIC_STRIPE_KEY=${NEXT_PUBLIC_STRIPE_KEY}
 ENV NEXT_PUBLIC_STRAPI_URL=${NEXT_PUBLIC_STRAPI_URL}
 ENV NEXT_PUBLIC_MEDUSA_BACKEND_URL=${NEXT_PUBLIC_MEDUSA_BACKEND_URL}
 
-# Clean any existing build artifacts
-RUN rm -rf .next
-
-RUN npm run build
+RUN rm -rf .next && npm run build
 
 # Stage 3: Runner
 FROM node:20-alpine AS runner
