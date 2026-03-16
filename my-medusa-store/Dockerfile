@@ -7,7 +7,7 @@ WORKDIR /app
 RUN apk add --no-cache python3 make g++ build-base gcc autoconf automake zlib-dev libpng-dev vips-dev
 
 COPY package.json package-lock.json* ./
-RUN npm ci --no-audit --no-fund
+RUN npm ci --no-audit --no-fund --include=dev
 
 COPY . .
 

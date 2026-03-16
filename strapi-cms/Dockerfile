@@ -6,7 +6,7 @@ RUN apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips
 
 COPY package.json package-lock.json* ./
 
-RUN npm install
+RUN npm ci --include=dev
 
 COPY . .
 
