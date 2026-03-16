@@ -77,8 +77,8 @@ export default function SearchModal({ isOpen, onClose, countryCode }: SearchModa
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center small:pt-20 pt-0">
-      <div className="bg-white w-full small:rounded-lg small:shadow-2xl small:max-w-2xl small:mx-4 small:max-h-[80vh] h-full small:h-auto flex flex-col">
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center small:pt-20 pt-0 pb-20 small:pb-0">
+      <div className="bg-white w-full small:rounded-lg small:shadow-2xl small:max-w-2xl small:mx-4 small:max-h-[80vh] h-full small:h-auto flex flex-col max-h-[calc(100vh-5rem)] small:max-h-[80vh]">
         {/* Header */}
         <div className="p-4 small:p-4 border-b border-gray-200 flex items-center gap-x-3 sticky top-0 bg-white z-10">
           <MagnifyingGlass className="text-gray-400 flex-shrink-0" />

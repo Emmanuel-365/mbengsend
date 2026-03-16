@@ -1,17 +1,15 @@
 "use client"
 
 import { Popover, PopoverPanel, Transition } from "@headlessui/react"
-import { ArrowRightMini, XMark, BarsThree, MagnifyingGlass } from "@medusajs/icons"
+import { ArrowRightMini, XMark, BarsThree } from "@medusajs/icons"
 import { Text, clx, useToggleState } from "@medusajs/ui"
-import { Fragment, useState } from "react"
+import { Fragment } from "react"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CountrySelect from "../country-select"
 import LanguageSelect from "../language-select"
-import SearchModal from "../search-modal"
 import { HttpTypes } from "@medusajs/types"
 import { Locale } from "@lib/data/locales"
-import { useParams } from "next/navigation"
 
 type SideMenuProps = {
   regions: HttpTypes.StoreRegion[] | null
@@ -22,7 +20,6 @@ type SideMenuProps = {
 const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
   const countryToggleState = useToggleState()
   const languageToggleState = useToggleState()
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const params = useParams()
   const countryCode = params.countryCode as string
 
@@ -92,16 +89,6 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                       })}
                     </ul>
                     <div className="flex flex-col gap-y-8 bg-white/5 p-6 rounded-rounded border border-white/5">
-                      <button
-                        onClick={() => {
-                          setIsSearchOpen(true)
-                        }}
-                        className="flex items-center gap-x-3 text-white/90 hover:text-brand-primary transition-colors font-semibold text-lg"
-                        data-testid="mobile-search-button"
-                      >
-                        <MagnifyingGlass className="w-5 h-5" />
-                        <span>Rechercher</span>
-                      </button>
                       {!!locales?.length && (
                         <div
                           className="flex justify-between"
@@ -146,11 +133,6 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                   </div>
                 </PopoverPanel>
               </Transition>
-              <SearchModal
-                isOpen={isSearchOpen}
-                onClose={() => setIsSearchOpen(false)}
-                countryCode={countryCode}
-              />
             </>
           )}
         </Popover>

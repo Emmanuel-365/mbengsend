@@ -38,7 +38,9 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
           shippingOptions={shippingOptions}
         />
       )}
-      {props.children}
+      <div className="pb-20 small:pb-0">
+        {props.children}
+      </div>
       <Footer />
     </>
   )
