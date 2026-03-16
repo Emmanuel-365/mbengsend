@@ -2,14 +2,12 @@ import { Suspense } from "react"
 
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import RefinementList from "@modules/store/components/refinement-list"
-import FilterDrawer from "@modules/store/components/filter-drawer"
+import FilterDrawerClient from "@modules/store/components/filter-drawer-client"
 import { getRegion } from "@lib/data/regions"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import StoreCategories from "@modules/store/components/store-categories"
 
 import PaginatedProducts from "./paginated-products"
-import { useRouter, usePathname, useSearchParams } from "next/navigation"
-import { useCallback } from "react"
 
 const StoreTemplate = async ({
   sortBy,
@@ -64,41 +62,6 @@ const StoreTemplate = async ({
         </Suspense>
       </div>
     </div>
-  )
-}
-
-// Client component for filter drawer
-function FilterDrawerClient({ sortBy, region, minPrice, maxPrice }: any) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams)
-      if (value) {
-        params.set(name, value)
-      } else {
-        params.delete(name)
-      }
-      return params.toString()
-    },
-    [searchParams]
-  )
-
-  const setQueryParams = (name: string, value: string) => {
-    const query = createQueryString(name, value)
-    router.push(`${pathname}?${query}`, { scroll: false })
-  }
-
-  return (
-    <FilterDrawer
-      sortBy={sortBy}
-      region={region}
-      minPrice={minPrice}
-      maxPrice={maxPrice}
-      setQueryParams={setQueryParams}
-    />
   )
 }
 
