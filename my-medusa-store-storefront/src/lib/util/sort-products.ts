@@ -46,5 +46,11 @@ export function sortProducts(
     })
   }
 
+  if (sortBy === "alphabetic") {
+    sortedProducts.sort((a, b) => {
+      return (a.title || "").localeCompare(b.title || "")
+    })
+  }
+
   return sortedProducts
 }

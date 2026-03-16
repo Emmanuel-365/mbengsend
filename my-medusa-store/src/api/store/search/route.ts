@@ -6,6 +6,8 @@ const searchQuerySchema = z.object({
   q: z.string().min(1, "Search query (q) is required"),
   limit: z.coerce.number().optional(),
   offset: z.coerce.number().optional(),
+  filter: z.string().optional(),
+  sort: z.string().optional(), // Expected format: "field:asc", "field:desc"
 })
 
 export async function GET(
@@ -25,13 +27,15 @@ export async function GET(
     return
   }
 
-  const { q, limit, offset } = validated.data
+  const { q, limit, offset, filter, sort } = validated.data
 
   try {
     // Call Meilisearch service
     const result = await meilisearchService.searchProducts(q, {
       limit,
       offset,
+      filter,
+      sort: sort ? [sort] : undefined,
     })
 
     // Return formatted response
@@ -48,3 +52,4 @@ export async function GET(
     })
   }
 }
+

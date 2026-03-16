@@ -27,11 +27,8 @@ export const listCategories = async (query?: Record<string, any>) => {
 }
 
 export const getCategoryByHandle = async (categoryHandle: string[]) => {
-  const handle = `${categoryHandle.join("/")}`
-
-  const next = {
-    ...(await getCacheOptions("categories")),
-  }
+  const decodedHandle = categoryHandle.map(h => decodeURIComponent(h));
+  const handle = `${decodedHandle.join("/")}`
 
   return sdk.client
     .fetch<HttpTypes.StoreProductCategoryListResponse>(
@@ -41,9 +38,12 @@ export const getCategoryByHandle = async (categoryHandle: string[]) => {
           fields: "*category_children, *products",
           handle,
         },
-        next,
-        cache: "force-cache",
+        cache: "no-store",
       }
     )
     .then(({ product_categories }) => product_categories[0])
+    .catch((error) => {
+      console.error("Error fetching category:", error);
+      throw error;
+    })
 }

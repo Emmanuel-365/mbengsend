@@ -20,12 +20,19 @@ export interface SearchResponse {
 
 export const searchProducts = async (
   query: string,
-  options?: { limit?: number; offset?: number }
+  options?: {
+    limit?: number;
+    offset?: number;
+    filter?: string;
+    sort?: string;
+  }
 ): Promise<SearchResponse> => {
   const params = new URLSearchParams({
     q: query,
     ...(options?.limit && { limit: options.limit.toString() }),
     ...(options?.offset && { offset: options.offset.toString() }),
+    ...(options?.filter && { filter: options.filter }),
+    ...(options?.sort && { sort: options.sort }),
   })
 
   return sdk.client.fetch<SearchResponse>(
@@ -36,3 +43,4 @@ export const searchProducts = async (
     }
   )
 }
+

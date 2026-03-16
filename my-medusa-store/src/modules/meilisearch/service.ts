@@ -22,17 +22,34 @@ export default class MeilisearchService {
         try {
             await this.initPromise
             const index = this.client.index("products")
-            const documents = products.map(p => ({
-                id: p.id,
-                title: p.title,
-                handle: p.handle,
-                description: p.description,
-                thumbnail: p.thumbnail,
-                status: p.status,
-            }))
+
+            // Set settings for the index
+            await index.updateSettings({
+                searchableAttributes: ["title", "description", "categories"],
+                filterableAttributes: ["status", "categories", "price"],
+                sortableAttributes: ["price", "created_at"],
+            })
+
+            const documents = products.map(p => {
+                // Find minimum price among variants
+                const prices = p.variants?.map((v: any) => v.calculated_price?.calculated_amount).filter(Boolean) || []
+                const minPrice = prices.length > 0 ? Math.min(...prices) : 0
+
+                return {
+                    id: p.id,
+                    title: p.title,
+                    handle: p.handle,
+                    description: p.description,
+                    thumbnail: p.thumbnail,
+                    status: p.status,
+                    categories: p.categories?.map((c: any) => c.handle) || [],
+                    price: minPrice,
+                    created_at: p.created_at,
+                }
+            })
 
             await index.addDocuments(documents)
-            this.logger.info(`[Meilisearch] Indexed ${documents.length} products`)
+            this.logger.info(`[Meilisearch] Indexed ${documents.length} products with refined metadata`)
         } catch (error: any) {
             this.logger.error(`[Meilisearch] Indexing failed: ${error.message}`)
         }
@@ -50,12 +67,16 @@ export default class MeilisearchService {
 
     async searchProducts(
         query: string,
-        options?: { limit?: number; offset?: number }
+        options?: {
+            limit?: number;
+            offset?: number;
+            filter?: string;
+            sort?: string[];
+        }
     ): Promise<{ hits: any[]; estimatedTotalHits: number }> {
         try {
             await this.initPromise
 
-            // Apply defaults and constraints
             const limit = Math.min(options?.limit || 20, 100)
             const offset = options?.offset || 0
 
@@ -63,6 +84,8 @@ export default class MeilisearchService {
             const result = await index.search(query, {
                 limit,
                 offset,
+                filter: options?.filter,
+                sort: options?.sort,
             })
 
             this.logger.info(
@@ -79,3 +102,4 @@ export default class MeilisearchService {
         }
     }
 }
+

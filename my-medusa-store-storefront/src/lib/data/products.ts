@@ -100,11 +100,15 @@ export const listProductsWithSort = async ({
   queryParams,
   sortBy = "created_at",
   countryCode,
+  minPrice,
+  maxPrice,
 }: {
   page?: number
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
   sortBy?: SortOptions
   countryCode: string
+  minPrice?: string
+  maxPrice?: string
 }): Promise<{
   response: { products: HttpTypes.StoreProduct[]; count: number }
   nextPage: number | null
@@ -123,20 +127,40 @@ export const listProductsWithSort = async ({
     countryCode,
   })
 
-  const sortedProducts = sortProducts(products, sortBy)
+  let filteredProducts = [...products]
+
+  // Filter by price if min/max are provided
+  if (minPrice || maxPrice) {
+    const min = minPrice ? parseFloat(minPrice) : 0
+    const max = maxPrice ? parseFloat(maxPrice) : Infinity
+
+    filteredProducts = filteredProducts.filter((product) => {
+      const productPrice = Math.min(
+        ...(product.variants?.map(
+          (variant) => variant?.calculated_price?.calculated_amount || 0
+        ) || [0])
+      )
+      return productPrice >= min && productPrice <= max
+    })
+  }
+
+  const sortedProducts = sortProducts(filteredProducts, sortBy)
 
   const pageParam = (page - 1) * limit
 
-  const nextPage = count > pageParam + limit ? pageParam + limit : null
+  const totalFilteredCount = filteredProducts.length
+
+  const nextPage = totalFilteredCount > pageParam + limit ? pageParam + limit : null
 
   const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
 
   return {
     response: {
       products: paginatedProducts,
-      count,
+      count: totalFilteredCount,
     },
     nextPage,
     queryParams,
   }
 }
+

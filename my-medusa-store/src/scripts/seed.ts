@@ -110,8 +110,8 @@ export default async function seedDemoData({ container }: ExecArgs) {
     input: {
       store_id: store.id,
       supported_currencies: [
-        { currency_code: "xaf", is_default: true },
-        { currency_code: "eur" },
+        { currency_code: "xaf", is_default: false },
+        { currency_code: "eur", is_default: true },
       ],
     },
   });

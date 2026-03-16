@@ -8,20 +8,27 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import PaginatedProducts from "@modules/store/templates/paginated-products"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { HttpTypes } from "@medusajs/types"
+import StoreCategories from "@modules/store/components/store-categories"
+import { getRegion } from "@lib/data/regions"
 
-export default function CategoryTemplate({
+export default async function CategoryTemplate({
   category,
   sortBy,
   page,
   countryCode,
+  minPrice,
+  maxPrice,
 }: {
   category: HttpTypes.StoreProductCategory
   sortBy?: SortOptions
   page?: string
   countryCode: string
+  minPrice?: string
+  maxPrice?: string
 }) {
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
+  const region = await getRegion(countryCode)
 
   if (!category || !countryCode) notFound()
 
@@ -38,10 +45,14 @@ export default function CategoryTemplate({
 
   return (
     <div
-      className="flex flex-col small:flex-row small:items-start py-6 content-container"
+      className="flex flex-col small:flex-row small:items-start py-6 content-container gap-12"
       data-testid="category-container"
     >
-      <RefinementList sortBy={sort} data-testid="sort-by-container" />
+      <div className="flex flex-col gap-y-12 shrink-0 small:w-[250px] w-full pt-4">
+        <StoreCategories activeCategory={category.id} />
+        <RefinementList sortBy={sort} region={region} data-testid="sort-by-container" />
+      </div>
+
       <div className="w-full">
         <div className="flex flex-row mb-8 text-2xl-semi gap-4">
           {parents &&
@@ -57,16 +68,17 @@ export default function CategoryTemplate({
                 /
               </span>
             ))}
-          <h1 data-testid="category-page-title">{category.name}</h1>
+          <h1 className="text-4xl small:text-5xl font-display font-bold text-brand-dark tracking-tight" data-testid="category-page-title">{category.name}</h1>
         </div>
         {category.description && (
           <div className="mb-8 text-base-regular">
-            <p>{category.description}</p>
+            <p className="text-ui-fg-subtle mt-2">{category.description}</p>
           </div>
         )}
         {category.category_children && (
           <div className="mb-8 text-base-large">
-            <ul className="grid grid-cols-1 gap-2">
+            <ul className="grid grid-cols-1 gap-2 border-[1px] border-brand-primary/10 rounded-lg p-6 bg-brand-primary/5">
+              <h2 className="text-lg font-bold mb-4">Sous-catégories</h2>
               {category.category_children?.map((c) => (
                 <li key={c.id}>
                   <InteractiveLink href={`/categories/${c.handle}`}>
@@ -89,9 +101,12 @@ export default function CategoryTemplate({
             page={pageNumber}
             categoryId={category.id}
             countryCode={countryCode}
+            minPrice={minPrice}
+            maxPrice={maxPrice}
           />
         </Suspense>
       </div>
     </div>
   )
 }
+
