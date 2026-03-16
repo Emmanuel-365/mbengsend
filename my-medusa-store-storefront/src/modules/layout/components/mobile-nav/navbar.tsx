@@ -4,13 +4,11 @@ import { useState, Suspense } from "react"
 import { MagnifyingGlass, ShoppingCart, Heart } from "@medusajs/icons"
 import { useParams } from "next/navigation"
 import SearchModal from "../search-modal"
-import CartButton from "../cart-button"
 import { HttpTypes } from "@medusajs/types"
 import { Locale } from "@lib/data/locales"
 import Image from "next/image"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import SideMenu from "../side-menu"
-import WishlistButton from "../wishlist-button"
 
 type MobileNavBarProps = {
   regions: HttpTypes.StoreRegion[] | null
@@ -59,13 +57,21 @@ export default function MobileNavBar({ regions, locales, currentLocale }: Mobile
               <MagnifyingGlass className="w-6 h-6 text-gray-700" />
             </button>
 
-            <Suspense fallback={<div className="w-10 h-10 rounded-lg bg-gray-100 animate-pulse" />}>
-              <WishlistButton />
-            </Suspense>
+            <LocalizedClientLink
+              href="/account/wishlist"
+              className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label="Favoris"
+            >
+              <Heart className="w-6 h-6 text-gray-700" />
+            </LocalizedClientLink>
 
-            <Suspense fallback={<div className="w-10 h-10 rounded-lg bg-gray-100 animate-pulse" />}>
-              <CartButton />
-            </Suspense>
+            <LocalizedClientLink
+              href="/cart"
+              className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label="Panier"
+            >
+              <ShoppingCart className="w-6 h-6 text-gray-700" />
+            </LocalizedClientLink>
           </div>
         </div>
       </div>
