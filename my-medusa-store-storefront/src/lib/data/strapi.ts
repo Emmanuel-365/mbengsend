@@ -82,9 +82,6 @@ export const getPages = async () => {
     const response = await fetchStrapi<StrapiResponse<StrapiPage[]>>(
       "/pages?filters[is_published][$eq]=true&sort=title:asc"
     )
-    console.log("=== STRAPI PAGES RESPONSE ===")
-    console.log(JSON.stringify(response, null, 2))
-    console.log("=== END STRAPI PAGES RESPONSE ===")
     return response.data
   } catch (error) {
     console.error("Error fetching pages from Strapi:", error)

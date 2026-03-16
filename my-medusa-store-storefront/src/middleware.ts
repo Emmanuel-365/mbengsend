@@ -34,13 +34,18 @@ async function getRegionMap(cacheId: string) {
       },
       cache: "force-cache",
     }).then(async (response) => {
-      const json = await response.json()
-
-      if (!response.ok) {
-        throw new Error(json.message)
+      const text = await response.text()
+      try {
+        const json = JSON.parse(text)
+        if (!response.ok) {
+          throw new Error(json.message || `Request failed with status ${response.status}`)
+        }
+        return json
+      } catch (e) {
+        console.error(`Middleware.ts: Failed to parse JSON from ${BACKEND_URL}/store/regions`)
+        console.error("Response text starts with:", text.substring(0, 100))
+        throw new Error(`Medusa API returned invalid JSON: ${text.substring(0, 100)}`)
       }
-
-      return json
     })
 
     if (!regions?.length) {

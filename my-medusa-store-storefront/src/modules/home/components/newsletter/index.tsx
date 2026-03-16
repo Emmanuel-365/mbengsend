@@ -1,3 +1,5 @@
+"use client"
+
 import { Button, Heading, Input, Text as MedusaText } from "@medusajs/ui"
 
 const Newsletter = () => {
