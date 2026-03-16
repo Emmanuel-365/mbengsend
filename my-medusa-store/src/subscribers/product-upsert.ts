@@ -12,7 +12,11 @@ export default async function productUpsertHandler({
     // On récupère les détails complets du produit
     const { data: products } = await query.graph({
         entity: "product",
-        fields: ["id", "title", "handle", "description", "thumbnail", "status"],
+        fields: [
+            "id", "title", "handle", "description", "thumbnail", "status",
+            "categories.*", "variants.*", "variants.calculated_price.*",
+            "created_at"
+        ],
         filters: { id: productId }
     })
 

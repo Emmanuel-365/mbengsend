@@ -48,10 +48,33 @@ export default class MeilisearchService {
                 }
             })
 
-            await index.addDocuments(documents)
+            await index.addDocuments(documents, { primaryKey: "id" })
             this.logger.info(`[Meilisearch] Indexed ${documents.length} products with refined metadata`)
         } catch (error: any) {
             this.logger.error(`[Meilisearch] Indexing failed: ${error.message}`)
+        }
+    }
+
+    /**
+     * Purge the entire index and re-index all provided products.
+     * Use this when duplicates are suspected in the index.
+     */
+    async reindexAll(products: any[]) {
+        try {
+            await this.initPromise
+            const index = this.client.index("products")
+
+            // Delete all documents first
+            await index.deleteAllDocuments()
+            this.logger.info(`[Meilisearch] Purged all documents from 'products' index`)
+
+            // Wait for the delete task to complete
+            await new Promise(resolve => setTimeout(resolve, 1000))
+
+            // Re-index with fresh data
+            await this.indexProducts(products)
+        } catch (error: any) {
+            this.logger.error(`[Meilisearch] Full re-index failed: ${error.message}`)
         }
     }
 

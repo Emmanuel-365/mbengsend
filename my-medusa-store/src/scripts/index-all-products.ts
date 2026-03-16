@@ -11,12 +11,17 @@ export default async function indexAllProducts({ container }: ExecArgs) {
     try {
         const { data: products } = await query.graph({
             entity: "product",
-            fields: ["id", "title", "handle", "description", "thumbnail", "status"]
+            fields: [
+                "id", "title", "handle", "description", "thumbnail", "status",
+                "categories.*", "variants.*", "variants.calculated_price.*",
+                "created_at"
+            ]
         })
 
         if (products.length > 0) {
-            await meilisearchService.indexProducts(products)
-            logger.info(`[Meilisearch] Successfully indexed ${products.length} products.`)
+            // Use reindexAll to purge duplicates and re-index cleanly
+            await meilisearchService.reindexAll(products)
+            logger.info(`[Meilisearch] Successfully re-indexed ${products.length} products (duplicates purged).`)
         } else {
             logger.warn("[Meilisearch] No products found to index.")
         }
