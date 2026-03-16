@@ -67,8 +67,28 @@ export default async function Home(props: {
 
       <HowItWorks />
       <Newsletter />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Mbengsend",
+            "url": "https://mbengsend.com",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://mbengsend.com/search?q={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          }),
+        }}
+      />
     </>
   )
 }
+
 
 

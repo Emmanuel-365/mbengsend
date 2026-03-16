@@ -176,6 +176,30 @@ export default async function Footer() {
           </div>
         </div>
       </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Mbengsend",
+            "url": "https://mbengsend.com",
+            "logo": "https://mbengsend.com/logo.png",
+            "sameAs": [
+              "https://www.instagram.com/mbengsend",
+              "https://www.facebook.com/mbengsend"
+            ],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+237...",
+              "contactType": "customer service",
+              "areaServed": "CM",
+              "availableLanguage": ["French", "English"]
+            }
+          }),
+        }}
+      />
     </footer>
+
   )
 }

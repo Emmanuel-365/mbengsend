@@ -53,18 +53,37 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
   try {
     const productCategory = await getCategoryByHandle(params.category)
-
-    const title = productCategory.name + " | Mbengsend"
-
-    const description = productCategory.description ?? `${title} category.`
+    const title = `${productCategory.name} | Mbengsend`
+    const description = productCategory.description ?? `Découvrez notre sélection de ${productCategory.name} importés d'Europe pour une livraison express au Cameroun.`
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${params.countryCode}/categories/${params.category.join("/")}`
 
     return {
-      title: `${title} | Mbengsend`,
+      title,
       description,
+      openGraph: {
+        title,
+        description,
+        url,
+        type: "website",
+        images: [
+          {
+            url: "/opengraph-image.jpg", // Fallback to global, or use category image if available
+            width: 1200,
+            height: 630,
+            alt: title,
+          }
+        ]
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+      },
       alternates: {
-        canonical: `${params.category.join("/")}`,
+        canonical: url,
       },
     }
+
   } catch (error) {
     notFound()
   }
