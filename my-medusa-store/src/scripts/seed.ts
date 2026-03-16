@@ -173,35 +173,22 @@ export default async function seedDemoData({ container }: ExecArgs) {
     input: {
       locations: [
         {
-          name: "Entrepôt Douala",
-          address: { city: "Douala", country_code: "CM", address_1: "Akwa" },
-        },
-        {
-          name: "Entrepôt Paris (Transit)",
-          address: { city: "Paris", country_code: "FR", address_1: "Roissy" },
-        },
+          name: "Entrepôt Mbengsend Paris",
+          address: { city: "Paris", country_code: "FR", address_1: "Roissy CDG", address_2: "Zone de Fret" },
+        }
       ],
     },
   });
-  const stockLocationCameroon = stockLocationResult.find(l => l.name === "Entrepôt Douala") || stockLocationResult[0];
-  const stockLocationEurope = stockLocationResult.find(l => l.name === "Entrepôt Paris (Transit)") || stockLocationResult[1];
+  const stockLocationEurope = stockLocationResult[0];
 
   await updateStoresWorkflow(container).run({
     input: {
       selector: { id: store.id },
-      update: { default_location_id: stockLocationCameroon.id },
+      update: { default_location_id: stockLocationEurope.id },
     },
   });
 
   await link.create([
-    {
-      [Modules.STOCK_LOCATION]: { stock_location_id: stockLocationCameroon.id },
-      [Modules.FULFILLMENT]: { fulfillment_provider_id: "manual_manual" },
-    },
-    {
-      [Modules.STOCK_LOCATION]: { stock_location_id: stockLocationCameroon.id },
-      [Modules.FULFILLMENT]: { fulfillment_provider_id: "mbengsend_mbengsend" },
-    },
     {
       [Modules.STOCK_LOCATION]: { stock_location_id: stockLocationEurope.id },
       [Modules.FULFILLMENT]: { fulfillment_provider_id: "manual_manual" },
@@ -211,6 +198,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
       [Modules.FULFILLMENT]: { fulfillment_provider_id: "mbengsend_mbengsend" },
     }
   ]);
+
 
   logger.info("Seeding fulfillment data...");
   const shippingProfiles = await fulfillmentModuleService.listShippingProfiles({
@@ -225,20 +213,14 @@ export default async function seedDemoData({ container }: ExecArgs) {
     shippingProfile = shippingProfileResult[0];
   }
 
-  const fulfillmentSetCameroon = await fulfillmentModuleService.createFulfillmentSets({
-    name: "Livraison Locale Cameroun",
+  const fulfillmentSetParis = await fulfillmentModuleService.createFulfillmentSets({
+    name: "Fulfillment Set Paris",
     type: "shipping",
     service_zones: [
       {
         name: "Cameroun",
         geo_zones: [{ country_code: "cm", type: "country" }],
       },
-    ],
-  });
-  const fulfillmentSetEurope = await fulfillmentModuleService.createFulfillmentSets({
-    name: "Expéditions Europe & Fret",
-    type: "shipping",
-    service_zones: [
       {
         name: "Europe",
         geo_zones: countriesEurope.map(c => ({ country_code: c, type: "country" })) as any,
@@ -248,22 +230,22 @@ export default async function seedDemoData({ container }: ExecArgs) {
 
   await link.create([
     {
-      [Modules.STOCK_LOCATION]: { stock_location_id: stockLocationCameroon.id },
-      [Modules.FULFILLMENT]: { fulfillment_set_id: fulfillmentSetCameroon.id },
-    },
-    {
       [Modules.STOCK_LOCATION]: { stock_location_id: stockLocationEurope.id },
-      [Modules.FULFILLMENT]: { fulfillment_set_id: fulfillmentSetEurope.id },
+      [Modules.FULFILLMENT]: { fulfillment_set_id: fulfillmentSetParis.id },
     }
   ]);
+
+  const zoneCameroon = fulfillmentSetParis.service_zones.find(z => z.name === "Cameroun")!;
+  const zoneEurope = fulfillmentSetParis.service_zones.find(z => z.name === "Europe")!;
+
 
   await createShippingOptionsWorkflow(container).run({
     input: [
       {
         name: "Retrait Agence",
-        price_type: "flat", // We can keep it flat because calculation yields 0 but flat is simpler for 0
+        price_type: "flat",
         provider_id: "mbengsend_mbengsend",
-        service_zone_id: fulfillmentSetCameroon.service_zones[0].id,
+        service_zone_id: zoneCameroon.id,
         shipping_profile_id: shippingProfile.id,
         type: { label: "Standard", description: "Retrait dans nos locaux", code: "pickup" },
         data: { id: "pickup" },
@@ -275,9 +257,9 @@ export default async function seedDemoData({ container }: ExecArgs) {
       },
       {
         name: "Livraison à Domicile (Douala/Yaoundé)",
-        price_type: "flat", // simple flat rate fallback for demo
+        price_type: "flat",
         provider_id: "mbengsend_mbengsend",
-        service_zone_id: fulfillmentSetCameroon.service_zones[0].id,
+        service_zone_id: zoneCameroon.id,
         shipping_profile_id: shippingProfile.id,
         type: { label: "Standard", description: "Expédié sous 24-48h", code: "local_delivery" },
         data: { id: "local_delivery" },
@@ -291,7 +273,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
         name: "Fret Maritime Europe -> Cameroun (Au Kg)",
         price_type: "calculated",
         provider_id: "mbengsend_mbengsend",
-        service_zone_id: fulfillmentSetEurope.service_zones[0].id,
+        service_zone_id: zoneEurope.id,
         shipping_profile_id: shippingProfile.id,
         type: { label: "Standard", description: "Environ 3-4 semaines au Kilo", code: "sea_freight" },
         data: { id: "sea_freight" },
@@ -301,7 +283,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
         name: "Fret Aérien Express Europe -> CM (Au Kg)",
         price_type: "calculated",
         provider_id: "mbengsend_mbengsend",
-        service_zone_id: fulfillmentSetEurope.service_zones[0].id,
+        service_zone_id: zoneEurope.id,
         shipping_profile_id: shippingProfile.id,
         type: { label: "Express", description: "Environ 3-5 jours au Kilo", code: "air_freight" },
         data: { id: "air_freight" },
@@ -312,11 +294,9 @@ export default async function seedDemoData({ container }: ExecArgs) {
   logger.info("Finished seeding fulfillment data.");
 
   await linkSalesChannelsToStockLocationWorkflow(container).run({
-    input: { id: stockLocationCameroon.id, add: [defaultSalesChannel[0].id] },
-  });
-  await linkSalesChannelsToStockLocationWorkflow(container).run({
     input: { id: stockLocationEurope.id, add: [defaultSalesChannel[0].id] },
   });
+
   logger.info("Finished seeding stock location data.");
 
   logger.info("Seeding publishable API key data...");
@@ -447,13 +427,13 @@ export default async function seedDemoData({ container }: ExecArgs) {
   const inventoryLevels: CreateInventoryLevelInput[] = [];
   // Give half to Cameroon default, half to Europe
   for (let i = 0; i < inventoryItems.length; i++) {
-    const isEven = i % 2 === 0;
     inventoryLevels.push({
-      location_id: isEven ? stockLocationCameroon.id : stockLocationEurope.id,
-      stocked_quantity: 50,
+      location_id: stockLocationEurope.id,
+      stocked_quantity: 100,
       inventory_item_id: inventoryItems[i].id,
     });
   }
+
 
   await createInventoryLevelsWorkflow(container).run({
     input: { inventory_levels: inventoryLevels },
