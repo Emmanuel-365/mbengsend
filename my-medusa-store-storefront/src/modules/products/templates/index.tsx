@@ -36,17 +36,17 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
   return (
     <>
       <div
-        className="content-container  flex flex-col small:flex-row small:items-start py-6 relative"
+        className="content-container flex flex-col small:flex-row small:items-start py-6 small:py-8 medium:py-12 relative gap-6 small:gap-8 medium:gap-12"
         data-testid="product-container"
       >
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
+        <div className="flex flex-col small:sticky small:top-20 medium:top-32 small:py-0 small:max-w-[250px] medium:max-w-[300px] w-full py-6 gap-y-4 small:gap-y-6">
           <ProductInfo product={product} />
           <ProductTabs product={product} />
         </div>
         <div className="block w-full relative">
           <ImageGallery images={images} />
         </div>
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
+        <div className="flex flex-col small:sticky small:top-20 medium:top-32 small:py-0 small:max-w-[250px] medium:max-w-[300px] w-full py-6 gap-y-8 small:gap-y-12">
           <ProductOnboardingCta />
           <Suspense
             fallback={
@@ -61,11 +61,11 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
           </Suspense>
         </div>
       </div>
-      <div className="content-container my-16 small:my-32">
+      <div className="content-container my-8 small:my-16 medium:my-32">
         <ProductReviews product={product} customer={customer} />
       </div>
       <div
-        className="content-container my-16 small:my-32"
+        className="content-container my-8 small:my-16 medium:my-32"
         data-testid="related-products-container"
       >
         <Suspense fallback={<SkeletonRelatedProducts />}>

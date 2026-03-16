@@ -5,25 +5,22 @@ import { Text, clx } from "@medusajs/ui"
 import Image from "next/image"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import MedusaCTA from "@modules/layout/components/medusa-cta"
-
 export default async function Footer() {
   const { collections } = await listCollections({
     fields: "*products",
   })
   const productCategories = await listCategories()
-  const cmsPages = await getPages()
 
   return (
     <footer className="border-t border-ui-border-base w-full bg-[#FDFDFD]">
       <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-12 small:flex-row items-start justify-between py-24 small:py-32">
-          <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-y-12 small:flex-row items-start justify-between py-12 small:py-24 medium:py-32">
+          <div className="flex flex-col gap-4 w-full small:w-auto">
             <LocalizedClientLink
               href="/"
               className="flex items-center gap-3 group/logo-footer"
             >
-              <div className="relative w-12 h-12">
+              <div className="relative w-10 small:w-12 h-10 small:h-12">
                 <Image 
                   src="/logo.png" 
                   alt="Mbengsend Logo" 
@@ -31,15 +28,15 @@ export default async function Footer() {
                   className="object-contain"
                 />
               </div>
-              <span className="text-2xl font-display font-bold text-brand-secondary tracking-tight">
+              <span className="text-xl small:text-2xl font-display font-bold text-brand-secondary tracking-tight">
                 Mbengsend
               </span>
             </LocalizedClientLink>
-            <Text className="text-base text-ui-fg-subtle max-w-[300px] mt-2">
+            <Text className="text-sm small:text-base text-ui-fg-subtle max-w-[300px] mt-2">
               Votre passerelle privilégiée pour vos achats en Europe et leur livraison ultra-rapide au Cameroun.
             </Text>
           </div>
-          <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-4 mt-12 small:mt-0">
+          <div className="text-small-regular gap-6 small:gap-10 medium:gap-x-16 grid grid-cols-2 small:grid-cols-4 w-full small:w-auto mt-8 small:mt-0">
             {productCategories && productCategories?.length > 0 && (
               <div className="flex flex-col gap-y-4">
                 <span className="text-brand-dark font-display font-bold text-sm uppercase tracking-widest">
@@ -167,8 +164,8 @@ export default async function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex w-full py-8 border-t border-grey-10 justify-between items-center text-ui-fg-muted">
-          <Text className="text-xs text-ui-fg-subtle font-medium">
+        <div className="flex flex-col small:flex-row w-full py-6 small:py-8 border-t border-grey-10 justify-between items-center text-ui-fg-muted gap-4 small:gap-0">
+          <Text className="text-xs text-ui-fg-subtle font-medium text-center small:text-left">
             © {new Date().getFullYear()} Mbengsend. Tous droits réservés.
           </Text>
           <div className="flex gap-4">
