@@ -107,8 +107,8 @@ export function Pagination({
 
   // Render the component
   return (
-    <div className="flex justify-center w-full mt-12">
-      <div className="flex gap-3 items-end" data-testid={dataTestid}>{renderPageButtons()}</div>
+    <div className="flex justify-center w-full mt-8 small:mt-12">
+      <div className="flex gap-2 small:gap-3 items-end flex-wrap justify-center" data-testid={dataTestid}>{renderPageButtons()}</div>
     </div>
   )
 }

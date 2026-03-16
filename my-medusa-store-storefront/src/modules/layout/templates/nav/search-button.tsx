@@ -14,8 +14,9 @@ export default function SearchButton() {
     <>
       <button
         onClick={() => setIsSearchOpen(true)}
-        className="hover:text-brand-primary transition-colors flex items-center gap-x-2 font-semibold"
+        className="hover:text-brand-primary transition-colors flex items-center gap-x-2 font-semibold p-2 -m-2 rounded-lg hover:bg-gray-100/50"
         data-testid="nav-search-button"
+        aria-label="Ouvrir la recherche"
       >
         <MagnifyingGlass className="w-5 h-5" />
         <span className="hidden small:inline">Rechercher</span>
