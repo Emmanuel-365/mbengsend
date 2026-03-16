@@ -1,3 +1,5 @@
+"use client"
+
 import { Suspense } from "react"
 import { StoreRegion } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
