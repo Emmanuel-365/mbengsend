@@ -18,7 +18,7 @@ export default function SearchButton() {
         data-testid="nav-search-button"
         aria-label="Ouvrir la recherche"
       >
-        <MagnifyingGlass className="w-5 h-5" />
+        <MagnifyingGlass className="w-6 h-6" />
         <span className="hidden small:inline">Rechercher</span>
       </button>
       
