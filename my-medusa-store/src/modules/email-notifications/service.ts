@@ -29,7 +29,7 @@ class ResendNotificationProviderService extends AbstractNotificationProviderServ
 
         try {
             const emailOptions = {
-                from: 'Mbengsend <onboarding@resend.dev>', // You should change this to a verified domain in production
+                from: 'Mbengsend <contact@mbengsend.com>', // L'adresse vérifiée dans Resend
                 to: notification.to,
                 subject: notification.template || 'Notification from Mbengsend',
                 html: (notification.data?.html as string) || '<p>You have a new notification from Mbengsend.</p>',
