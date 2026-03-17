@@ -3,11 +3,11 @@ import ShippingForm from "@modules/shipping/components/shipping-form"
 import { getBaseURL } from "@lib/util/env"
 
 export const metadata: Metadata = {
-    title: "Expédier un colis | Mbengsend - Devis Gratuit Europe-Cameroun",
-    description: "Besoin d'envoyer un colis au Cameroun ou en Europe ? Utilisez notre simulateur pour obtenir une estimation immédiate pour le fret aérien, maritime ou local.",
+    title: "Expédier un colis | Mbengsend - Devis Gratuit Cameroun-Europe",
+    description: "Besoin d'envoyer un colis du Cameroun vers l'Europe ou vice-versa ? Utilisez notre simulateur pour obtenir une estimation immédiate.",
     openGraph: {
         title: "Expédier un colis avec Mbengsend",
-        description: "Devis en temps réel pour vos expéditions entre l'Europe et le Cameroun.",
+        description: "Devis en temps réel pour vos expéditions entre le Cameroun et l'Europe.",
         type: "website",
     }
 }
@@ -17,7 +17,7 @@ export default function ShippingPage() {
         "@context": "https://schema.org",
         "@type": "Service",
         "name": "Service d'expédition Mbengsend",
-        "description": "Transport de colis international spécialisé entre l'Europe et le Cameroun.",
+        "description": "Transport de colis international spécialisé entre le Cameroun et l'Europe.",
         "provider": {
             "@type": "Organization",
             "name": "Mbengsend",

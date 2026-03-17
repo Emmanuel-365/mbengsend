@@ -5,7 +5,7 @@ import Image from "next/image"
 export const metadata: Metadata = {
   title: "À propos de nous | Mbengsend",
   description:
-    "Découvrez l'histoire de Mbengsend, votre partenaire de confiance pour des achats de qualité en Europe livrés directement au Cameroun.",
+    "Découvrez l'histoire de Mbengsend, votre partenaire de confiance pour découvrir et acheter l'excellence des produits camerounais en Europe.",
 }
 
 export default function AboutPage() {
@@ -18,7 +18,7 @@ export default function AboutPage() {
             Notre Mission
           </Heading>
           <Text className="text-lg md:text-xl text-ui-fg-muted max-w-3xl">
-            Rapprocher l'Europe et le Cameroun. Nous rendons les produits internationaux de haute qualité accessibles à tous, avec un service de logistique rapide et transparent.
+            Valoriser le savoir-faire camerounais à l'international. Nous rendons les produits de haute qualité issus de notre terroir accessibles à tous en Europe, avec un service logistique d'excellence.
           </Text>
         </div>
 
@@ -30,10 +30,10 @@ export default function AboutPage() {
             </Heading>
             <div className="flex flex-col gap-y-4 text-ui-fg-subtle text-base leading-relaxed">
               <p>
-                Née d'un constat simple, Mbengsend a été fondée pour combler le vide entre le vaste marché européen et les consommateurs exigeants du Cameroun. Trop souvent, obtenir des produits de qualité internationale nécessitait des démarches complexes, des coûts cachés, et des délais interminables.
+                Née d'un constat simple, Mbengsend a été fondée pour faire briller le Cameroun sur la scène européenne. Trop souvent, l'accès aux produits d'excellence de notre terroir était limité par des barrières logistiques complexes pour ceux qui résident à l'étranger.
               </p>
               <p>
-                Nous avons décidé de changer cela. En combinant une plateforme e-commerce moderne à notre propre infrastructure logistique de fret (aérien et maritime), nous offrons aujourd'hui une expérience d'achat fluide, de la commande en ligne jusqu'à la livraison à votre porte.
+                Nous avons décidé de changer cela. En combinant une plateforme e-commerce moderne à notre propre infrastructure logistique de fret, nous offrons aujourd'hui une expérience d'achat fluide, permettant au meilleur du Cameroun de voyager jusqu'à votre porte en Europe.
               </p>
             </div>
 

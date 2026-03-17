@@ -4,17 +4,17 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import StoreTemplate from "@modules/store/templates"
 
 export const metadata: Metadata = {
-  title: "Boutique Mbengsend | Tous nos Produits Européens",
-  description: "Explorez notre catalogue complet de produits sourcés en Europe et livrés au Cameroun. Mode, électronique, cosmétiques et bien plus.",
+  title: "Boutique Mbengsend | L'Excellence du Terroir Camerounais",
+  description: "Explorez notre catalogue complet de produits camerounais livrés en Europe. Artisanat, alimentation, cosmétiques naturels et bien plus.",
   openGraph: {
-    title: "Boutique Mbengsend | Shopping Europe-Cameroun",
-    description: "Le meilleur du catalogue européen disponible immédiatement pour le Cameroun.",
+    title: "Boutique Mbengsend | L'Excellence du Cameroun en Europe",
+    description: "Le meilleur du terroir camerounais disponible immédiatement pour l'Europe.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Boutique Mbengsend | Shopping Europe-Cameroun",
-    description: "Catalogue complet de produits importés d'Europe.",
+    title: "Boutique Mbengsend | L'Excellence du Cameroun en Europe",
+    description: "Catalogue complet de produits d'excellence du Cameroun.",
   },
 }
 

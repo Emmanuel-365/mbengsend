@@ -33,7 +33,7 @@ export default async function Footer() {
               </span>
             </LocalizedClientLink>
             <Text className="text-sm small:text-base text-ui-fg-subtle max-w-[300px] mt-2">
-              Votre passerelle privilégiée pour vos achats en Europe et leur livraison ultra-rapide au Cameroun.
+              Votre passerelle privilégiée pour découvrir l'excellence camerounaise et la faire rayonner en Europe.
             </Text>
           </div>
           <div className="text-small-regular gap-6 small:gap-10 medium:gap-x-16 grid grid-cols-2 small:grid-cols-4 w-full small:w-auto mt-8 small:mt-0">

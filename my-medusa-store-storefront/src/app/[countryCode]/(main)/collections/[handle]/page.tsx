@@ -65,7 +65,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   const title = `${collection.title} | Mbengsend`
-  const description = `Découvrez la collection ${collection.title} sur Mbengsend. Produits authentiques d'Europe, livrés au Cameroun et en Europe.`
+  const description = `Découvrez la collection ${collection.title} sur Mbengsend. L'excellence des produits camerounais, livrés partout en Europe.`
   const url = `${getBaseURL()}/${params.countryCode}/collections/${params.handle}`
 
   return {

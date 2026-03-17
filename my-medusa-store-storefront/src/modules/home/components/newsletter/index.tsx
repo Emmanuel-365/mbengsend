@@ -33,7 +33,7 @@ const Newsletter = () => {
                     Rejoignez le <span className="text-brand-primary">Cercle Mbengsend</span>
                 </Heading>
                 <MedusaText className="text-base small:text-lg text-white/70 max-w-[600px] mb-8 small:mb-12">
-                    Soyez les premiers informés de nos nouveaux arrivages d'Europe, de nos promotions exclusives et de nos actualités logistiques.
+                    Soyez les premiers informés de nos nouveaux arrivages du terroir, de nos promotions exclusives et de nos actualités logistiques vers l'Europe.
                 </MedusaText>
 
                 <form className="flex flex-col small:flex-row gap-3 small:gap-4 w-full max-w-[500px]" onSubmit={(e) => e.preventDefault()}>

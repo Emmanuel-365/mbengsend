@@ -54,7 +54,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   try {
     const productCategory = await getCategoryByHandle(params.category)
     const title = `${productCategory.name} | Mbengsend`
-    const description = productCategory.description ?? `Découvrez notre sélection de ${productCategory.name} importés d'Europe pour une livraison express au Cameroun.`
+    const description = productCategory.description ?? `Découvrez notre sélection de ${productCategory.name} du terroir camerounais, livrés en Europe avec Mbengsend.`
     const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${params.countryCode}/categories/${params.category.join("/")}`
 
     return {

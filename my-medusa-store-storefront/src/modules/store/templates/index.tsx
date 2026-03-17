@@ -45,9 +45,9 @@ const StoreTemplate = async ({
         {/* Page Title */}
         <div className="mb-8 small:mb-12">
           <h1 className="text-3xl small:text-4xl medium:text-5xl font-display font-bold text-brand-dark tracking-tight" data-testid="store-page-title">
-            Tous les <span className="text-brand-primary">produits</span>
+            Notre <span className="text-brand-primary">Collection</span>
           </h1>
-          <p className="text-sm small:text-base text-ui-fg-subtle mt-2">Découvrez notre collection exclusive sélectionnée en Europe.</p>
+          <p className="text-sm small:text-base text-ui-fg-subtle mt-2">Découvrez l'excellence du terroir et de l'artisanat camerounais, sélectionnés pour vous.</p>
         </div>
 
         {/* Products Grid */}

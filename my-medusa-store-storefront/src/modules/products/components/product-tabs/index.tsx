@@ -87,7 +87,7 @@ const ShippingInfoTab = () => {
           <div>
             <span className="font-bold text-brand-dark block mb-1 text-base">Livraison Rapide</span>
             <p className="max-w-sm leading-relaxed">
-              Votre colis arrivera en 5 à 10 jours ouvrés directement au Cameroun (Douala/Yaoundé) ou à votre domicile.
+              Votre colis arrivera en 5 à 10 jours ouvrés directement à votre domicile partout en Europe.
             </p>
           </div>
         </div>

@@ -35,11 +35,11 @@ const Hero = () => {
               level="h1"
               className="text-3xl small:text-5xl medium:text-7xl font-display font-bold text-brand-dark leading-[1.1] tracking-tight"
             >
-              L'Europe à portée <br />
-              <span className="text-brand-primary">de votre main.</span>
+              Le Cameroun <br />
+              <span className="text-brand-primary">au cœur de l'Europe.</span>
             </Heading>
             <Text className="text-base small:text-lg text-ui-fg-subtle max-w-[480px] leading-relaxed">
-              Faites vos achats en Europe et faites-vous livrer au Cameroun en toute sérénité. Mbengsend redéfinit le shopping transcontinental avec élégance.
+              Découvrez l'excellence des produits camerounais livrés partout en Europe. Mbengsend connecte le savoir-faire local aux marchés internationaux avec élégance.
             </Text>
           </div>
 

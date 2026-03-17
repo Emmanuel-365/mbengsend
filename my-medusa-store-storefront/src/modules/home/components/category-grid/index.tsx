@@ -20,7 +20,7 @@ const CategoryGrid = ({ categories }: { categories: HttpTypes.StoreProductCatego
                     Nos <span className="text-brand-primary">Rayons</span>
                 </Heading>
                 <MedusaText className="text-sm small:text-base text-ui-fg-subtle max-w-[600px] mt-2 small:mt-4">
-                    Naviguez à travers nos sélections exclusives importées d'Europe pour votre plus grand plaisir.
+                    Naviguez à travers nos sélections exclusives issues du meilleur du terroir camerounais.
                 </MedusaText>
             </div>
 

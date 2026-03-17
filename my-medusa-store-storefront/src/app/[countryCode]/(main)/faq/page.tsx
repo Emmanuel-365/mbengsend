@@ -4,7 +4,7 @@ import { Heading, Text } from "@medusajs/ui"
 export const metadata: Metadata = {
   title: "Foire Aux Questions | Mbengsend",
   description:
-    "Vous avez des questions sur nos services, la livraison vers le Cameroun ou les paiements ? Trouvez vos réponses ici.",
+    "Vous avez des questions sur nos produits camerounais, la livraison vers l'Europe ou les paiements ? Trouvez vos réponses ici.",
 }
 
 const faqs = [
@@ -13,11 +13,11 @@ const faqs = [
     questions: [
       {
         q: "Comment fonctionne Mbengsend ?",
-        a: "Nous sourçons des produits de haute qualité depuis l'Europe (France, Allemagne, etc.) que vous pouvez acheter directement sur notre plateforme. Une fois la commande passée, nous gérons toute la logistique jusqu'à la livraison entre vos mains au Cameroun.",
+        a: "Nous sélectionnons l'excellence des produits du terroir et de l'artisanat camerounais pour les proposer au marché européen. Une fois votre commande passée, nous gérons toute la logistique depuis le Cameroun jusqu'à votre domicile en Europe.",
       },
       {
-        q: "Puis-je commander des produits qui ne sont pas sur le site ?",
-        a: "Pour le moment, nous proposons uniquement les produits listés sur notre boutique. Cependant, notre catalogue s'enrichit régulièrement selon la demande de nos clients au Cameroun.",
+        q: "Les produits sont-ils authentiques ?",
+        a: "Absolument. Nous travaillons en collaboration directe avec des producteurs et artisans locaux au Cameroun pour vous garantir des produits authentiques, éthiques et de haute qualité.",
       },
     ]
   },
@@ -26,11 +26,7 @@ const faqs = [
     questions: [
       {
         q: "Quels sont les moyens de paiement acceptés ?",
-        a: "Nous acceptons les cartes bancaires internationales (Visa, Mastercard via Stripe), PayPal, ainsi que les paiements par Mobile Money (Orange Money, MTN Mobile Money) via notre partenaire Flutterwave pour les résidents au Cameroun.",
-      },
-      {
-        q: "Le paiement à la livraison est-il possible ?",
-        a: "Oui, le Paiement à la Livraison (Cash On Delivery) est disponible pour certaines zones géographiques (notamment Yaoundé et Douala) et sous conditions. Cette option apparaîtra lors de la finalisation de votre commande si vous y êtes éligible.",
+        a: "Nous acceptons les cartes bancaires internationales (Visa, Mastercard via Stripe) ainsi que PayPal pour nos clients en Europe. Pour nos clients au Cameroun, les paiements par Mobile Money sont également disponibles.",
       },
     ]
   },
@@ -38,16 +34,16 @@ const faqs = [
     category: "Livraison & Logistique",
     questions: [
       {
-        q: "Quels sont les délais de livraison vers le Cameroun ?",
-        a: "Les délais dépendent du mode de transport choisi. Le Fret Aérien (Air Freight) prend généralement 5 à 10 jours ouvrés. Le Fret Maritime (Sea Freight), plus économique pour les articles volumineux, prend entre 4 et 6 semaines.",
+        q: "Quels sont les délais de livraison vers l'Europe ?",
+        a: "Nos délais de livraison standard vers l'Europe sont de 5 à 10 jours ouvrés par fret aérien. Pour certains articles volumineux ou commandes spéciales, nous proposons également des options de fret maritime avec des délais adaptés.",
       },
       {
         q: "Comment puis-je suivre ma commande ?",
-        a: "Une fois votre commande expédiée de notre plateforme européenne, vous recevrez un email contenant un numéro de suivi. Vous pourrez suivre l'avancée de votre colis, de son départ d'Europe jusqu'à son arrivée au port ou à l'aéroport au Cameroun, puis lors de la distribution locale.",
+        a: "Dès l'expédition de votre colis depuis notre plateforme logistique au Cameroun, vous recevrez un email avec un numéro de suivi. Vous pourrez suivre son trajet jusqu'à la livraison finale à votre porte en Europe.",
       },
       {
-        q: "Dois-je payer des frais de douane à la réception ?",
-        a: "Non ! Chez Mbengsend, nous fonctionnons en 'DDP' (Delivery Duty Paid). Les prix affichés sur le site et les frais de livraison incluent déjà les frais de dédouanement. Vous n'aurez rien à payer en plus au Cameroun.",
+        q: "Y a-t-il des frais de douane à prévoir ?",
+        a: "Dans la plupart des cas, nos prix affichés incluent déjà les frais logistiques. Pour les livraisons en Europe, nous nous efforçons de simplifier au maximum les démarches administratives pour que vous receviez votre colis sans tracas.",
       },
     ]
   }

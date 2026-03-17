@@ -89,8 +89,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
-  const title = `${product.title} | Mbengsend - Livraison Europe & Cameroun`
-  const description = product.description || `Achetez ${product.title} sur Mbengsend. Produit de qualité maritime avec livraison sécurisée entre l'Europe et le Cameroun.`
+  const title = `${product.title} | Mbengsend - L'Excellence du Cameroun`
+  const description = product.description || `Achetez ${product.title} sur Mbengsend. Produit d'excellence camerounaise avec livraison sécurisée en Europe.`
 
   return {
     title,

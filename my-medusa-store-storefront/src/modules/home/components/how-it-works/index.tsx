@@ -3,18 +3,18 @@ import { motion } from "framer-motion"
 
 const steps = [
     {
-        title: "Sélectionnez vos Articles",
-        description: "Parcourez notre catalogue et choisissez vos produits parmi une sélection exclusive d'articles venus d'Europe.",
-        icon: "🛍️",
+        title: "Sélectionnez l'Excellence",
+        description: "Parcourez notre catalogue et choisissez vos produits parmi une sélection exclusive du meilleur du terroir camerounais.",
+        icon: "🇨🇲",
     },
     {
         title: "Paiement Sécurisé",
-        description: "Réglez vos achats en toute sécurité. Nous acceptons divers modes de paiement, y compris le paiement à la livraison au Cameroun.",
+        description: "Réglez vos achats en toute sécurité. Nous acceptons divers modes de paiement internationaux pour faciliter vos transactions.",
         icon: "💳",
     },
     {
-        title: "Livraison Rapide",
-        description: "Nous expédions vos colis vers le Cameroun. Suivez votre commande et recevez-la chez vous ou en point relais.",
+        title: "Livraison en Europe",
+        description: "Nous expédions vos produits directement du Cameroun vers l'Europe. Suivez votre colis jusqu'à votre porte.",
         icon: "✈️",
     },
 ]
@@ -28,7 +28,7 @@ export default function HowItWorks() {
                         Comment ça marche ?
                     </Heading>
                     <Text className="text-ui-fg-subtle text-lg max-w-2xl mx-auto">
-                        La simplicité d'un achat en Europe, avec la garantie d'une livraison au Cameroun sans tracas.
+                        Le meilleur du Cameroun, livré chez vous en Europe avec la garantie d'un service premium et sans tracas.
                     </Text>
                 </div>
 

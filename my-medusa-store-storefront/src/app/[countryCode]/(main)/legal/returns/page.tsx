@@ -16,7 +16,7 @@ export default function ReturnsPage() {
             Politique de Retours et Remboursements
           </Heading>
           <Text className="text-lg text-ui-fg-muted">
-            Chez Mbengsend, votre satisfaction est primordiale. En raison de la nature internationale de nos envois (Europe vers Cameroun), notre politique de retour est encadrée pour limiter les abus tout en vous protégeant efficacement.
+            Chez Mbengsend, votre satisfaction est primordiale. En raison de la nature internationale de nos envois (Cameroun vers Europe), notre politique de retour est encadrée pour limiter les abus tout en vous protégeant efficacement.
           </Text>
         </div>
 
@@ -30,9 +30,9 @@ export default function ReturnsPage() {
               <Heading level="h2" className="text-2xl font-display text-brand-dark">Droits de Rétractation (Europe)</Heading>
             </div>
             <div className="pl-12 flex flex-col gap-y-4 text-ui-fg-subtle">
-              <p>Conformément à la législation européenne, les clients résidant en Europe (qui se font livrer en Europe) disposent d'un délai de <strong>14 jours</strong> pour retourner un produit sans justification.</p>
-              <p>Pour être éligible, l'article doit être exactement dans le même état que celui dans lequel vous l'avez reçu : non ouvert, non porté avec ses étiquettes d'origine.</p>
-              <p>Les frais de retour vers notre entrepôt européen sont <strong>à la charge du client</strong> dans ce cas de figure.</p>
+              <p>Conformément à la législation européenne, les clients résidant en Europe disposent d'un délai de <strong>14 jours</strong> pour retourner un produit sans justification.</p>
+              <p>Pour être éligible, l'article doit être exactement dans le même état que celui dans lequel vous l'avez reçu : non ouvert, non utilisé avec ses étiquettes d'origine.</p>
+              <p>Les frais de retour vers notre plateforme logistique sont <strong>à la charge du client</strong> dans ce cas de figure.</p>
             </div>
           </div>
 
@@ -42,10 +42,10 @@ export default function ReturnsPage() {
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-primary/20 text-brand-primary font-bold text-sm">
                 2
               </span>
-              <Heading level="h2" className="text-2xl font-display text-brand-dark">Retours au Cameroun</Heading>
+              <Heading level="h2" className="text-2xl font-display text-brand-dark">Produits non conformes</Heading>
             </div>
             <div className="pl-12 flex flex-col gap-y-4 text-ui-fg-subtle">
-              <p>En raison des coûts logistiques importants d'un retour intercontinental, les retours depuis le Cameroun s'appliquent uniquement en cas de <strong>produit défectueux ou non conforme à la commande</strong>.</p>
+              <p>En cas de <strong>produit défectueux ou non conforme à la commande</strong>, Mbengsend s'engage à vous proposer un échange ou un remboursement intégral.</p>
               <ul className="list-disc pl-5 space-y-2">
                 <li>Le signalement doit être fait dans les <strong>48 heures</strong> suivant la réception du colis.</li>
                 <li>Contactez notre service client via la page <a href="/contact" className="text-brand-primary hover:underline">Contact</a> avec photos à l'appui.</li>

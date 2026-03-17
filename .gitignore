@@ -36,3 +36,7 @@ out/
 .cache/
 .vercel
 tsconfig.tsbuildinfo
+
+# Agentics AI
+.gemini
+.agent

@@ -2,23 +2,23 @@ import { Text } from "@medusajs/ui"
 
 const features = [
     {
-        title: "Authenticité Garantie",
-        description: "Tous nos produits sont sourcés directement auprès de marques européennes reconnues.",
-        icon: "✓",
+        title: "Savoir-faire Authentique",
+        description: "Tous nos produits sont sourcés directement auprès de producteurs et artisans camerounais.",
+        icon: "🇨🇲",
     },
     {
-        title: "Livraison Express",
-        description: "Expéditions régulières entre la France et le Cameroun pour des délais optimisés.",
-        icon: "⚡",
+        title: "Livraison en Europe",
+        description: "Expéditions régulières du Cameroun vers l'Europe pour des délais optimisés.",
+        icon: "✈️",
     },
     {
         title: "Service Client 7j/7",
-        description: "Une équipe dédiée à votre écoute pour un accompagnement personnalisé.",
+        description: "Une équipe dédiée à votre écoute pour un accompagnement personnalisé en Europe.",
         icon: "💬",
     },
     {
-        title: "Paiement Flexible",
-        description: "Plusieurs options adaptées à vos besoins, en Europe comme au Cameroun.",
+        title: "Paiement Sécurisé",
+        description: "Options de paiement internationales sécurisées adaptées à vos besoins.",
         icon: "🛡️",
     },
 ]
