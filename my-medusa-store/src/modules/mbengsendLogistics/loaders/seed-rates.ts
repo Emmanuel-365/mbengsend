@@ -24,6 +24,7 @@ export default async function seedShippingRates({ container }: LoaderOptions) {
         }
         logger.info("[Mbengsend Logistics] Seeding completed or already present.")
     } catch (error) {
-        logger.warn(`[Mbengsend Logistics] Seeding loader could not run yet: ${error.message}`)
+        // En phase de build ou de migration initiale, le module n'est pas toujours disponible dans le conteneur
+        logger.info(`[Mbengsend Logistics] Ignoré: Le module n'est pas encore prêt ou n'a pas pu être résolu.`)
     }
 }

@@ -98,6 +98,15 @@ export default function MobileNavBar({ regions, locales, currentLocale }: Mobile
             <span className="text-xs font-medium text-gray-700">Boutique</span>
           </LocalizedClientLink>
 
+          {/* Shipping */}
+          <LocalizedClientLink
+            href="/shipping"
+            className="flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors flex-1 text-blue-600"
+          >
+            <span className="text-xl leading-none flex items-center justify-center h-6">📦</span>
+            <span className="text-xs font-semibold">Expédier</span>
+          </LocalizedClientLink>
+
           {/* Wishlist */}
           <LocalizedClientLink
             href="/account/wishlist"

@@ -105,6 +105,47 @@
           "nullable": true,
           "mappedType": "integer"
         },
+        "length": {
+          "name": "length",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "width": {
+          "name": "width",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "height": {
+          "name": "height",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "shipping_mode": {
+          "name": "shipping_mode",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "enumItems": [
+            "air_freight",
+            "sea_freight",
+            "local_delivery"
+          ],
+          "mappedType": "enum"
+        },
         "package_description": {
           "name": "package_description",
           "type": "text",
