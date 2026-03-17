@@ -55,16 +55,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         )
     }
 
+    // Helper pour vérifier qu'une URL ne contient pas de caractères XML invalides
+    const isSafeXmlUrl = (url: string) => !url.includes("&") && !url.includes("<") && !url.includes(">") && !url.includes("\"") && !url.includes("'")
+
     // Categories
     const categoriesPromise = async () => {
         const categories = await listCategories().catch(() => [])
         return countryCodes.flatMap((country) =>
-            categories.map((c) => ({
-                url: `${baseUrl}/${country}/categories/${c.handle}`,
-                lastModified: new Date(c.updated_at || new Date()),
-                changeFrequency: "monthly" as const,
-                priority: 0.6,
-            }))
+            categories
+                .map((c) => ({
+                    url: `${baseUrl}/${country}/categories/${c.handle}`,
+                    lastModified: new Date(c.updated_at || new Date()),
+                    changeFrequency: "monthly" as const,
+                    priority: 0.6,
+                }))
+                .filter((entry) => isSafeXmlUrl(entry.url))
         )
     }
 
