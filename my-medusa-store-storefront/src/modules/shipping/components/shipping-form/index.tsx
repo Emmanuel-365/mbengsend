@@ -6,6 +6,37 @@ import { Button, Heading, Text } from "@medusajs/ui"
 import { motion, AnimatePresence } from "framer-motion"
 import { CheckCircleSolid } from "@medusajs/icons"
 
+// A sleek input component wrapper
+const InputGroup = ({ label, name, type = "text", placeholder, required = true, isTextArea = false, value, onChange }: any) => (
+    <div className="flex flex-col gap-y-1.5 focus-within:text-blue-600 transition-colors">
+        <label htmlFor={name} className="text-sm font-medium text-gray-700">
+            {label} {required && <span className="text-red-500">*</span>}
+        </label>
+        {isTextArea ? (
+            <textarea
+                id={name}
+                name={name}
+                value={value}
+                onChange={onChange}
+                placeholder={placeholder}
+                required={required}
+                className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition-all outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 hover:border-gray-300 min-h-[100px] resize-y"
+            />
+        ) : (
+            <input
+                id={name}
+                name={name}
+                type={type}
+                value={value}
+                onChange={onChange}
+                placeholder={placeholder}
+                required={required}
+                className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition-all outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 hover:border-gray-300"
+            />
+        )}
+    </div>
+)
+
 export default function ShippingForm() {
     const [formData, setFormData] = useState({
         sender_name: "",
@@ -138,37 +169,6 @@ export default function ShippingForm() {
         }
     }
 
-    // A sleek input component wrapper
-    const InputGroup = ({ label, name, type = "text", placeholder, required = true, isTextArea = false }: any) => (
-        <div className="flex flex-col gap-y-1.5 focus-within:text-blue-600 transition-colors">
-            <label htmlFor={name} className="text-sm font-medium text-gray-700">
-                {label} {required && <span className="text-red-500">*</span>}
-            </label>
-            {isTextArea ? (
-                <textarea
-                    id={name}
-                    name={name}
-                    value={(formData as any)[name]}
-                    onChange={handleChange}
-                    placeholder={placeholder}
-                    required={required}
-                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition-all outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 hover:border-gray-300 min-h-[100px] resize-y"
-                />
-            ) : (
-                <input
-                    id={name}
-                    name={name}
-                    type={type}
-                    value={(formData as any)[name]}
-                    onChange={handleChange}
-                    placeholder={placeholder}
-                    required={required}
-                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition-all outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 hover:border-gray-300"
-                />
-            )}
-        </div>
-    )
-
     return (
         <div className="max-w-4xl mx-auto w-full">
             <AnimatePresence mode="wait">
@@ -228,10 +228,10 @@ export default function ShippingForm() {
                                         <Heading level="h3" className="text-xl font-semibold text-slate-800">Origine (Vous)</Heading>
                                     </div>
                                     <div className="space-y-5">
-                                        <InputGroup label="Nom complet" name="sender_name" placeholder="Ex: Jean Dupont" />
-                                        <InputGroup label="Numéro de téléphone" name="sender_phone" type="tel" placeholder="+33 6 12 34 56 78" />
-                                        <InputGroup label="Ville de départ" name="origin_city" placeholder="Ex: Paris" />
-                                        <InputGroup label="Adresse complète" name="sender_address" placeholder="123 Rue de la République" />
+                                        <InputGroup label="Nom complet" name="sender_name" value={formData.sender_name} onChange={handleChange} placeholder="Ex: Jean Dupont" />
+                                        <InputGroup label="Numéro de téléphone" name="sender_phone" type="tel" value={formData.sender_phone} onChange={handleChange} placeholder="+33 6 12 34 56 78" />
+                                        <InputGroup label="Ville de départ" name="origin_city" value={formData.origin_city} onChange={handleChange} placeholder="Ex: Paris" />
+                                        <InputGroup label="Adresse complète" name="sender_address" value={formData.sender_address} onChange={handleChange} placeholder="123 Rue de la République" />
                                     </div>
                                 </div>
 
@@ -242,10 +242,10 @@ export default function ShippingForm() {
                                         <Heading level="h3" className="text-xl font-semibold text-slate-800">Destination</Heading>
                                     </div>
                                     <div className="space-y-5">
-                                        <InputGroup label="Nom complet du destinataire" name="receiver_name" placeholder="Ex: Marie Curie" />
-                                        <InputGroup label="Numéro de téléphone" name="receiver_phone" type="tel" placeholder="+33 6 98 76 54 32" />
-                                        <InputGroup label="Ville d'arrivée" name="destination_city" placeholder="Ex: Yaoundé" />
-                                        <InputGroup label="Adresse complète" name="receiver_address" placeholder="Quartier Bastos" />
+                                        <InputGroup label="Nom complet du destinataire" name="receiver_name" value={formData.receiver_name} onChange={handleChange} placeholder="Ex: Marie Curie" />
+                                        <InputGroup label="Numéro de téléphone" name="receiver_phone" type="tel" value={formData.receiver_phone} onChange={handleChange} placeholder="+33 6 98 76 54 32" />
+                                        <InputGroup label="Ville d'arrivée" name="destination_city" value={formData.destination_city} onChange={handleChange} placeholder="Ex: Yaoundé" />
+                                        <InputGroup label="Adresse complète" name="receiver_address" value={formData.receiver_address} onChange={handleChange} placeholder="Quartier Bastos" />
                                     </div>
                                 </div>
                             </div>
@@ -262,6 +262,8 @@ export default function ShippingForm() {
                                         <InputGroup
                                             label="Description du colis"
                                             name="package_description"
+                                            value={formData.package_description}
+                                            onChange={handleChange}
                                             placeholder="Décrivez brièvement le contenu de votre colis (ex: Vêtements, Électronique, Documents)..."
                                             isTextArea
                                         />
@@ -271,19 +273,21 @@ export default function ShippingForm() {
                                             label="Poids estimé (kg)"
                                             name="package_weight"
                                             type="number"
+                                            value={formData.package_weight}
+                                            onChange={handleChange}
                                             placeholder="Ex: 2.5"
                                             required={false}
                                         />
                                     </div>
                                     <div className="flex gap-2">
                                         <div className="flex-1">
-                                            <InputGroup label="L (cm)" name="length" type="number" placeholder="40" required={false} />
+                                            <InputGroup label="L (cm)" name="length" type="number" value={formData.length} onChange={handleChange} placeholder="40" required={false} />
                                         </div>
                                         <div className="flex-1">
-                                            <InputGroup label="l (cm)" name="width" type="number" placeholder="30" required={false} />
+                                            <InputGroup label="l (cm)" name="width" type="number" value={formData.width} onChange={handleChange} placeholder="30" required={false} />
                                         </div>
                                         <div className="flex-1">
-                                            <InputGroup label="H (cm)" name="height" type="number" placeholder="20" required={false} />
+                                            <InputGroup label="H (cm)" name="height" type="number" value={formData.height} onChange={handleChange} placeholder="20" required={false} />
                                         </div>
                                     </div>
                                     
