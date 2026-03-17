@@ -221,7 +221,7 @@ export default function ShippingForm() {
 
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-10">
                                 {/* Expéditeur */}
-                                <div className="space-y-6 relative">
+                                <div className="flex flex-col gap-6 relative">
                                     <div className="absolute top-0 -left-6 bottom-0 w-px bg-gradient-to-b from-transparent via-blue-100 to-transparent hidden lg:block"></div>
                                     <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
                                         <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">A</div>
@@ -236,7 +236,7 @@ export default function ShippingForm() {
                                 </div>
 
                                 {/* Destinataire */}
-                                <div className="space-y-6 relative">
+                                <div className="flex flex-col gap-6 relative">
                                     <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
                                         <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">B</div>
                                         <Heading level="h3" className="text-xl font-semibold text-slate-800">Destination</Heading>
