@@ -17,13 +17,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const defaultCountryCode = countryCodes[0] || "us"
 
     // Base pages for all countries
-    const staticPages = ["", "/store", "/about", "/contact"]
+    const staticPages = ["", "/store", "/about", "/contact", "/shipping"]
     const countrySpecificStaticPages = countryCodes.flatMap((country) =>
         staticPages.map((path) => ({
             url: `${baseUrl}/${country}${path}`,
             lastModified: new Date(),
             changeFrequency: "daily" as const,
-            priority: path === "" ? 1 : 0.8,
+            priority: path === "" ? 1 : path === "/shipping" ? 0.9 : 0.8,
         }))
     )
 
@@ -46,12 +46,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const collectionsPromise = async () => {
         const { collections } = await listCollections().catch(() => ({ collections: [] }))
         return countryCodes.flatMap((country) =>
-            collections.map((c) => ({
-                url: `${baseUrl}/${country}/collections/${c.handle}`,
-                lastModified: new Date(c.updated_at || new Date()),
-                changeFrequency: "monthly" as const,
-                priority: 0.6,
-            }))
+            collections
+                .map((c) => ({
+                    url: `${baseUrl}/${country}/collections/${c.handle}`,
+                    lastModified: new Date(c.updated_at || new Date()),
+                    changeFrequency: "monthly" as const,
+                    priority: 0.6,
+                }))
+                .filter((entry) => isSafeXmlUrl(entry.url))
         )
     }
 

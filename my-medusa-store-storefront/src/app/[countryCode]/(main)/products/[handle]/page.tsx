@@ -108,6 +108,18 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       description,
       images: product.thumbnail ? [product.thumbnail] : [],
     },
+    alternates: {
+      canonical: `${getBaseURL()}/${params.countryCode}/products/${handle}`,
+      languages: {
+        "x-default": `${getBaseURL()}/cm/products/${handle}`,
+        "fr-CM": `${getBaseURL()}/cm/products/${handle}`,
+        "fr-FR": `${getBaseURL()}/fr/products/${handle}`,
+        "fr-BE": `${getBaseURL()}/be/products/${handle}`,
+        "de-DE": `${getBaseURL()}/de/products/${handle}`,
+        "it-IT": `${getBaseURL()}/it/products/${handle}`,
+        "es-ES": `${getBaseURL()}/es/products/${handle}`,
+      }
+    }
   }
 }
 
@@ -170,11 +182,34 @@ export default async function ProductPage(props: Props) {
     }
   }
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Boutique",
+        "item": `${getBaseURL()}/${params.countryCode}/store`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": pricedProduct.title,
+        "item": `${getBaseURL()}/${params.countryCode}/products/${params.handle}`
+      }
+    ]
+  }
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <ProductTemplate
         product={pricedProduct}

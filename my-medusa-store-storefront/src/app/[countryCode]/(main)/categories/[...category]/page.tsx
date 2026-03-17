@@ -81,6 +81,15 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       },
       alternates: {
         canonical: url,
+        languages: {
+          "x-default": `${process.env.NEXT_PUBLIC_BASE_URL}/cm/categories/${params.category.join("/")}`,
+          "fr-CM": `${process.env.NEXT_PUBLIC_BASE_URL}/cm/categories/${params.category.join("/")}`,
+          "fr-FR": `${process.env.NEXT_PUBLIC_BASE_URL}/fr/categories/${params.category.join("/")}`,
+          "fr-BE": `${process.env.NEXT_PUBLIC_BASE_URL}/be/categories/${params.category.join("/")}`,
+          "de-DE": `${process.env.NEXT_PUBLIC_BASE_URL}/de/categories/${params.category.join("/")}`,
+          "it-IT": `${process.env.NEXT_PUBLIC_BASE_URL}/it/categories/${params.category.join("/")}`,
+          "es-ES": `${process.env.NEXT_PUBLIC_BASE_URL}/es/categories/${params.category.join("/")}`,
+        }
       },
     }
 
@@ -100,14 +109,39 @@ export default async function CategoryPage(props: Props) {
     notFound()
   }
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Boutique",
+        "item": `${process.env.NEXT_PUBLIC_BASE_URL}/${params.countryCode}/store`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": productCategory.name,
+        "item": `${process.env.NEXT_PUBLIC_BASE_URL}/${params.countryCode}/categories/${params.category.join("/")}`
+      }
+    ]
+  }
+
   return (
-    <CategoryTemplate
-      category={productCategory}
-      sortBy={sortBy}
-      page={page}
-      countryCode={params.countryCode}
-      minPrice={min}
-      maxPrice={max}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <CategoryTemplate
+        category={productCategory}
+        sortBy={sortBy}
+        page={page}
+        countryCode={params.countryCode}
+        minPrice={min}
+        maxPrice={max}
+      />
+    </>
   )
 }

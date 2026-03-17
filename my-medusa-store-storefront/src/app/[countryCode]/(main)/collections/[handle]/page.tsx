@@ -6,6 +6,7 @@ import { listRegions } from "@lib/data/regions"
 import { StoreCollection, StoreRegion } from "@medusajs/types"
 import CollectionTemplate from "@modules/collections/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { getBaseURL } from "@lib/util/env"
 
 type Props = {
   params: Promise<{ handle: string; countryCode: string }>
@@ -63,12 +64,36 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
-  const metadata = {
-    title: `${collection.title} | Mbengsend`,
-    description: `${collection.title} collection`,
-  } as Metadata
+  const title = `${collection.title} | Mbengsend`
+  const description = `Découvrez la collection ${collection.title} sur Mbengsend. Produits authentiques d'Europe, livrés au Cameroun et en Europe.`
+  const url = `${getBaseURL()}/${params.countryCode}/collections/${params.handle}`
 
-  return metadata
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "website",
+      images: [
+        {
+          url: "/opengraph-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: title,
+        }
+      ]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    alternates: {
+      canonical: url,
+    },
+  }
 }
 
 export default async function CollectionPage(props: Props) {

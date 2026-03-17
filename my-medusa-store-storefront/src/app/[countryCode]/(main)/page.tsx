@@ -17,6 +17,17 @@ export const metadata: Metadata = {
   title: "Mbengsend | Livraison Europe & Cameroun - Boutique en Ligne Premiere",
   description:
     "Découvrez Mbengsend, votre passerelle de shopping entre l'Europe et le Cameroun. Produits authentiques, livraison express et sécurisée au meilleur prix.",
+  alternates: {
+    languages: {
+      "x-default": "https://mbengsend.com/cm",
+      "fr-CM": "https://mbengsend.com/cm",
+      "fr-FR": "https://mbengsend.com/fr",
+      "fr-BE": "https://mbengsend.com/be",
+      "de-DE": "https://mbengsend.com/de",
+      "it-IT": "https://mbengsend.com/it",
+      "es-ES": "https://mbengsend.com/es",
+    }
+  }
 }
 
 export default async function Home(props: {
