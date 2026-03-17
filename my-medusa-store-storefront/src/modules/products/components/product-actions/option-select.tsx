@@ -32,12 +32,12 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
   }
 
   return (
-    <div className="flex flex-col gap-y-4">
-      <span className="text-sm font-bold uppercase tracking-widest text-brand-dark/40 font-display">
+    <div className="flex flex-col gap-y-3">
+      <span className="text-[10px] small:text-xs font-bold uppercase tracking-[0.2em] text-brand-dark/40 font-sans">
         {translateTitle(title)}
       </span>
       <div
-        className="flex flex-wrap gap-3"
+        className="flex flex-wrap gap-2"
         data-testid={dataTestId}
       >
         {filteredOptions.map((v) => {
@@ -47,10 +47,10 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
               onClick={() => updateOption(option.id, v)}
               key={v}
               className={clx(
-                "min-w-[64px] h-12 px-4 rounded-xl border flex items-center justify-center text-sm font-bold transition-all duration-300",
+                "min-w-[48px] h-12 px-4 rounded-xl border flex items-center justify-center text-xs font-bold font-sans uppercase tracking-widest transition-all duration-500",
                 {
-                  "border-brand-primary bg-brand-primary/5 text-brand-primary shadow-lux-sm": isSelected,
-                  "border-brand-dark/10 bg-white text-brand-dark/60 hover:border-brand-primary/50 hover:text-brand-primary": !isSelected,
+                  "border-brand-gold bg-brand-gold text-white shadow-lux-md scale-105": isSelected,
+                  "border-gray-100 bg-white text-brand-dark/50 hover:border-brand-gold/30 hover:text-brand-gold": !isSelected,
                 }
               )}
               disabled={disabled}

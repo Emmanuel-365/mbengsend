@@ -20,18 +20,18 @@ export default async function Banners() {
 
           const imageUrl = getStrapiImageUrl(banner.image.data.attributes.url)
           const BannerContent = (
-            <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow group">
-              <div className="relative aspect-[16/9]">
+            <div className="relative overflow-hidden rounded-3xl shadow-lux-md hover:shadow-lux-lg transition-all duration-500 group">
+              <div className="relative aspect-[16/9] small:aspect-video">
                 <Image
                   src={imageUrl}
                   alt={banner.image.data.attributes.alternativeText || banner.title || "Banner"}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
                 />
               </div>
               {banner.title && (
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                  <h3 className="text-white font-semibold text-lg">
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-transparent to-transparent flex items-end p-8">
+                  <h3 className="text-white font-display font-bold text-2xl small:text-3xl group-hover:text-brand-gold transition-colors duration-300">
                     {banner.title}
                   </h3>
                 </div>

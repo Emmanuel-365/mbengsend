@@ -27,17 +27,17 @@ export default async function ProductRail({
   }
 
   return (
-    <div className="content-container py-16 small:py-32">
-      <div className="flex items-end justify-between mb-12 border-b border-brand-dark/5 pb-6">
-        <div className="flex flex-col gap-2">
-          <Text className="text-sm font-bold uppercase tracking-widest text-brand-primary">Collection</Text>
-          <Text className="text-3xl small:text-5xl font-display font-bold text-brand-dark tracking-tight">{collection.title}</Text>
+    <div className="content-container py-24 small:py-32">
+      <div className="flex items-end justify-between mb-16 border-b border-brand-gold/10 pb-10">
+        <div className="flex flex-col gap-3">
+          <Text className="text-[10px] small:text-xs font-bold uppercase tracking-[0.3em] text-brand-gold font-sans">Explorer l'excellence</Text>
+          <Text className="text-4xl small:text-6xl font-display font-bold text-brand-dark tracking-tight italic">{collection.title}</Text>
         </div>
-        <InteractiveLink href={`/collections/${collection.handle}`} className="text-brand-dark hover:text-brand-primary font-semibold transition-colors">
-          Voir tout
+        <InteractiveLink href={`/collections/${collection.handle}`} className="text-brand-dark hover:text-brand-gold font-sans font-bold uppercase tracking-widest text-sm transition-all duration-300">
+          Voir tout <span className="text-xl ml-1">→</span>
         </InteractiveLink>
       </div>
-      <ul className="grid grid-cols-2 small:grid-cols-4 gap-x-6 gap-y-12 small:gap-y-20">
+      <ul className="grid grid-cols-2 small:grid-cols-4 gap-x-8 gap-y-16 small:gap-y-24">
         {pricedProducts &&
           pricedProducts.map((product) => (
             <li key={product.id}>

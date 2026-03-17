@@ -21,33 +21,36 @@ const steps = [
 
 export default function HowItWorks() {
     return (
-        <div className="py-24 bg-brand-primary/5">
-            <div className="content-container">
-                <div className="text-center mb-16">
-                    <Heading level="h2" className="text-3xl small:text-4xl font-display font-bold text-brand-dark tracking-tight mb-4">
-                        Comment ça marche ?
+        <div className="py-24 bg-brand-light relative overflow-hidden">
+            {/* Decorative background element */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(202,138,4,0.03)_0%,transparent_70%)] pointer-events-none" />
+
+            <div className="content-container relative z-10">
+                <div className="text-center mb-20">
+                    <Heading level="h2" className="text-4xl small:text-6xl font-display font-bold text-brand-dark tracking-tight mb-6">
+                        Comment ça <span className="text-brand-gold italic">marche ?</span>
                     </Heading>
-                    <Text className="text-ui-fg-subtle text-lg max-w-2xl mx-auto">
+                    <Text className="text-ui-fg-subtle text-lg small:text-xl max-w-2xl mx-auto font-sans leading-relaxed">
                         Le meilleur du Cameroun, livré chez vous en Europe avec la garantie d'un service premium et sans tracas.
                     </Text>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                     {steps.map((step, index) => (
                         <div
                             key={index}
-                            className="glass p-8 rounded-2xl flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-lux-lg relative overflow-hidden group"
+                            className="glass p-10 rounded-3xl flex flex-col items-center text-center transition-all duration-500 hover:-translate-y-4 hover:shadow-lux-lg border-white/40 group relative overflow-hidden"
                         >
-                            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                            <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center text-4xl mb-8 shadow-lux-sm group-hover:bg-brand-gold group-hover:scale-110 transition-all duration-500 group-hover:rotate-3">
                                 {step.icon}
                             </div>
-                            <h3 className="text-xl font-display font-bold text-brand-dark mb-3">
+                            <h3 className="text-2xl font-display font-bold text-brand-dark mb-4 group-hover:text-brand-gold transition-colors">
                                 {step.title}
                             </h3>
-                            <p className="text-ui-fg-subtle">
+                            <p className="text-ui-fg-subtle font-sans leading-relaxed">
                                 {step.description}
                             </p>
-                            <div className="absolute -right-4 -bottom-4 text-9xl opacity-[0.03] font-display font-bold text-brand-dark pointer-events-none">
+                            <div className="absolute -right-6 -bottom-6 text-[12rem] opacity-[0.03] font-display font-bold text-brand-dark pointer-events-none group-hover:opacity-[0.06] transition-opacity duration-500">
                                 {index + 1}
                             </div>
                         </div>

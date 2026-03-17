@@ -65,7 +65,7 @@ export default async function Footer() {
                       >
                         <LocalizedClientLink
                           className={clx(
-                            "hover:text-brand-primary transition-colors",
+                            "hover:text-brand-gold transition-colors",
                             children && "font-semibold"
                           )}
                           href={`/categories/${c.handle}`}
@@ -79,7 +79,7 @@ export default async function Footer() {
                               children.map((child) => (
                                 <li key={child.id}>
                                   <LocalizedClientLink
-                                    className="hover:text-brand-primary transition-colors"
+                                    className="hover:text-brand-gold transition-colors"
                                     href={`/categories/${child.handle}`}
                                     data-testid="category-link"
                                   >
@@ -111,7 +111,7 @@ export default async function Footer() {
                   {collections?.slice(0, 6).map((c) => (
                     <li key={c.id}>
                       <LocalizedClientLink
-                        className="hover:text-brand-primary transition-colors"
+                        className="hover:text-brand-gold transition-colors"
                         href={`/collections/${c.handle}`}
                       >
                         {c.title}
@@ -126,17 +126,17 @@ export default async function Footer() {
               <span className="text-brand-dark font-display font-bold text-sm uppercase tracking-widest">Assistance</span>
               <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
                 <li>
-                  <LocalizedClientLink href="/about" className="hover:text-brand-primary transition-colors">
+                  <LocalizedClientLink href="/about" className="hover:text-brand-gold transition-colors">
                     À propos
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink href="/contact" className="hover:text-brand-primary transition-colors">
+                  <LocalizedClientLink href="/contact" className="hover:text-brand-gold transition-colors">
                     Contactez-nous
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink href="/faq" className="hover:text-brand-primary transition-colors">
+                  <LocalizedClientLink href="/faq" className="hover:text-brand-gold transition-colors">
                     FAQ
                   </LocalizedClientLink>
                 </li>
@@ -146,17 +146,17 @@ export default async function Footer() {
               <span className="text-brand-dark font-display font-bold text-sm uppercase tracking-widest">Légal</span>
               <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
                 <li>
-                  <LocalizedClientLink href="/legal/terms" className="hover:text-brand-primary transition-colors">
+                  <LocalizedClientLink href="/legal/terms" className="hover:text-brand-gold transition-colors">
                     Conditions Générales
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink href="/legal/returns" className="hover:text-brand-primary transition-colors">
+                  <LocalizedClientLink href="/legal/returns" className="hover:text-brand-gold transition-colors">
                     Retours & Remboursements
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink href="/legal/privacy" className="hover:text-brand-primary transition-colors">
+                  <LocalizedClientLink href="/legal/privacy" className="hover:text-brand-gold transition-colors">
                     Confidentialité
                   </LocalizedClientLink>
                 </li>

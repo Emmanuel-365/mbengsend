@@ -39,6 +39,7 @@ module.exports = {
           secondary: "#003B73", // Deep Navy for luxury
           dark: "#001B3D", // Even darker for contrast
           accent: "#CE1126", // Red from flags (use sparingly)
+          gold: "#CA8A04", // Premium Gold
           light: "#F9FAFB",
           white: "#FFFFFF",
         },
@@ -76,12 +77,12 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          "Inter",
+          "Montserrat",
           "sans-serif",
         ],
         display: [
-          "Outfit",
-          "sans-serif",
+          "Cormorant",
+          "serif",
         ],
       },
       keyframes: {

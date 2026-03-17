@@ -27,18 +27,18 @@ const Hero = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-brand-primary font-display font-semibold tracking-wider uppercase text-xs small:text-sm"
+              className="text-brand-gold font-display font-semibold tracking-[0.2em] uppercase text-xs small:text-sm"
             >
               Luxe & Logistique Sans Frontières
             </motion.span>
             <Heading
               level="h1"
-              className="text-3xl small:text-5xl medium:text-7xl font-display font-bold text-brand-dark leading-[1.1] tracking-tight"
+              className="text-4xl small:text-6xl medium:text-8xl font-display font-bold text-brand-dark leading-[1] tracking-tight"
             >
               Le Cameroun <br />
-              <span className="text-brand-primary">au cœur de l'Europe.</span>
+              <span className="text-brand-gold">au cœur de l'Europe.</span>
             </Heading>
-            <Text className="text-base small:text-lg text-ui-fg-subtle max-w-[480px] leading-relaxed">
+            <Text className="text-base small:text-xl text-ui-fg-subtle max-w-[540px] leading-relaxed font-sans">
               Découvrez l'excellence des produits camerounais livrés partout en Europe. Mbengsend connecte le savoir-faire local aux marchés internationaux avec élégance.
             </Text>
           </div>
@@ -47,33 +47,33 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="flex flex-wrap gap-3 small:gap-4"
+            className="flex flex-wrap gap-4 small:gap-6"
           >
             <LocalizedClientLink href="/store">
-              <Button size="large" className="rounded-full bg-brand-dark hover:bg-brand-secondary text-white px-6 small:px-8 h-12 small:h-14 text-sm small:text-base transition-all duration-300 shadow-lux-md hover:scale-[1.02] active:scale-[0.98]">
+              <Button size="large" className="rounded-full bg-brand-dark hover:bg-brand-gold text-white px-8 small:px-10 h-14 small:h-16 text-sm small:text-base transition-all duration-500 shadow-lux-lg hover:scale-[1.05] active:scale-[0.95] border-none font-sans font-bold uppercase tracking-widest">
                 Découvrir la Boutique
               </Button>
             </LocalizedClientLink>
             <LocalizedClientLink href="/about">
-              <Button variant="secondary" size="large" className="rounded-full border-brand-primary/20 text-brand-primary px-6 small:px-8 h-12 small:h-14 text-sm small:text-base hover:bg-brand-primary/5 transition-all duration-300">
-                En savoir plus
+              <Button variant="secondary" size="large" className="rounded-full border-brand-gold/30 text-brand-gold px-8 small:px-10 h-14 small:h-16 text-sm small:text-base hover:bg-brand-gold/5 transition-all duration-500 font-sans font-bold uppercase tracking-widest">
+                Notre Histoire
               </Button>
             </LocalizedClientLink>
           </motion.div>
 
           {/* Trust stats or features */}
-          <div className="grid grid-cols-3 gap-4 small:gap-8 mt-4 small:mt-6 pt-6 small:pt-8 border-t border-grey-10">
+          <div className="grid grid-cols-3 gap-8 small:gap-12 mt-6 small:mt-10 pt-8 small:pt-12 border-t border-brand-gold/10">
             <div>
-              <Text className="font-display font-bold text-lg small:text-xl text-brand-dark">100%</Text>
-              <Text className="text-xs text-ui-fg-muted uppercase tracking-widest">Sécurisé</Text>
+              <Text className="font-display font-bold text-2xl small:text-3xl text-brand-dark italic">100%</Text>
+              <Text className="text-[10px] small:text-xs text-ui-fg-muted uppercase tracking-[0.2em] font-sans font-medium mt-1">Sécurisé</Text>
             </div>
             <div>
-              <Text className="font-display font-bold text-lg small:text-xl text-brand-dark">Cameroun</Text>
-              <Text className="text-xs text-ui-fg-muted uppercase tracking-widest">Brest & Douala</Text>
+              <Text className="font-display font-bold text-2xl small:text-3xl text-brand-dark italic">Cameroun</Text>
+              <Text className="text-[10px] small:text-xs text-ui-fg-muted uppercase tracking-[0.2em] font-sans font-medium mt-1">Savoir-faire</Text>
             </div>
             <div>
-              <Text className="font-display font-bold text-lg small:text-xl text-brand-dark">2026</Text>
-              <Text className="text-xs text-ui-fg-muted uppercase tracking-widest">Next Gen</Text>
+              <Text className="font-display font-bold text-2xl small:text-3xl text-brand-gold italic">Europe</Text>
+              <Text className="text-[10px] small:text-xs text-ui-fg-muted uppercase tracking-[0.2em] font-sans font-medium mt-1">Destination</Text>
             </div>
           </div>
         </motion.div>

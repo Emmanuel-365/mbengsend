@@ -17,31 +17,33 @@ const Register = ({ setCurrentView }: Props) => {
 
   return (
     <div
-      className="w-full flex flex-col items-center bg-white p-10 small:p-16 rounded-huge shadow-lux-lg border border-gray-100/50"
+      className="w-full flex flex-col items-center glass p-10 small:p-16 rounded-[2.5rem] shadow-lux-lg border-white/40"
       data-testid="register-page"
     >
-      <h1 className="text-4xl font-display font-bold text-brand-dark mb-3 text-center text-balance tracking-tight">
-        Devenir Membre <span className="text-brand-dark">Mbengsend<span className="text-brand-primary">.</span></span>
+      <h1 className="text-4xl small:text-5xl font-display font-bold text-brand-dark mb-4 text-center text-balance tracking-tight italic">
+        Devenir Membre <span className="text-brand-dark">Mbengsend<span className="text-brand-gold">.</span></span>
       </h1>
-      <p className="text-center text-base text-ui-fg-subtle mb-10 text-balance leading-relaxed max-w-[440px]">
+      <p className="text-center text-base small:text-lg text-ui-fg-subtle mb-12 text-balance leading-relaxed max-w-[440px] font-sans">
         Créez votre profil de membre et profitez d&apos;une expérience de shopping privilégiée dans notre univers de luxe.
       </p>
       <form className="w-full flex flex-col" action={formAction}>
-        <div className="flex flex-col w-full gap-y-4">
-          <Input
-            label="Prénom"
-            name="first_name"
-            required
-            autoComplete="given-name"
-            data-testid="first-name-input"
-          />
-          <Input
-            label="Nom"
-            name="last_name"
-            required
-            autoComplete="family-name"
-            data-testid="last-name-input"
-          />
+        <div className="flex flex-col w-full gap-y-5">
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Prénom"
+              name="first_name"
+              required
+              autoComplete="given-name"
+              data-testid="first-name-input"
+            />
+            <Input
+              label="Nom"
+              name="last_name"
+              required
+              autoComplete="family-name"
+              data-testid="last-name-input"
+            />
+          </div>
           <Input
             label="Email"
             name="email"
@@ -67,33 +69,33 @@ const Register = ({ setCurrentView }: Props) => {
           />
         </div>
         <ErrorMessage error={message} data-testid="register-error" />
-        <span className="text-center text-gray-400 text-[10px] mt-10 leading-relaxed font-medium px-4">
+        <span className="text-center text-gray-400 text-[10px] mt-10 leading-relaxed font-medium px-4 font-sans">
           En créant un compte, vous acceptez la{" "}
           <LocalizedClientLink
             href="/content/privacy-policy"
-            className="text-brand-primary font-bold hover:text-brand-secondary transition-colors underline underline-offset-4 decoration-brand-primary/20"
+            className="text-brand-gold font-bold hover:text-brand-dark transition-colors underline underline-offset-4 decoration-brand-gold/20"
           >
             Politique de Confidentialité
           </LocalizedClientLink>{" "}
           et les{" "}
           <LocalizedClientLink
             href="/content/terms-of-use"
-            className="text-brand-primary font-bold hover:text-brand-secondary transition-colors underline underline-offset-4 decoration-brand-primary/20"
+            className="text-brand-gold font-bold hover:text-brand-dark transition-colors underline underline-offset-4 decoration-brand-gold/20"
           >
             Conditions d&apos;Utilisation
           </LocalizedClientLink>{" "}
           de Mbengsend.
         </span>
-        <SubmitButton className="w-full mt-10 bg-brand-primary hover:bg-brand-secondary h-14 rounded-full shadow-lux-md hover:shadow-lux-lg transition-all text-white font-bold text-lg border-none" data-testid="register-button">
+        <SubmitButton className="w-full mt-10 bg-brand-dark hover:bg-brand-gold h-16 rounded-full shadow-lux-lg hover:scale-[1.05] transition-all duration-500 text-white font-sans font-bold uppercase tracking-widest text-sm border-none" data-testid="register-button">
           S&apos;inscrire
         </SubmitButton>
       </form>
       <div className="flex flex-col items-center gap-y-4 mt-12">
-        <span className="text-center text-gray-400 text-sm">
+        <span className="text-center text-gray-400 text-sm font-sans">
           Déjà membre ?{" "}
           <button
             onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
-            className="text-brand-primary font-bold hover:text-brand-secondary transition-all hover:translate-y-[-1px] active:translate-y-0"
+            className="text-brand-gold font-bold hover:text-brand-dark transition-all hover:translate-y-[-1px] active:translate-y-0"
           >
             Se connecter
           </button>

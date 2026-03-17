@@ -13,21 +13,23 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         {product.collection && (
           <LocalizedClientLink
             href={`/collections/${product.collection.handle}`}
-            className="text-sm font-bold uppercase tracking-widest text-brand-primary hover:text-brand-secondary transition-colors"
+            className="text-[10px] small:text-xs font-bold uppercase tracking-[0.3em] text-brand-gold hover:text-brand-dark transition-all duration-300 font-sans"
           >
             {product.collection.title}
           </LocalizedClientLink>
         )}
         <Heading
           level="h2"
-          className="text-4xl small:text-5xl font-display font-bold text-brand-dark leading-tight tracking-tight"
+          className="text-4xl small:text-6xl font-display font-bold text-brand-dark leading-[1.1] tracking-tight italic"
           data-testid="product-title"
         >
           {product.title}
         </Heading>
 
+        <div className="h-0.5 w-12 bg-brand-gold mt-2" />
+
         <Text
-          className="text-base text-ui-fg-subtle leading-relaxed whitespace-pre-line"
+          className="text-base small:text-lg text-ui-fg-subtle leading-relaxed whitespace-pre-line font-sans"
           data-testid="product-description"
         >
           {product.description}

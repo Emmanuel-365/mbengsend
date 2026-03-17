@@ -28,8 +28,8 @@ const Summary = ({ cart }: SummaryProps) => {
   const step = getCheckoutStep(cart)
 
   return (
-    <div className="flex flex-col gap-y-6">
-      <Heading level="h2" className="text-3xl font-display font-bold text-brand-dark tracking-tight">
+    <div className="glass p-8 small:p-10 rounded-3xl border-white/40 shadow-lux-md flex flex-col gap-y-6">
+      <Heading level="h2" className="text-3xl font-display font-bold text-brand-dark tracking-tight italic border-b border-brand-gold/10 pb-6">
         Résumé
       </Heading>
       <DiscountCode cart={cart} />
@@ -38,9 +38,9 @@ const Summary = ({ cart }: SummaryProps) => {
       <LocalizedClientLink
         href={"/checkout?step=" + step}
         data-testid="checkout-button"
-        className="block mt-6"
+        className="block mt-10"
       >
-        <Button className="w-full h-14 rounded-full bg-brand-primary hover:bg-brand-secondary text-white font-bold text-lg shadow-lux-md hover:shadow-lux-lg transition-all duration-300">
+        <Button className="w-full h-16 rounded-full bg-brand-dark hover:bg-brand-gold text-white font-sans font-bold uppercase tracking-widest text-sm shadow-lux-lg hover:scale-[1.05] transition-all duration-500 border-none">
           Passer à la caisse
         </Button>
       </LocalizedClientLink>

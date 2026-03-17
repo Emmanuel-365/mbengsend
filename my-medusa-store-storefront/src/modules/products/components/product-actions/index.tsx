@@ -256,7 +256,7 @@ export default function ProductActions({
 
         <ProductPrice product={product} variant={selectedVariant} />
 
-        <div className="flex flex-col gap-y-3 w-full mt-8">
+        <div className="flex flex-col gap-y-4 w-full mt-10">
           <Button
             onClick={handleAddToCart}
             disabled={
@@ -266,7 +266,7 @@ export default function ProductActions({
               isAdding ||
               !isValidVariant
             }
-            className="w-full h-14 rounded-full bg-brand-primary hover:bg-brand-secondary text-white font-bold text-lg shadow-lux-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            className="w-full h-16 rounded-full bg-brand-dark hover:bg-brand-gold text-white font-sans font-bold uppercase tracking-widest text-sm shadow-lux-lg hover:scale-[1.05] active:scale-[0.95] transition-all duration-500 border-none"
             isLoading={isAdding}
             data-testid="add-product-button"
           >
@@ -280,11 +280,11 @@ export default function ProductActions({
           <Button
             onClick={handleWishlistAction}
             variant="secondary"
-            className="w-full h-14 rounded-full border-brand-primary/10 text-brand-dark hover:bg-brand-primary/5 flex items-center justify-center gap-x-3 font-semibold transition-all duration-300"
+            className="w-full h-16 rounded-full border-brand-gold/20 text-brand-dark hover:bg-brand-gold/5 flex items-center justify-center gap-x-4 font-sans font-bold uppercase tracking-widest text-xs transition-all duration-500 shadow-sm hover:shadow-md"
             isLoading={isWishlistLoading}
             disabled={!!disabled || ((product.variants?.length ?? 0) > 1 && !selectedVariant)}
           >
-            <Heart className={clx("h-6 w-6 transition-colors duration-300", { "fill-red-500 text-red-500": isProductInWishlist, "text-brand-dark/40 group-hover:text-brand-primary": !isProductInWishlist })} />
+            <Heart className={clx("h-5 w-5 transition-all duration-500", { "fill-brand-gold text-brand-gold scale-110": isProductInWishlist, "text-brand-dark/30": !isProductInWishlist })} />
             {!selectedVariant && (product.variants?.length ?? 0) > 1
               ? "Sélectionner une variante"
               : isProductInWishlist

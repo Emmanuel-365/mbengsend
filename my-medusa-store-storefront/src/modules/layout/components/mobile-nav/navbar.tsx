@@ -24,7 +24,7 @@ export default function MobileNavBar({ regions, locales, currentLocale }: Mobile
   return (
     <>
       {/* Mobile Header - visible only on mobile */}
-      <div className="small:hidden sticky top-0 z-50 bg-white border-b border-gray-200">
+      <div className="small:hidden sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-white/20 shadow-sm transition-all duration-300 supports-[backdrop-filter]:bg-white/60">
         <div className="flex items-center justify-between h-16 px-3 gap-2">
           {/* Left: Menu Button */}
           <SideMenu regions={regions} locales={locales} currentLocale={currentLocale} />
@@ -35,50 +35,50 @@ export default function MobileNavBar({ regions, locales, currentLocale }: Mobile
             className="flex-1 flex items-center justify-center gap-2"
             data-testid="nav-store-link"
           >
-            <div className="relative w-6 h-6">
+            <div className="relative w-8 h-8">
               <Image 
                 src="/logo.png" 
                 alt="Mbengsend Logo" 
                 fill 
-                className="object-contain"
+                className="object-contain drop-shadow-sm"
               />
             </div>
-            <span className="text-sm font-bold text-gray-900">Mbengsend</span>
+            <span className="text-lg font-display font-bold text-brand-dark tracking-tight">Mbengsend</span>
           </LocalizedClientLink>
 
           {/* Right: Search, Wishlist & Cart */}
           <div className="flex items-center gap-1 flex-shrink-0">
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition-colors"
               data-testid="mobile-search-button"
               aria-label="Rechercher des produits"
             >
-              <MagnifyingGlass className="w-6 h-6 text-gray-700" />
+              <MagnifyingGlass className="w-5 h-5 text-brand-dark" />
             </button>
 
             <LocalizedClientLink
               href="/account/wishlist"
-              className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition-colors"
               aria-label="Favoris"
             >
-              <Heart className="w-6 h-6 text-gray-700" />
+              <Heart className="w-5 h-5 text-brand-dark" />
             </LocalizedClientLink>
 
             <LocalizedClientLink
               href="/cart"
-              className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition-colors"
               aria-label="Panier"
             >
-              <ShoppingCart className="w-6 h-6 text-gray-700" />
+              <ShoppingCart className="w-5 h-5 text-brand-dark" />
             </LocalizedClientLink>
           </div>
         </div>
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <div className="small:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200">
-        <div className="flex items-center justify-around h-16 px-2">
+      <div className="small:hidden fixed bottom-0 left-0 right-0 z-40 backdrop-blur-xl bg-white/90 border-t border-white/20 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] pb-safe-area-inset-bottom">
+        <div className="flex items-center justify-around h-16 px-2 pb-1">
           {/* Search */}
           <button
             onClick={() => setIsSearchOpen(true)}

@@ -16,28 +16,28 @@ export default function Nav({ regions, locales, currentLocale }: {
   return (
     <>
       {/* Desktop Navigation - sticky header */}
-      <div className="hidden small:block sticky top-0 z-50 bg-white border-b border-gray-200">
+      <div className="hidden small:block sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-white/20 shadow-sm transition-all duration-300 supports-[backdrop-filter]:bg-white/60">
         <div className="flex items-center justify-between h-16 px-4 small:px-8 max-w-[1440px] mx-auto">
           {/* Left: Menu */}
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <SideMenu regions={regions} locales={locales} currentLocale={currentLocale} />
           </div>
 
           {/* Center: Logo */}
           <LocalizedClientLink
             href="/"
-            className="flex items-center gap-2 group/logo"
+            className="flex items-center gap-2 group/logo absolute left-1/2 -translate-x-1/2"
             data-testid="nav-store-link"
           >
-            <div className="relative w-8 h-8 transition-transform duration-500 group-hover/logo:rotate-[360deg]">
+            <div className="relative w-10 h-10 transition-transform duration-700 ease-out group-hover/logo:rotate-[360deg] group-hover/logo:scale-110">
               <Image 
                 src="/logo.png" 
                 alt="Mbengsend Logo" 
                 fill 
-                className="object-contain"
+                className="object-contain drop-shadow-md"
               />
             </div>
-            <span className="text-lg font-display font-bold text-gray-900 tracking-tight">
+            <span className="text-xl font-display font-bold text-brand-dark tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-dark to-brand-secondary">
               Mbengsend
             </span>
           </LocalizedClientLink>
@@ -45,11 +45,12 @@ export default function Nav({ regions, locales, currentLocale }: {
           {/* Right: Search, Wishlist, Account, Cart */}
           <div className="flex items-center gap-x-6">
             <LocalizedClientLink
-              className="hidden lg:flex items-center gap-2 hover:text-brand-primary transition-colors text-sm font-semibold bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full hover:bg-blue-100"
+              className="hidden lg:flex items-center gap-2 text-sm font-semibold bg-brand-primary/10 text-brand-primary border border-brand-primary/20 px-5 py-2 rounded-full hover:bg-brand-primary hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5"
               href="/shipping"
             >
-              📦 Expédier un colis
+              <span>📦</span> Expédier un colis
             </LocalizedClientLink>
+            <div className="h-6 w-px bg-gray-200 mx-2" />
             <SearchButton />
             <Suspense fallback={<div className="w-6 h-6 rounded-full bg-grey-10 animate-pulse" />}>
               <WishlistButton />
