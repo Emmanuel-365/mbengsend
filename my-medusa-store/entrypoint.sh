@@ -30,6 +30,6 @@ else
   exit 1
 fi
 
-echo "Démarrage du serveur Medusa..."
+echo "Démarrage du serveur Medusa sur toutes les interfaces (0.0.0.0)..."
 # On utilise directement la commande medusa du dossier bin
-exec ./node_modules/.bin/medusa start
+exec env HOST=0.0.0.0 ./node_modules/.bin/medusa start
