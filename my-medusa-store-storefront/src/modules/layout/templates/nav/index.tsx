@@ -44,6 +44,12 @@ export default function Nav({ regions, locales, currentLocale }: {
 
           {/* Right: Search, Wishlist, Account, Cart */}
           <div className="flex items-center gap-x-6">
+            <LocalizedClientLink
+              className="hidden lg:flex items-center gap-2 hover:text-brand-primary transition-colors text-sm font-semibold bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full hover:bg-blue-100"
+              href="/shipping"
+            >
+              📦 Expédier un colis
+            </LocalizedClientLink>
             <SearchButton />
             <Suspense fallback={<div className="w-6 h-6 rounded-full bg-grey-10 animate-pulse" />}>
               <WishlistButton />

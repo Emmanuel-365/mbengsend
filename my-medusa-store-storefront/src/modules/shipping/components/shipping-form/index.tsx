@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { sdk } from "@lib/config"
 import { Button, Heading, Text } from "@medusajs/ui"
 import { motion, AnimatePresence } from "framer-motion"
@@ -18,19 +18,78 @@ export default function ShippingForm() {
         destination_city: "",
         package_description: "",
         package_weight: "", // Kept as string for controlled input simplicity, then parsed
+        length: "",
+        width: "",
+        height: "",
+        shipping_mode: "", // will default to smart detection if empty
     })
+
+    const [estimation, setEstimation] = useState<{ price: number, mode: string, weight: number } | null>(null)
+    const [estimating, setEstimating] = useState(false)
 
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target
         setFormData((prev) => ({
             ...prev,
             [name]: value,
         }))
     }
+
+    // Effet pour estimer le prix dès que les données clés changent
+    useEffect(() => {
+        const fetchEstimation = async () => {
+            const hasCities = formData.origin_city && formData.destination_city
+            const hasWeightOrDims = formData.package_weight || (formData.length && formData.width && formData.height)
+
+            if (!hasCities || !hasWeightOrDims) {
+                setEstimation(null)
+                return
+            }
+
+            setEstimating(true)
+            try {
+                const payload = {
+                    ...formData,
+                    package_weight: formData.package_weight ? Number(formData.package_weight) : undefined,
+                    length: formData.length ? Number(formData.length) : undefined,
+                    width: formData.width ? Number(formData.width) : undefined,
+                    height: formData.height ? Number(formData.height) : undefined,
+                }
+                
+                // If mode is explicitely chosen, send it, otherwise let backend guess
+                if (!payload.shipping_mode) {
+                    delete (payload as any).shipping_mode;
+                }
+
+                const res = await sdk.client.fetch("/store/parcel-requests/estimate", {
+                    method: "POST",
+                    body: payload,
+                }) as { estimated_price?: number, applied_mode: string, billable_weight: number }
+                
+                if (res.estimated_price) {
+                    setEstimation({
+                        price: res.estimated_price,
+                        mode: res.applied_mode,
+                        weight: res.billable_weight
+                    })
+                }
+            } catch (err) {
+                console.error("Erreur d'estimation", err)
+            } finally {
+                setEstimating(false)
+            }
+        }
+
+        const timer = setTimeout(() => {
+            fetchEstimation()
+        }, 800) // Debounce de 800ms
+        
+        return () => clearTimeout(timer)
+    }, [formData.origin_city, formData.destination_city, formData.package_weight, formData.length, formData.width, formData.height, formData.shipping_mode])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -42,6 +101,11 @@ export default function ShippingForm() {
             const payload = {
                 ...formData,
                 package_weight: formData.package_weight ? Number(formData.package_weight) : undefined,
+                length: formData.length ? Number(formData.length) : undefined,
+                width: formData.width ? Number(formData.width) : undefined,
+                height: formData.height ? Number(formData.height) : undefined,
+                shipping_mode: formData.shipping_mode || (estimation?.mode) || undefined,
+                estimated_price: estimation?.price
             }
 
             await sdk.client.fetch("/store/parcel-requests", {
@@ -61,7 +125,12 @@ export default function ShippingForm() {
                 destination_city: "",
                 package_description: "",
                 package_weight: "",
+                length: "",
+                width: "",
+                height: "",
+                shipping_mode: ""
             })
+            setEstimation(null)
         } catch (err: any) {
             setError(err.message || "Une erreur est survenue lors de la création de la requête.")
         } finally {
@@ -139,7 +208,7 @@ export default function ShippingForm() {
                         <div className="text-center mb-10">
                             <span className="inline-block py-1 px-3 rounded-full bg-blue-50 text-blue-600 text-xs font-semibold tracking-wide uppercase mb-3">Service Logistique</span>
                             <Heading className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900">Demander une expédition</Heading>
-                            <Text className="text-slate-500 mt-4 text-lg max-w-2xl mx-auto">Confiez-nous l'expédition de vos colis d'un point A à un point B en toute sécurité et simplicité.</Text>
+                            <Text className="text-slate-500 mt-4 text-lg max-w-2xl mx-auto">Confiez-nous l'expédition de vos colis locaux ou internationaux en toute sécurité. Obtenez une estimation immédiate.</Text>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-10">
@@ -199,15 +268,74 @@ export default function ShippingForm() {
                                     </div>
                                     <div>
                                         <InputGroup
-                                            label="Poids estimé (en kg)"
+                                            label="Poids estimé (kg)"
                                             name="package_weight"
                                             type="number"
                                             placeholder="Ex: 2.5"
                                             required={false}
                                         />
-                                        <p className="text-xs text-gray-500 mt-1">Laissez vide si vous ne connaissez pas le poids exact.</p>
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <div className="flex-1">
+                                            <InputGroup label="L (cm)" name="length" type="number" placeholder="40" required={false} />
+                                        </div>
+                                        <div className="flex-1">
+                                            <InputGroup label="l (cm)" name="width" type="number" placeholder="30" required={false} />
+                                        </div>
+                                        <div className="flex-1">
+                                            <InputGroup label="H (cm)" name="height" type="number" placeholder="20" required={false} />
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="md:col-span-2 flex flex-col gap-y-1.5 focus-within:text-blue-600 transition-colors">
+                                        <label htmlFor="shipping_mode" className="text-sm font-medium text-gray-700">Mode d'expédition préféré</label>
+                                        <select
+                                            id="shipping_mode"
+                                            name="shipping_mode"
+                                            value={formData.shipping_mode}
+                                            onChange={handleChange}
+                                            className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition-all outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 hover:border-gray-300"
+                                        >
+                                            <option value="">Détection automatique (Recommandé)</option>
+                                            <option value="local_delivery">Livraison Locale (Même pays)</option>
+                                            <option value="air_freight">Fret Aérien (Rapide)</option>
+                                            <option value="sea_freight">Fret Maritime (Économique)</option>
+                                        </select>
                                     </div>
                                 </div>
+                                
+                                <AnimatePresence>
+                                    {(estimation || estimating) && (
+                                        <motion.div 
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: "auto" }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            className="overflow-hidden"
+                                        >
+                                            <div className="mt-4 bg-blue-50/50 border border-blue-100 p-4 rounded-xl flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-sm text-blue-800 font-medium">
+                                                        Estimation du tarif
+                                                        {estimation && <span className="ml-2 text-xs bg-blue-200 text-blue-900 px-2 py-0.5 rounded-full uppercase tracking-wider">{
+                                                            estimation.mode === 'local_delivery' ? 'Local' :
+                                                            estimation.mode === 'air_freight' ? 'Aérien' : 'Maritime'
+                                                        }</span>}
+                                                    </p>
+                                                    <p className="text-xs text-blue-600/80 mt-1">
+                                                        {estimating ? "Calcul en cours..." : `Basé sur ${estimation?.weight} kg (Poids facturable)`}
+                                                    </p>
+                                                </div>
+                                                <div className="text-right">
+                                                    {estimating ? (
+                                                        <div className="h-6 w-24 bg-blue-200/50 animate-pulse rounded"></div>
+                                                    ) : (
+                                                        <span className="text-2xl font-bold tracking-tight text-blue-900">{estimation?.price} <span className="text-sm font-medium text-blue-700">XAF</span></span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
 
                                 <div className="pt-6">
                                     <Button

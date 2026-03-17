@@ -16,6 +16,10 @@ type CreateParcelRequestWorkflowInput = {
     origin_city: string
     destination_city: string
     package_weight?: number
+    length?: number
+    width?: number
+    height?: number
+    shipping_mode?: string
     package_description: string
     estimated_price?: number
 }

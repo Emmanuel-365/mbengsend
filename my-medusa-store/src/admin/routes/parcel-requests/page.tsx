@@ -45,7 +45,9 @@ const ParcelRequestsPage = () => {
                         <Table.HeaderCell>Départ</Table.HeaderCell>
                         <Table.HeaderCell>Destinataire</Table.HeaderCell>
                         <Table.HeaderCell>Arrivée</Table.HeaderCell>
-                        <Table.HeaderCell>Colis (Kg)</Table.HeaderCell>
+                        <Table.HeaderCell>Mode</Table.HeaderCell>
+                        <Table.HeaderCell>Détails Colis</Table.HeaderCell>
+                        <Table.HeaderCell>Prix Estimé</Table.HeaderCell>
                         <Table.HeaderCell>Statut</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -56,7 +58,7 @@ const ParcelRequestsPage = () => {
                         </Table.Row>
                     ) : (data as any)?.parcel_requests?.length === 0 ? (
                         <Table.Row>
-                            <Table.Cell className="text-center py-8 text-ui-fg-subtle" style={{ gridColumn: "span 7" } as React.CSSProperties}>Aucune demande pour le moment.</Table.Cell>
+                            <Table.Cell className="text-center py-8 text-ui-fg-subtle" style={{ gridColumn: "span 9" } as React.CSSProperties}>Aucune demande pour le moment.</Table.Cell>
                         </Table.Row>
                     ) : (
                         (data as any)?.parcel_requests?.map((request: any) => (
@@ -73,7 +75,21 @@ const ParcelRequestsPage = () => {
                                 </Table.Cell>
                                 <Table.Cell>{request.destination_city}</Table.Cell>
                                 <Table.Cell>
-                                    {request.package_weight ? `${request.package_weight} kg` : "-"}
+                                    <Badge size="small">
+                                        {request.shipping_mode === "air_freight" ? "Aérien" 
+                                            : request.shipping_mode === "sea_freight" ? "Maritime" 
+                                            : request.shipping_mode === "local_delivery" ? "Local" 
+                                            : "N/A"}
+                                    </Badge>
+                                </Table.Cell>
+                                <Table.Cell>
+                                    <div className="text-sm">{request.package_weight ? `${request.package_weight} kg` : "-"}</div>
+                                    {(request.length && request.width && request.height) ? (
+                                        <div className="text-xs text-ui-fg-subtle">{request.length}x{request.width}x{request.height} cm</div>
+                                    ) : null}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {request.estimated_price ? `${request.estimated_price} XAF` : "-"}
                                 </Table.Cell>
                                 <Table.Cell>
                                     <Badge color={getStatusColor(request.status)} size="small">
