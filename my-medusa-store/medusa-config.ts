@@ -17,7 +17,7 @@ module.exports = defineConfig({
   },
   admin: {
     // En production, l'admin est servi depuis .medusa/server/public/admin/
-    backendUrl: process.env.MEDUSA_BACKEND_URL || "http://localhost:9000",
+    backendUrl: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || process.env.MEDUSA_BACKEND_URL || "http://localhost:9000",
   },
   modules: [
     {

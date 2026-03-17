@@ -145,6 +145,7 @@ services:
       - STORE_CORS=${STORE_CORS}
       - ADMIN_CORS=${ADMIN_CORS}
       - AUTH_CORS=${AUTH_CORS}
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=${NEXT_PUBLIC_MEDUSA_BACKEND_URL}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.medusa-backend-http.rule=Host(`api.mbengsend.com`)"
