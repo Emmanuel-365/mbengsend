@@ -161,12 +161,12 @@ services:
         condition: service_started
       meilisearch:
         condition: service_started
-  #    healthcheck:
-  #      test: [ "CMD", "curl", "-f", "http://localhost:9000/health" ]
-  #      interval: 30s
-  #      timeout: 20s
-  #      retries: 20
-  #      start_period: 400s
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/health" ]
+      interval: 30s
+      timeout: 20s
+      retries: 20
+      start_period: 90s
 
   storefront:
     build:
@@ -203,7 +203,7 @@ services:
       - "traefik.http.services.medusa-storefront.loadbalancer.server.port=8001"
     depends_on:
       backend:
-        condition: service_started
+        condition: service_healthy
 
 volumes:
   postgres_data:
