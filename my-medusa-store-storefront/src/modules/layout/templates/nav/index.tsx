@@ -18,29 +18,28 @@ export default function Nav({ regions, locales, currentLocale }: {
       {/* Desktop Navigation - sticky header */}
       <div className="hidden small:block sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-white/20 shadow-sm transition-all duration-300 supports-[backdrop-filter]:bg-white/60">
         <div className="flex items-center justify-between h-16 px-4 small:px-8 max-w-[1440px] mx-auto">
-          {/* Left: Menu */}
-          <div className="flex items-center gap-4">
+          {/* Left: Menu & Logo */}
+          <div className="flex items-center gap-6">
             <SideMenu regions={regions} locales={locales} currentLocale={currentLocale} />
+            
+            <LocalizedClientLink
+              href="/"
+              className="flex items-center gap-2 group/logo"
+              data-testid="nav-store-link"
+            >
+              <div className="relative w-10 h-10 transition-transform duration-700 ease-out group-hover/logo:rotate-[360deg] group-hover/logo:scale-110">
+                <Image 
+                  src="/logo.png" 
+                  alt="Mbengsend Logo" 
+                  fill 
+                  className="object-contain drop-shadow-md"
+                />
+              </div>
+              <span className="text-xl font-display font-bold text-brand-dark tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-dark to-brand-secondary">
+                Mbengsend
+              </span>
+            </LocalizedClientLink>
           </div>
-
-          {/* Center: Logo */}
-          <LocalizedClientLink
-            href="/"
-            className="flex items-center gap-2 group/logo absolute left-1/2 -translate-x-1/2"
-            data-testid="nav-store-link"
-          >
-            <div className="relative w-10 h-10 transition-transform duration-700 ease-out group-hover/logo:rotate-[360deg] group-hover/logo:scale-110">
-              <Image 
-                src="/logo.png" 
-                alt="Mbengsend Logo" 
-                fill 
-                className="object-contain drop-shadow-md"
-              />
-            </div>
-            <span className="text-xl font-display font-bold text-brand-dark tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-dark to-brand-secondary">
-              Mbengsend
-            </span>
-          </LocalizedClientLink>
 
           {/* Right: Search, Wishlist, Account, Cart */}
           <div className="flex items-center gap-x-6">

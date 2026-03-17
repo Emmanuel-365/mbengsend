@@ -131,7 +131,7 @@ module.exports = defineConfig({
             resolve: "@medusajs/file-s3",
             id: "s3",
             options: {
-              file_url: process.env.MINIO_PUBLIC_URL ? `${process.env.MINIO_PUBLIC_URL}/${process.env.S3_BUCKET}` : `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}`,
+              file_url: process.env.MINIO_PUBLIC_URL ? `${process.env.MINIO_PUBLIC_URL}/${process.env.MINIO_MEDUSA_BUCKET}` : `${process.env.MINIO_ENDPOINT}/${process.env.MINIO_MEDUSA_BUCKET}`,
               access_key_id: process.env.MINIO_ACCESS_KEY,
               secret_access_key: process.env.MINIO_SECRET_KEY,
               region: process.env.MINIO_REGION || "us-east-1",
