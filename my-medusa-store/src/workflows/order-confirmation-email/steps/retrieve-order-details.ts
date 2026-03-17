@@ -11,6 +11,7 @@ export type OrderDetailsOutput = {
     unit_price: number
   }>
   total: number
+  currency_code: string
   order_date: Date
   shipping_address: {
     address_1: string
@@ -50,6 +51,7 @@ export const retrieveOrderDetailsStep = createStep(
           unit_price: item.unit_price || 0
         })) || [],
         total: Number(order.total || 0),
+        currency_code: order.currency_code || 'EUR',
         order_date: new Date(order.created_at || new Date()),
         shipping_address: {
           address_1: order.shipping_address?.address_1 || '',

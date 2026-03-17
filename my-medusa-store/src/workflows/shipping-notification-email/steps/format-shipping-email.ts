@@ -21,18 +21,18 @@ export const formatShippingEmailStep = createStep(
     // Generate tracking section HTML (handle missing tracking gracefully)
     const trackingHtml = fulfillmentDetails.tracking_number ? `
       <div style="padding: 20px; background-color: #f0fdf4; border-radius: 6px; border: 1px solid #86efac; margin-bottom: 30px;">
-        <h2 style="margin: 0 0 15px; font-size: 18px; color: #166534; font-weight: 600;">Tracking Information</h2>
+        <h2 style="margin: 0 0 15px; font-size: 18px; color: #166534; font-weight: 600;">Informations de suivi</h2>
         <table width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td style="padding: 5px 0;">
-              <strong style="color: #166534;">Tracking Number:</strong>
+              <strong style="color: #166534;">Numéro de suivi :</strong>
               <span style="color: #15803d; font-family: monospace; font-size: 16px;">${fulfillmentDetails.tracking_number}</span>
             </td>
           </tr>
           ${fulfillmentDetails.carrier ? `
           <tr>
             <td style="padding: 5px 0;">
-              <strong style="color: #166534;">Carrier:</strong>
+              <strong style="color: #166534;">Transporteur :</strong>
               <span style="color: #15803d;">${fulfillmentDetails.carrier}</span>
             </td>
           </tr>
@@ -42,7 +42,7 @@ export const formatShippingEmailStep = createStep(
     ` : `
       <div style="padding: 20px; background-color: #fef3c7; border-radius: 6px; border: 1px solid #fbbf24; margin-bottom: 30px;">
         <p style="margin: 0; color: #92400e;">
-          Your order has been shipped! Tracking information will be available soon.
+          Votre commande a été expédiée ! Les informations de suivi seront bientôt disponibles.
         </p>
       </div>
     `
@@ -54,7 +54,7 @@ export const formatShippingEmailStep = createStep(
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Order Has Shipped</title>
+  <title>Votre commande a été expédiée</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f3f4f6;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f3f4f6; padding: 40px 0;">
@@ -64,7 +64,7 @@ export const formatShippingEmailStep = createStep(
           <!-- Header -->
           <tr>
             <td style="padding: 40px 40px 20px; text-align: center; background-color: #059669; border-radius: 8px 8px 0 0;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700;">📦 Your Order Has Shipped!</h1>
+              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700;">📦 Votre commande est en route !</h1>
             </td>
           </tr>
           
@@ -72,16 +72,16 @@ export const formatShippingEmailStep = createStep(
           <tr>
             <td style="padding: 40px;">
               <p style="margin: 0 0 20px; font-size: 16px; color: #374151;">
-                Hi ${fulfillmentDetails.customer_name},
+                Bonjour ${fulfillmentDetails.customer_name},
               </p>
               <p style="margin: 0 0 30px; font-size: 16px; color: #374151;">
-                Great news! Your order <strong>#${fulfillmentDetails.order_number}</strong> has been shipped and is on its way to you.
+                Bonne nouvelle ! Votre commande <strong>#${fulfillmentDetails.order_number}</strong> a été expédiée et est en route vers chez vous.
               </p>
               
               ${trackingHtml}
               
               <p style="margin: 0 0 10px; font-size: 16px; color: #374151;">
-                We'll notify you once your package is delivered. If you have any questions, please don't hesitate to contact us.
+                Nous vous informerons dès que votre colis sera livré. Si vous avez des questions, n'hésitez pas à nous contacter.
               </p>
             </td>
           </tr>
@@ -90,10 +90,10 @@ export const formatShippingEmailStep = createStep(
           <tr>
             <td style="padding: 30px 40px; text-align: center; background-color: #f9fafb; border-radius: 0 0 8px 8px; border-top: 1px solid #e5e7eb;">
               <p style="margin: 0; font-size: 14px; color: #6b7280;">
-                If you have any questions, please contact our support team.
+                Si vous avez des questions, n'hésitez pas à contacter notre équipe support.
               </p>
               <p style="margin: 10px 0 0; font-size: 14px; color: #6b7280;">
-                © ${new Date().getFullYear()} Mbengsend. All rights reserved.
+                © ${new Date().getFullYear()} Mbengsend. Tous droits réservés.
               </p>
             </td>
           </tr>
@@ -107,7 +107,7 @@ export const formatShippingEmailStep = createStep(
 
     const formattedEmail: FormattedEmailOutput = {
       to: fulfillmentDetails.customer_email,
-      subject: `Your Order #${fulfillmentDetails.order_number} Has Shipped!`,
+      subject: `Votre commande #${fulfillmentDetails.order_number} a été expédiée !`,
       html
     }
 

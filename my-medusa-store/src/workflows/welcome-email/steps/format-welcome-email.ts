@@ -25,7 +25,7 @@ export const formatWelcomeEmailStep = createStep(
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Mbengsend</title>
+  <title>Bienvenue chez Mbengsend</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f3f4f6;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f3f4f6; padding: 40px 0;">
@@ -35,7 +35,7 @@ export const formatWelcomeEmailStep = createStep(
           <!-- Header -->
           <tr>
             <td style="padding: 40px 40px 20px; text-align: center; background-color: #111827; border-radius: 8px 8px 0 0;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700;">Welcome to Mbengsend!</h1>
+              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700;">Bienvenue chez Mbengsend !</h1>
             </td>
           </tr>
           
@@ -43,52 +43,52 @@ export const formatWelcomeEmailStep = createStep(
           <tr>
             <td style="padding: 40px;">
               <p style="margin: 0 0 20px; font-size: 16px; color: #374151;">
-                Hi ${customerDetails.customer_name},
+                Bonjour ${customerDetails.customer_name},
               </p>
               <p style="margin: 0 0 20px; font-size: 16px; color: #374151;">
-                Welcome to Mbengsend! We're thrilled to have you join our community.
+                Bienvenue chez Mbengsend ! Nous sommes ravis de vous compter parmi nous.
               </p>
               <p style="margin: 0 0 20px; font-size: 16px; color: #374151;">
-                Your account has been successfully created and you're all set to start shopping. We offer a curated selection of quality products with fast shipping and excellent customer service.
+                Votre compte a été créé avec succès. Vous pouvez dès à présent commencer vos achats. Nous proposons une sélection rigoureuse de produits de qualité avec une livraison rapide et un service client irréprochable.
               </p>
               <p style="margin: 0 0 30px; font-size: 16px; color: #374151;">
-                Here's what you can do next:
+                Voici ce que vous pouvez faire maintenant :
               </p>
               
               <!-- Features -->
               <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
                 <tr>
                   <td style="padding: 20px; background-color: #f9fafb; border-radius: 6px; margin-bottom: 15px;">
-                    <h3 style="margin: 0 0 10px; font-size: 18px; color: #111827; font-weight: 600;">🛍️ Browse Our Products</h3>
+                    <h3 style="margin: 0 0 10px; font-size: 18px; color: #111827; font-weight: 600;">🛍️ Parcourir nos produits</h3>
                     <p style="margin: 0; font-size: 14px; color: #6b7280; line-height: 1.6;">
-                      Explore our wide range of products and find exactly what you're looking for.
+                      Explorez notre large gamme de produits et trouvez exactement ce dont vous avez besoin.
                     </p>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding: 20px; background-color: #f9fafb; border-radius: 6px; margin-bottom: 15px;">
-                    <h3 style="margin: 0 0 10px; font-size: 18px; color: #111827; font-weight: 600;">📦 Track Your Orders</h3>
+                    <h3 style="margin: 0 0 10px; font-size: 18px; color: #111827; font-weight: 600;">📦 Suivre vos commandes</h3>
                     <p style="margin: 0; font-size: 14px; color: #6b7280; line-height: 1.6;">
-                      Stay updated with real-time tracking information for all your orders.
+                      Restez informé en temps réel de l'état de préparation et de livraison de vos commandes.
                     </p>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding: 20px; background-color: #f9fafb; border-radius: 6px;">
-                    <h3 style="margin: 0 0 10px; font-size: 18px; color: #111827; font-weight: 600;">💬 Get Support</h3>
+                    <h3 style="margin: 0 0 10px; font-size: 18px; color: #111827; font-weight: 600;">💬 Assistance client</h3>
                     <p style="margin: 0; font-size: 14px; color: #6b7280; line-height: 1.6;">
-                      Our customer support team is here to help you with any questions.
+                      Notre équipe de support est là pour répondre à toutes vos questions.
                     </p>
                   </td>
                 </tr>
               </table>
               
               <p style="margin: 0 0 20px; font-size: 16px; color: #374151;">
-                Thank you for choosing Mbengsend. We look forward to serving you!
+                Merci d'avoir choisi Mbengsend. Nous avons hâte de vous servir !
               </p>
               <p style="margin: 0; font-size: 16px; color: #374151;">
-                Best regards,<br>
-                <strong>The Mbengsend Team</strong>
+                Cordialement,<br>
+                <strong>L'équipe Mbengsend</strong>
               </p>
             </td>
           </tr>
@@ -97,10 +97,10 @@ export const formatWelcomeEmailStep = createStep(
           <tr>
             <td style="padding: 30px 40px; text-align: center; background-color: #f9fafb; border-radius: 0 0 8px 8px; border-top: 1px solid #e5e7eb;">
               <p style="margin: 0; font-size: 14px; color: #6b7280;">
-                If you have any questions, please contact our support team.
+                Si vous avez des questions, n'hésitez pas à nous contacter.
               </p>
               <p style="margin: 10px 0 0; font-size: 14px; color: #6b7280;">
-                © ${new Date().getFullYear()} Mbengsend. All rights reserved.
+                © ${new Date().getFullYear()} Mbengsend. Tous droits réservés.
               </p>
             </td>
           </tr>
@@ -114,7 +114,7 @@ export const formatWelcomeEmailStep = createStep(
 
     const formattedEmail: FormattedEmailOutput = {
       to: customerDetails.customer_email,
-      subject: "Welcome to Mbengsend!",
+      subject: "Bienvenue chez Mbengsend !",
       html
     }
 
