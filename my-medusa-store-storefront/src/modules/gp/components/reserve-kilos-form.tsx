@@ -2,57 +2,88 @@
 
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
+import { sdk } from "@lib/config"
+import { useForm } from "react-hook-form"
+
+type ReserveFormData = {
+  firstName: string
+  lastName: string
+  email: string
+  phoneNumber: string
+  kilos: number
+}
 
 export default function ReserveKilosForm({ travel }: { travel: any }) {
-  const [kilos, setKilos] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<ReserveFormData>({
+    defaultValues: { kilos: 1 }
+  })
+
+  const kilos = watch("kilos") || 1
   const totalPrice = kilos * travel.price_per_kilo
 
-  const handleReserve = async () => {
+  const onSubmit = async (data: ReserveFormData) => {
     setIsSubmitting(true)
+    setError(null)
     
-    // In a real implementation, we would add a specific product to the cart
-    // For this MVP, we redirect to a contact or a generic checkout
-    // Let's simulate a success for now
-    
-    setTimeout(() => {
-      setIsSubmitting(false)
-      alert(`Votre réservation de ${kilos}kg (${totalPrice}€) a été prise en compte. Mbengsend vous contactera pour le dépôt du colis.`)
+    try {
+      await sdk.client.fetch("/store/travel-bookings", {
+        method: "POST",
+        body: {
+          travel_offer_id: travel.id,
+          buyer_first_name: data.firstName,
+          buyer_last_name: data.lastName,
+          buyer_email: data.email,
+          buyer_phone: data.phoneNumber,
+          kilos_reserved: Number(data.kilos),
+          total_price: Number(totalPrice),
+        },
+      })
+      
+      alert(`Votre réservation de ${data.kilos}kg (${totalPrice}€) a été enregistrée. Mbengsend vous contactera pour le dépôt du colis au point relais.`)
       router.push("/gp")
-    }, 1000)
+    } catch (err) {
+      console.error("Error creating booking:", err)
+      setError("Une erreur est survenue. Veuillez réessayer.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
-    <div className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="text-center">
         <span className="text-sm font-bold uppercase text-gray-400">Prix au kilo</span>
         <div className="text-4xl font-bold text-brand-dark">{travel.price_per_kilo}€</div>
       </div>
 
-      <div className="space-y-2">
-        <label className="block text-sm font-bold text-gray-700">Quantité (Kg)</label>
-        <div className="flex items-center gap-4">
-          <button 
-            onClick={() => setKilos(Math.max(1, kilos - 1))}
-            className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center font-bold hover:bg-gray-50"
-          >
-            -
-          </button>
-          <div className="flex-1 text-center font-bold text-xl py-2 border-b-2 border-brand-primary">
-            {kilos} Kg
-          </div>
-          <button 
-            onClick={() => setKilos(Math.min(travel.available_kilos, kilos + 1))}
-            className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center font-bold hover:bg-gray-50"
-          >
-            +
-          </button>
+      {error && <div className="p-3 bg-red-50 text-red-500 text-sm rounded-lg">{error}</div>}
+
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-bold text-gray-700 mb-1">Kilos à réserver</label>
+          <input 
+            type="number"
+            {...register("kilos", { required: true, min: 1, max: travel.available_kilos })}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
         </div>
-        <p className="text-[10px] text-gray-400 text-center uppercase tracking-wider font-bold">
-          Maximum disponible : {travel.available_kilos} kg
-        </p>
+
+        <div className="grid grid-cols-2 gap-2">
+          <input {...register("firstName", { required: true })} placeholder="Prénom" className="px-4 py-2 border border-gray-300 rounded-lg text-sm" />
+          <input {...register("lastName", { required: true })} placeholder="Nom" className="px-4 py-2 border border-gray-300 rounded-lg text-sm" />
+        </div>
+        
+        <input {...register("email", { required: true })} type="email" placeholder="Email" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm" />
+        <input {...register("phoneNumber", { required: true })} placeholder="Téléphone / WhatsApp" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm" />
       </div>
 
       <div className="bg-gray-50 rounded-2xl p-4 space-y-2">
@@ -61,22 +92,22 @@ export default function ReserveKilosForm({ travel }: { travel: any }) {
           <span>{totalPrice}€</span>
         </div>
         <div className="flex justify-between font-bold text-gray-900 border-t border-gray-200 pt-2">
-          <span>Total</span>
+          <span>Total à payer</span>
           <span>{totalPrice}€</span>
         </div>
       </div>
 
       <button
-        onClick={handleReserve}
+        type="submit"
         disabled={isSubmitting}
         className="w-full bg-brand-primary text-white py-4 rounded-2xl font-bold text-lg hover:bg-brand-primary/90 transition-all shadow-lg hover:shadow-xl disabled:opacity-50"
       >
-        {isSubmitting ? "Réservation..." : "Réserver maintenant"}
+        {isSubmitting ? "Réservation..." : "Confirmer ma réservation"}
       </button>
 
       <p className="text-[10px] text-gray-400 text-center leading-relaxed italic">
-        * En cliquant sur "Réserver", vous acceptez que Mbengsend vérifie le contenu de votre colis pour des raisons de sécurité aérienne.
+        * Le paiement s'effectue lors du dépôt du colis au point relais Mbengsend.
       </p>
-    </div>
+    </form>
   )
 }

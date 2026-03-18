@@ -1,4 +1,5 @@
 import { model } from "@medusajs/framework/utils"
+import { TravelOffer } from "./travel-offer"
 
 export const TravelOffer = model.define("travel_offer", {
   id: model.id().primaryKey(),
@@ -14,4 +15,19 @@ export const TravelOffer = model.define("travel_offer", {
   price_per_kilo: model.number(),
   status: model.enum(["pending", "approved", "rejected", "completed"]).default("pending"),
   metadata: model.json().nullable(),
+})
+
+export const TravelBooking = model.define("travel_booking", {
+  id: model.id().primaryKey(),
+  travel_offer: model.belongsTo(() => TravelOffer, {
+    mappedBy: "bookings",
+  }),
+  buyer_first_name: model.text(),
+  buyer_last_name: model.text(),
+  buyer_email: model.text(),
+  buyer_phone: model.text(),
+  kilos_reserved: model.number(),
+  total_price: model.number(),
+  payment_status: model.enum(["pending", "paid", "refunded"]).default("pending"),
+  status: model.enum(["pending", "package_received", "in_transit", "delivered"]).default("pending"),
 })
