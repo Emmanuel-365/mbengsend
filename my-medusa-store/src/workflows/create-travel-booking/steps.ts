@@ -1,5 +1,5 @@
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
-import { TRAVEL_MODULE } from "../../modules/travel"
+import { TRAVEL_MODULE } from "../../modules/travel/constants"
 import TravelModuleService from "../../modules/travel/service"
 
 export type CreateTravelBookingStepInput = {

@@ -8,7 +8,8 @@ export const createTravelOfferWorkflow = createWorkflow(
     
     sendAdminNotificationStep({
       offerId: offer.id,
-      travelerName: `${input.first_name} ${input.last_name}`
+      first_name: input.first_name,
+      last_name: input.last_name
     })
     
     return new WorkflowResponse(offer)

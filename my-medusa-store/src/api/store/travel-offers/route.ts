@@ -1,6 +1,6 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import { createTravelOfferWorkflow } from "../../../workflows/create-travel-offer"
-import { TRAVEL_MODULE } from "../../../modules/travel"
+import { TRAVEL_MODULE } from "../../../modules/travel/constants"
 import TravelModuleService from "../../../modules/travel/service"
 
 // Liste des offres validées pour le public
@@ -24,7 +24,6 @@ export async function GET(
   })
 }
 
-// Création d'une nouvelle offre (Voyageur)
 export async function POST(
   req: MedusaRequest,
   res: MedusaResponse

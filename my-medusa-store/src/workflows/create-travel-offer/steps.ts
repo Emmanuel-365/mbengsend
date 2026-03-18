@@ -1,5 +1,5 @@
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
-import { TRAVEL_MODULE } from "../../modules/travel"
+import { TRAVEL_MODULE } from "../../modules/travel/constants"
 import TravelModuleService from "../../modules/travel/service"
 
 export type CreateTravelOfferStepInput = {
@@ -34,8 +34,9 @@ export const createTravelOfferStep = createStep(
 
 export const sendAdminNotificationStep = createStep(
   "send-admin-notification",
-  async (input: { offerId: string; travelerName: string }, { container }) => {
+  async (input: { offerId: string; first_name: string; last_name: string }, { container }) => {
     const notificationService = container.resolve("notification")
+    const traveler_name = `${input.first_name} ${input.last_name}`
     
     // Using your configured email module
     await notificationService.createNotifications({
@@ -44,7 +45,7 @@ export const sendAdminNotificationStep = createStep(
       template: "new-travel-offer", // You'll need to handle this in your email module
       data: {
         offer_id: input.offerId,
-        traveler_name: input.travelerName,
+        traveler_name,
         url: `${process.env.ADMIN_URL || 'http://localhost:9000'}/app/travel-offers/${input.offerId}`
       }
     })

@@ -1,5 +1,5 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
-import { TRAVEL_MODULE } from "../../../modules/travel"
+import { TRAVEL_MODULE } from "../../../modules/travel/constants"
 import TravelModuleService from "../../../modules/travel/service"
 
 export async function GET(

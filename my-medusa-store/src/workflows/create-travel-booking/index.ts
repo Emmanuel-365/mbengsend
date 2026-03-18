@@ -8,7 +8,7 @@ export const createTravelBookingWorkflow = createWorkflow(
     
     sendBookingNotificationStep({
       bookingId: booking.id,
-      travelerEmail: "admin@mbengsend.com" // Simplified
+      travelerEmail: "armandabouem@icloud.com" // Simplified
     })
     
     return new WorkflowResponse(booking)
