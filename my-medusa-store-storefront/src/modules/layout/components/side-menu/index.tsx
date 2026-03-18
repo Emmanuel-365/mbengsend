@@ -72,6 +72,7 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                       {Object.entries({
                         Accueil: "/",
                         Boutique: "/store",
+                        "Vendre mes kilos": "/gp/sell",
                         Compte: "/account",
                         Panier: "/cart",
                       }).map(([name, href]) => {

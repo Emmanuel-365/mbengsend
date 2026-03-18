@@ -112,6 +112,9 @@ module.exports = defineConfig({
       resolve: "./src/modules/wishlist",
     },
     {
+      resolve: "./src/modules/travel",
+    },
+    {
       resolve: "@medusajs/medusa/cache-redis",
       options: {
         redisUrl: process.env.REDIS_URL,
