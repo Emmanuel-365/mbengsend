@@ -1,5 +1,4 @@
 import { model } from "@medusajs/framework/utils"
-import { TravelOffer } from "./travel-offer"
 
 export const TravelOffer = model.define("travel_offer", {
   id: model.id().primaryKey(),

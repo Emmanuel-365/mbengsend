@@ -1,7 +1,7 @@
 import { defineAdminRouteConfig } from "@medusajs/admin-sdk"
 import { Container, Heading, Table, Badge, Button } from "@medusajs/ui"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { sdk } from "../../lib/config" // Adjust import path if needed
+import { sdk } from "../../lib/client" 
 import { Plane } from "@medusajs/icons"
 
 const TravelOffersPage = () => {

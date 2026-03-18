@@ -16,7 +16,8 @@ export const createTravelBookingStep = createStep(
   "create-travel-booking",
   async (input: CreateTravelBookingStepInput, { container }) => {
     const travelModuleService: TravelModuleService = container.resolve(TRAVEL_MODULE)
-    const booking = await travelModuleService.createTravelBookings(input)
+    const bookings = await travelModuleService.createTravelBookings([input])
+    const booking = bookings[0]
     return new StepResponse(booking, booking.id)
   }
 )
