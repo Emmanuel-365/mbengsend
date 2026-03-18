@@ -1,8 +1,7 @@
-import { defineAdminRouteConfig } from "@medusajs/admin-sdk"
 import { Container, Heading, Table, Badge, Button } from "@medusajs/ui"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { sdk } from "../../lib/client" 
-import { Plane } from "@medusajs/icons"
+import { FlyingBox } from "@medusajs/icons"
 
 const TravelOffersPage = () => {
   const queryClient = useQueryClient()
@@ -32,7 +31,7 @@ const TravelOffersPage = () => {
     <Container className="flex flex-col gap-y-6">
       <div className="flex items-center justify-between">
         <Heading level="h1" className="flex items-center gap-x-2">
-          <Plane /> Offres GP (Voyageurs)
+          <FlyingBox /> Offres GP (Voyageurs)
         </Heading>
       </div>
 
@@ -81,9 +80,9 @@ const TravelOffersPage = () => {
   )
 }
 
-export const config = defineAdminRouteConfig({
+export const config = {
   label: "Gestion GP",
-  icon: Plane,
-})
+  icon: FlyingBox,
+}
 
 export default TravelOffersPage

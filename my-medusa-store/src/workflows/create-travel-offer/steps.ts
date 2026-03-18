@@ -19,7 +19,10 @@ export const createTravelOfferStep = createStep(
   "create-travel-offer",
   async (input: CreateTravelOfferStepInput, { container }) => {
     const travelModuleService: TravelModuleService = container.resolve(TRAVEL_MODULE)
-    const offers = await travelModuleService.createTravelOffers([input])
+    const offers = await travelModuleService.createTravelOffers([{
+      ...input,
+      departure_date: new Date(input.departure_date)
+    }])
     const offer = offers[0]
     return new StepResponse(offer, offer.id)
   },
