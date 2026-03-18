@@ -14,6 +14,9 @@ export const TravelOffer = model.define("travel_offer", {
   price_per_kilo: model.number(),
   status: model.enum(["pending", "approved", "rejected", "completed"]).default("pending"),
   metadata: model.json().nullable(),
+  bookings: model.hasMany(() => TravelBooking, {
+    mappedBy: "travel_offer",
+  }),
 })
 
 export const TravelBooking = model.define("travel_booking", {
