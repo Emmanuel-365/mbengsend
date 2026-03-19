@@ -38,5 +38,5 @@ out/
 tsconfig.tsbuildinfo
 
 # Agentics AI
-.gemini
+# .gemini
 .agent
