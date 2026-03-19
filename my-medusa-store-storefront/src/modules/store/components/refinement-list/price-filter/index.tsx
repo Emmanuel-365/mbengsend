@@ -49,7 +49,6 @@ const PriceFilter = ({ minPrice, maxPrice, setQueryParams, region }: PriceFilter
                         placeholder="Min"
                         value={localMin}
                         onChange={handleMinChange}
-                        onBlur={() => handleBlur("min", localMin)}
                     />
                 </div>
                 <span className="text-ui-fg-muted">—</span>
@@ -59,7 +58,6 @@ const PriceFilter = ({ minPrice, maxPrice, setQueryParams, region }: PriceFilter
                         placeholder="Max"
                         value={localMax}
                         onChange={handleMaxChange}
-                        onBlur={() => handleBlur("max", localMax)}
                     />
                 </div>
             </div>

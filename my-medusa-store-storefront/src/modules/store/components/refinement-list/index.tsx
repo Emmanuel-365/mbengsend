@@ -40,6 +40,21 @@ const RefinementList = ({ sortBy, region, 'data-testid': dataTestId }: Refinemen
     router.push(`${pathname}?${query}`, { scroll: false })
   }
 
+  const handleApply = () => {
+    // Re-apply all params at once to avoid multiple navigation events
+    const params = new URLSearchParams(searchParams)
+    
+    if (minPrice) params.set("min", minPrice)
+    else params.delete("min")
+
+    if (maxPrice) params.set("max", maxPrice)
+    else params.delete("max")
+    
+    // The sortBy param is already set by the SortProducts component,
+    // so we just push the final URL.
+    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+  }
+
   return (
     <div className="flex flex-col gap-12 py-4 mb-8 pl-0 small:min-w-[250px]">
       <SortProducts sortBy={sortBy} setQueryParams={setQueryParams} data-testid={dataTestId} />
@@ -49,6 +64,12 @@ const RefinementList = ({ sortBy, region, 'data-testid': dataTestId }: Refinemen
         setQueryParams={setQueryParams}
         region={region}
       />
+      <button
+        onClick={handleApply}
+        className="w-full hidden small:block px-4 py-3 bg-brand-primary text-white rounded-lg font-medium hover:bg-brand-primary/90 transition-colors"
+      >
+        Appliquer
+      </button>
     </div>
   )
 }
