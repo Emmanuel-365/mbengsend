@@ -2,6 +2,7 @@ import { Container, Heading, Table, Badge, Button } from "@medusajs/ui"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { sdk } from "../../lib/client" 
 import { FlyingBox } from "@medusajs/icons"
+import { defineRouteConfig } from "@medusajs/admin-sdk"
 
 const TravelOffersPage = () => {
   const queryClient = useQueryClient()
@@ -80,9 +81,9 @@ const TravelOffersPage = () => {
   )
 }
 
-export const config = {
-  label: "Gestion GP",
-  icon: FlyingBox,
-}
+export const config = defineRouteConfig({
+    label: "Gestion GP",
+    icon: FlyingBox,
+})
 
 export default TravelOffersPage
