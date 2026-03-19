@@ -19,9 +19,15 @@ export default async function productUpsertHandler({
     }
 
     try {
+        // Dynamically find the default currency for context
+        const { data: stores } = await query.graph({
+            entity: "store",
+            fields: ["supported_currencies.*"]
+        });
+        const defaultCurrency = stores[0]?.supported_currencies.find(c => c && c.is_default)?.currency_code || 'eur';
+        logger.info(`[Subscriber] Using default currency: ${defaultCurrency} for product ${productId}`);
+
         // On récupère les détails complets du produit
-        // Note: Pour les prix calculés, sans contexte de région/devise, cela peut varier.
-        // Le service meilisearch gère le cas où calculated_price est absent.
         const { data: products } = await query.graph({
             entity: "product",
             fields: [
@@ -29,7 +35,10 @@ export default async function productUpsertHandler({
                 "categories.*", "variants.*", "variants.calculated_price.*",
                 "created_at"
             ],
-            filters: { id: productId }
+            filters: { id: productId },
+            context: {
+                currency_code: defaultCurrency
+            }
         })
 
         if (products && products.length > 0) {
