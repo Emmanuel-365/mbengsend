@@ -19,26 +19,15 @@ export default async function productUpsertHandler({
     }
 
     try {
-        // Dynamically find the default currency for context
-        const { data: stores } = await query.graph({
-            entity: "store",
-            fields: ["supported_currencies.*"]
-        });
-        const defaultCurrency = stores[0]?.supported_currencies.find(c => c && c.is_default)?.currency_code || 'eur';
-        logger.info(`[Subscriber] Using default currency: ${defaultCurrency} for product ${productId}`);
-
-        // On récupère les détails complets du produit
+        // On récupère les détails complets du produit avec les prix bruts
         const { data: products } = await query.graph({
             entity: "product",
             fields: [
                 "id", "title", "handle", "description", "thumbnail", "status",
-                "categories.*", "variants.*", "variants.calculated_price.*",
+                "categories.*", "variants.*", "variants.prices.*",
                 "created_at"
             ],
-            filters: { id: productId },
-            context: {
-                currency_code: defaultCurrency
-            }
+            filters: { id: productId }
         })
 
         if (products && products.length > 0) {

@@ -31,9 +31,18 @@ export default class MeilisearchService {
             })
 
             const documents = products.map(p => {
-                // Find minimum price among variants
-                const prices = p.variants?.map((v: any) => v.calculated_price?.calculated_amount).filter(Boolean) || []
-                const minPrice = prices.length > 0 ? Math.min(...prices) : 0
+                const allVariantPrices = p.variants?.flatMap((v: any) => v.prices || []) || [];
+                
+                // Find the best price, prioritizing the default currency 'eur'
+                const eurPrices = allVariantPrices.filter(price => price.currency_code === 'eur');
+                
+                let minPrice = 0;
+                if (eurPrices.length > 0) {
+                    minPrice = Math.min(...eurPrices.map(price => price.amount));
+                } else if (allVariantPrices.length > 0) {
+                    // Fallback to the minimum of any available currency if 'eur' is not present
+                    minPrice = Math.min(...allVariantPrices.map(price => price.amount));
+                }
 
                 return {
                     id: p.id,

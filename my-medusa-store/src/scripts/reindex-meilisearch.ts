@@ -9,26 +9,14 @@ export default async function reindexMeilisearch({ container }: ExecArgs) {
     logger.info("[Meilisearch Script] Starting full re-index...")
 
     try {
-        // Dynamically find the default currency
-        const { data: stores } = await query.graph({
-            entity: "store",
-            fields: ["supported_currencies.*"]
-        });
-
-        const defaultCurrency = stores[0]?.supported_currencies.find(c => c && c.is_default)?.currency_code || 'eur';
-        logger.info(`[Meilisearch Script] Using default currency: ${defaultCurrency}`);
-
-        // Fetch all products with all necessary fields
+        // Fetch all products with raw prices
         const { data: products } = await query.graph({
             entity: "product",
             fields: [
                 "id", "title", "handle", "description", "thumbnail", "status",
-                "categories.*", "variants.*", "variants.calculated_price.*",
+                "categories.*", "variants.*", "variants.prices.*",
                 "created_at"
-            ],
-            context: {
-                currency_code: defaultCurrency
-            }
+            ]
         })
 
         if (products && products.length > 0) {
