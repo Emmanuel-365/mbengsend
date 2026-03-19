@@ -77,12 +77,12 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          "Montserrat",
+          "Poppins",
           "sans-serif",
         ],
         display: [
-          "Cormorant",
-          "serif",
+          "Caveat",
+          "cursive",
         ],
       },
       keyframes: {

@@ -4,6 +4,7 @@ import { Text as MedusaText } from "@medusajs/ui"
 
 import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
+import GpCta from "@modules/home/components/gp-cta"
 import Banners from "@modules/home/components/banners"
 import HowItWorks from "@modules/home/components/how-it-works"
 import Features from "@modules/home/components/features"
@@ -54,6 +55,7 @@ export default async function Home(props: {
   return (
     <>
       <Hero />
+      <GpCta />
       <Features />
 
       {categories && categories.length > 0 && (
@@ -100,6 +102,5 @@ export default async function Home(props: {
     </>
   )
 }
-
 
 

@@ -1,6 +1,21 @@
 import { getBaseURL } from "@lib/util/env"
 import { Metadata } from "next"
+import { Poppins, Caveat } from "next/font/google"
 import "styles/globals.css"
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
+  display: "swap",
+})
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-caveat",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
@@ -65,13 +80,9 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 }
 
-
-
-
-
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
-    <html lang="fr" data-mode="light">
+    <html lang="fr" data-mode="light" className={`${poppins.variable} ${caveat.variable}`}>
       <body>
         <main className="relative">{props.children}</main>
       </body>
