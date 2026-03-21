@@ -14,8 +14,8 @@ export default async function Footer() {
   return (
     <footer className="border-t border-ui-border-base w-full bg-[#FDFDFD]">
       <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-12 small:flex-row items-start justify-between py-12 small:py-24 medium:py-32">
-          <div className="flex flex-col gap-4 w-full small:w-auto">
+        <div className="flex flex-col gap-y-12 small:flex-row items-center small:items-start justify-between py-12 small:py-24 medium:py-32">
+          <div className="flex flex-col items-center small:items-start gap-4 w-full small:w-auto text-center small:text-left">
             <LocalizedClientLink
               href="/"
               className="flex items-center gap-3 group/logo-footer"
@@ -32,18 +32,18 @@ export default async function Footer() {
                 Mbengsend
               </span>
             </LocalizedClientLink>
-            <Text className="text-sm small:text-base text-ui-fg-subtle max-w-[300px] mt-2">
-              Votre passerelle privilégiée pour découvrir l'excellence camerounaise et la faire rayonner en Europe.
+            <Text className="text-sm small:text-base text-ui-fg-subtle max-w-[300px] mt-2 leading-relaxed">
+              Votre passerelle privilégiée pour découvrir l&apos;excellence camerounaise et la faire rayonner en Europe.
             </Text>
           </div>
-          <div className="text-small-regular gap-6 small:gap-10 medium:gap-x-16 grid grid-cols-2 small:grid-cols-4 w-full small:w-auto mt-8 small:mt-0">
+          <div className="text-small-regular flex flex-col items-center small:items-start small:grid small:grid-cols-4 gap-12 small:gap-10 medium:gap-x-16 w-full small:w-auto mt-8 small:mt-0">
             {productCategories && productCategories?.length > 0 && (
-              <div className="flex flex-col gap-y-4">
+              <div className="flex flex-col items-center small:items-start gap-y-4">
                 <span className="text-brand-dark font-display font-bold text-sm uppercase tracking-widest">
                   Categories
                 </span>
                 <ul
-                  className="grid grid-cols-1 gap-2"
+                  className="flex flex-col items-center small:items-start gap-2"
                   data-testid="footer-categories"
                 >
                   {productCategories?.slice(0, 6).map((c) => {
@@ -60,7 +60,7 @@ export default async function Footer() {
 
                     return (
                       <li
-                        className="flex flex-col gap-2 text-ui-fg-subtle txt-small"
+                        className="flex flex-col items-center small:items-start gap-2 text-ui-fg-subtle txt-small"
                         key={c.id}
                       >
                         <LocalizedClientLink
@@ -74,7 +74,7 @@ export default async function Footer() {
                           {c.name}
                         </LocalizedClientLink>
                         {children && (
-                          <ul className="grid grid-cols-1 ml-3 gap-2">
+                          <ul className="flex flex-col items-center small:items-start gap-2 mt-1">
                             {children &&
                               children.map((child) => (
                                 <li key={child.id}>
@@ -96,17 +96,12 @@ export default async function Footer() {
               </div>
             )}
             {collections && collections.length > 0 && (
-              <div className="flex flex-col gap-y-4">
+              <div className="flex flex-col items-center small:items-start gap-y-4">
                 <span className="text-brand-dark font-display font-bold text-sm uppercase tracking-widest">
                   Collections
                 </span>
                 <ul
-                  className={clx(
-                    "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
-                    {
-                      "grid-cols-2": (collections?.length || 0) > 3,
-                    }
-                  )}
+                  className="flex flex-col items-center small:items-start gap-2 text-ui-fg-subtle txt-small"
                 >
                   {collections?.slice(0, 6).map((c) => (
                     <li key={c.id}>
@@ -122,9 +117,9 @@ export default async function Footer() {
               </div>
             )}
             
-            <div className="flex flex-col gap-y-4">
+            <div className="flex flex-col items-center small:items-start gap-y-4">
               <span className="text-brand-dark font-display font-bold text-sm uppercase tracking-widest">Assistance</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
+              <ul className="flex flex-col items-center small:items-start gap-y-2 text-ui-fg-subtle txt-small">
                 <li>
                   <LocalizedClientLink href="/about" className="hover:text-brand-gold transition-colors">
                     À propos
@@ -142,9 +137,9 @@ export default async function Footer() {
                 </li>
               </ul>
             </div>
-            <div className="flex flex-col gap-y-4">
+            <div className="flex flex-col items-center small:items-start gap-y-4">
               <span className="text-brand-dark font-display font-bold text-sm uppercase tracking-widest">Légal</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
+              <ul className="flex flex-col items-center small:items-start gap-y-2 text-ui-fg-subtle txt-small">
                 <li>
                   <LocalizedClientLink href="/legal/terms" className="hover:text-brand-gold transition-colors">
                     Conditions Générales
@@ -156,22 +151,22 @@ export default async function Footer() {
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink href="/content/privacy-policy" className="hover:text-brand-gold transition-colors">
+                  <LocalizedClientLink href="/content/privacy-policy" className="hover:text-brand-gold transition-colors text-center small:text-left">
                     Charte des données
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink href="/content/data-management" className="hover:text-brand-gold transition-colors">
+                  <LocalizedClientLink href="/content/data-management" className="hover:text-brand-gold transition-colors text-center small:text-left">
                     Gestion des données
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink href="/content/cookies" className="hover:text-brand-gold transition-colors">
+                  <LocalizedClientLink href="/content/cookies" className="hover:text-brand-gold transition-colors text-center small:text-left">
                     Cookies
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <button className="text-left hover:text-brand-gold transition-colors">
+                  <button className="text-center small:text-left hover:text-brand-gold transition-colors decoration-dotted underline underline-offset-4 decoration-brand-gold/30">
                     Paramètres des cookies
                   </button>
                 </li>
