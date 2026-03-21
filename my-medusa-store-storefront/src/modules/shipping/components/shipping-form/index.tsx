@@ -5,6 +5,7 @@ import { sdk } from "@lib/config"
 import { Button, Heading, Text } from "@medusajs/ui"
 import { motion, AnimatePresence } from "framer-motion"
 import { CheckCircleSolid } from "@medusajs/icons"
+import { Package } from "lucide-react"
 
 // A sleek input component wrapper
 const InputGroup = ({ label, name, type = "text", placeholder, required = true, isTextArea = false, value, onChange }: any) => (
@@ -253,7 +254,9 @@ export default function ShippingForm() {
                             {/* Détails du colis */}
                             <div className="pt-8 border-t border-gray-100 space-y-6 bg-slate-50/50 -mx-8 sm:-mx-10 px-8 sm:px-10 pb-4 rounded-b-3xl">
                                 <div className="flex items-center gap-3 mb-2">
-                                    <div className="w-8 h-8 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center">📦</div>
+                                    <div className="w-8 h-8 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center">
+                                        <Package className="w-5 h-5" />
+                                    </div>
                                     <Heading level="h3" className="text-xl font-semibold text-slate-800">Détails du colis</Heading>
                                 </div>
 

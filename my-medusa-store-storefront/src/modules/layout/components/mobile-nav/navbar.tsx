@@ -9,6 +9,7 @@ import { Locale } from "@lib/data/locales"
 import Image from "next/image"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import SideMenu from "../side-menu"
+import { Package, Plane } from "lucide-react"
 
 type MobileNavBarProps = {
   regions: HttpTypes.StoreRegion[] | null
@@ -103,7 +104,7 @@ export default function MobileNavBar({ regions, locales, currentLocale }: Mobile
             href="/shipping"
             className="flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors flex-1 text-blue-600"
           >
-            <span className="text-xl leading-none flex items-center justify-center h-6">📦</span>
+            <Package className="w-6 h-6" />
             <span className="text-xs font-semibold">Expédier</span>
           </LocalizedClientLink>
 
@@ -112,8 +113,8 @@ export default function MobileNavBar({ regions, locales, currentLocale }: Mobile
             href="/gp"
             className="flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg hover:bg-gray-100 transition-colors flex-1"
           >
-            <span className="text-xl leading-none flex items-center justify-center h-6">✈️</span>
-            <span className="text-xs font-medium text-gray-700">Service GP</span>
+            <Plane className="w-6 h-6 text-gray-700" />
+            <span className="text-xs font-medium text-gray-700">GP</span>
           </LocalizedClientLink>
 
           {/* Account */}

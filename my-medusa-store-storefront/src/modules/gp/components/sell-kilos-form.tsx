@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { sdk } from "@lib/config"
+import { CheckCircle, Plane, Luggage, User } from "lucide-react"
 
 type FormData = {
   firstName: string
@@ -62,8 +63,8 @@ export default function SellKilosForm() {
   if (isSuccess) {
     return (
       <div className="text-center py-12">
-        <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl">
-          ✅
+        <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+          <CheckCircle className="w-10 h-10" />
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Proposition reçue !</h2>
         <p className="text-gray-600 mb-8 max-w-md mx-auto">
@@ -89,7 +90,7 @@ export default function SellKilosForm() {
       {/* Voyage Section */}
       <div>
         <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          ✈️ Détails du voyage
+          <Plane className="w-5 h-5 text-brand-primary" /> Détails du voyage
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -133,7 +134,7 @@ export default function SellKilosForm() {
       {/* Bagages Section */}
       <div>
         <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          🧳 Franchise bagage
+          <Luggage className="w-5 h-5 text-brand-primary" /> Franchise bagage
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -160,7 +161,7 @@ export default function SellKilosForm() {
       {/* Contact Section */}
       <div>
         <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          👤 Informations de contact
+          <User className="w-5 h-5 text-brand-primary" /> Informations de contact
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>

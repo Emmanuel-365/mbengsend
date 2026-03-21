@@ -7,6 +7,7 @@ import SearchButton from "./search-button"
 import Image from "next/image"
 import WishlistButton from "@modules/layout/components/wishlist-button"
 import MobileNavBar from "@modules/layout/components/mobile-nav/navbar"
+import { Package, Plane } from "lucide-react"
 
 export default function Nav({ regions, locales, currentLocale }: { 
   regions: StoreRegion[]
@@ -47,13 +48,13 @@ export default function Nav({ regions, locales, currentLocale }: {
               className="hidden lg:flex items-center gap-2 text-sm font-semibold bg-brand-secondary text-white border border-brand-secondary/50 px-5 py-2 rounded-full hover:bg-brand-secondary/90 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-opacity-50"
               href="/gp/sell"
             >
-              <span>✈️</span> Je voyage : Vendre mes kilos
+              <Plane className="w-4 h-4" /> Je voyage : Vendre mes kilos
             </LocalizedClientLink>
             <LocalizedClientLink
               className="hidden lg:flex items-center gap-2 text-sm font-semibold bg-brand-primary/10 text-brand-primary border border-brand-primary/20 px-5 py-2 rounded-full hover:bg-brand-primary hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5"
               href="/shipping"
             >
-              <span>📦</span> Expédier un colis
+              <Package className="w-4 h-4" /> Expédier un colis
             </LocalizedClientLink>
             <div className="h-6 w-px bg-gray-200 mx-2" />
             <SearchButton />

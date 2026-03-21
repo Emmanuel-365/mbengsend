@@ -4,6 +4,7 @@ import { Button, Heading, Text } from "@medusajs/ui"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { Plane } from "lucide-react"
 
 const Hero = () => {
   return (

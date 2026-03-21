@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { sdk } from "@lib/config"
+import { Package, Scale, Truck, Star, Plane } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Envoyer avec un voyageur (GP) - Mbengsend",
@@ -56,28 +57,28 @@ export default async function GPPage() {
       <section className="py-12 border-b border-gray-100 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="flex items-center gap-4">
-            <span className="text-3xl text-brand-primary">📦</span>
+            <Package className="w-8 h-8 text-brand-primary" />
             <div>
               <h4 className="font-bold">Colis vérifiés</h4>
               <p className="text-sm text-gray-500">Zéro risque de sécurité</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-3xl text-brand-primary">⚖️</span>
+            <Scale className="w-8 h-8 text-brand-primary" />
             <div>
               <h4 className="font-bold">Tarifs fixes</h4>
               <p className="text-sm text-gray-500">Pas de négociation interminable</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-3xl text-brand-primary">🚚</span>
+            <Truck className="w-8 h-8 text-brand-primary" />
             <div>
               <h4 className="font-bold">Point Relais</h4>
               <p className="text-sm text-gray-500">Dépôt et retrait facilités</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-3xl text-brand-primary">⭐</span>
+            <Star className="w-8 h-8 text-brand-primary" />
             <div>
               <h4 className="font-bold">Service garanti</h4>
               <p className="text-sm text-gray-500">Mbengsend gère tout</p>
@@ -106,7 +107,9 @@ export default async function GPPage() {
 
         {travels.length === 0 ? (
           <div className="bg-brand-secondary/5 rounded-3xl p-12 text-center border-2 border-dashed border-brand-secondary/20">
-            <div className="text-5xl mb-6">✈️</div>
+            <div className="flex justify-center mb-6">
+              <Plane className="w-12 h-12 text-brand-secondary/40" />
+            </div>
             <h3 className="text-2xl font-bold text-brand-dark mb-4">Aucun voyageur disponible pour l'instant</h3>
             <p className="text-gray-600 mb-8 max-w-md mx-auto">
               Soyez le premier à proposer vos kilos pour le prochain vol !
@@ -141,7 +144,9 @@ export default async function GPPage() {
                       <h4 className="text-xl font-bold text-gray-900">{travel.departure_city}</h4>
                       <p className="text-xs text-gray-500">Aéroport Relais</p>
                     </div>
-                    <div className="text-brand-primary text-2xl animate-pulse">✈️</div>
+                    <div className="text-brand-primary animate-pulse">
+                      <Plane className="w-6 h-6" />
+                    </div>
                     <div className="flex-1 text-right">
                       <h4 className="text-xl font-bold text-gray-900">{travel.destination_city}</h4>
                       <p className="text-xs text-gray-500">Relais Arrivée</p>

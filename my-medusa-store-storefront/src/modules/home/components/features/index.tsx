@@ -1,25 +1,27 @@
 import { Text } from "@medusajs/ui"
+import ReactCountryFlag from "react-country-flag"
+import { Plane, MessageCircle, ShieldCheck, Award } from "lucide-react"
 
 const features = [
     {
         title: "Savoir-faire Authentique",
         description: "Tous nos produits sont sourcés directement auprès de producteurs et artisans camerounais.",
-        icon: "🇨🇲",
+        icon: <ReactCountryFlag countryCode="CM" svg />,
     },
     {
         title: "Livraison en Europe",
         description: "Expéditions régulières du Cameroun vers l'Europe pour des délais optimisés.",
-        icon: "✈️",
+        icon: <Plane className="w-8 h-8" />,
     },
     {
         title: "Service Client 7j/7",
         description: "Une équipe dédiée à votre écoute pour un accompagnement personnalisé en Europe.",
-        icon: "💬",
+        icon: <MessageCircle className="w-8 h-8" />,
     },
     {
         title: "Paiement Sécurisé",
         description: "Options de paiement internationales sécurisées adaptées à vos besoins.",
-        icon: "🛡️",
+        icon: <ShieldCheck className="w-8 h-8" />,
     },
 ]
 

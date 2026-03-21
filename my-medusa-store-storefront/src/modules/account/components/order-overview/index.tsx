@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@medusajs/ui"
+import { Package } from "lucide-react"
 
 import OrderCard from "../order-card"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
@@ -27,8 +28,8 @@ const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
       className="w-full flex flex-col items-center gap-y-6 py-32 bg-gray-50/50 rounded-huge border border-gray-100 shadow-lux-sm"
       data-testid="no-orders-container"
     >
-      <div className="w-24 h-24 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary text-4xl mb-4 border border-brand-primary/20">
-        📦
+      <div className="w-24 h-24 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-4 border border-brand-primary/20">
+        <Package className="w-12 h-12" />
       </div>
       <h2 className="text-3xl font-display font-bold text-brand-dark text-center tracking-tight">Aucune commande pour le moment</h2>
       <p className="text-ui-fg-subtle text-center max-w-[400px] leading-relaxed">

@@ -1,21 +1,23 @@
 import { Text, Heading } from "@medusajs/ui"
 import { motion } from "framer-motion"
+import ReactCountryFlag from "react-country-flag"
+import { CreditCard, Plane } from "lucide-react"
 
 const steps = [
     {
         title: "Sélectionnez l'Excellence",
         description: "Parcourez notre catalogue et choisissez vos produits parmi une sélection exclusive du meilleur du terroir camerounais.",
-        icon: "🇨🇲",
+        icon: <ReactCountryFlag countryCode="CM" svg />,
     },
     {
         title: "Paiement Sécurisé",
         description: "Réglez vos achats en toute sécurité. Nous acceptons divers modes de paiement internationaux pour faciliter vos transactions.",
-        icon: "💳",
+        icon: <CreditCard className="w-10 h-10" />,
     },
     {
         title: "Livraison en Europe",
         description: "Nous expédions vos produits directement du Cameroun vers l'Europe. Suivez votre colis jusqu'à votre porte.",
-        icon: "✈️",
+        icon: <Plane className="w-10 h-10" />,
     },
 ]
 
