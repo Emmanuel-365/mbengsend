@@ -1,6 +1,6 @@
 import { defineRouteConfig } from "@medusajs/admin-sdk"
-import { ArchiveBox, Trash } from "@medusajs/icons"
-import { Container, Heading, Table, Badge, Button, toast } from "@medusajs/ui"
+import { ArchiveBox, Trash, CheckCircle, PencilSquare, Phone } from "@medusajs/icons"
+import { Container, Heading, Table, Badge, Button, toast, Text } from "@medusajs/ui"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { sdk } from "../../lib/client"
 
@@ -10,6 +10,21 @@ const ParcelRequestsPage = () => {
     const { data, isLoading } = useQuery({
         queryKey: ["parcel-requests"],
         queryFn: () => sdk.client.fetch("/admin/parcel-requests"),
+    })
+
+    const { mutate: updateStatus } = useMutation({
+        mutationFn: ({ id, status }: { id: string, status: string }) => 
+            sdk.client.fetch(`/admin/parcel-requests/${id}`, {
+                method: "POST",
+                body: { status }
+            }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["parcel-requests"] })
+            toast.success("Statut mis à jour")
+        },
+        onError: (err: any) => {
+            toast.error(err.message || "Erreur lors de la mise à jour")
+        }
     })
 
     const { mutate: deleteRequest, isPending: isDeleting } = useMutation({
@@ -61,14 +76,12 @@ const ParcelRequestsPage = () => {
             <Table>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>ID</Table.HeaderCell>
+                        <Table.HeaderCell>Date</Table.HeaderCell>
                         <Table.HeaderCell>Expéditeur</Table.HeaderCell>
-                        <Table.HeaderCell>Départ</Table.HeaderCell>
+                        <Table.HeaderCell>Départ ➔ Arrivée</Table.HeaderCell>
                         <Table.HeaderCell>Destinataire</Table.HeaderCell>
-                        <Table.HeaderCell>Arrivée</Table.HeaderCell>
-                        <Table.HeaderCell>Mode</Table.HeaderCell>
-                        <Table.HeaderCell>Détails Colis</Table.HeaderCell>
-                        <Table.HeaderCell>Prix Estimé</Table.HeaderCell>
+                        <Table.HeaderCell>Colis / Mode</Table.HeaderCell>
+                        <Table.HeaderCell>Prix Est.</Table.HeaderCell>
                         <Table.HeaderCell>Statut</Table.HeaderCell>
                         <Table.HeaderCell className="text-right">Actions</Table.HeaderCell>
                     </Table.Row>
@@ -76,41 +89,60 @@ const ParcelRequestsPage = () => {
                 <Table.Body>
                     {isLoading ? (
                         <Table.Row>
-                            <Table.Cell className="text-center py-8" style={{ gridColumn: "span 10" } as React.CSSProperties}>Chargement en cours...</Table.Cell>
+                            <Table.Cell className="text-center py-8" style={{ gridColumn: "span 8" } as React.CSSProperties}>Chargement en cours...</Table.Cell>
                         </Table.Row>
                     ) : (data as any)?.parcel_requests?.length === 0 ? (
                         <Table.Row>
-                            <Table.Cell className="text-center py-8 text-ui-fg-subtle" style={{ gridColumn: "span 10" } as React.CSSProperties}>Aucune demande pour le moment.</Table.Cell>
+                            <Table.Cell className="text-center py-8 text-ui-fg-subtle" style={{ gridColumn: "span 8" } as React.CSSProperties}>Aucune demande pour le moment.</Table.Cell>
                         </Table.Row>
                     ) : (
                         (data as any)?.parcel_requests?.map((request: any) => (
                             <Table.Row key={request.id}>
-                                <Table.Cell className="text-xs font-mono text-ui-fg-subtle">{request.id.slice(0, 8)}...</Table.Cell>
+                                <Table.Cell className="text-xs">
+                                     {new Date(request.created_at).toLocaleDateString('fr-FR', {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                     })}
+                                </Table.Cell>
                                 <Table.Cell>
                                     <div className="font-medium text-sm">{request.sender_name}</div>
-                                    <div className="text-xs text-ui-fg-subtle">{request.sender_phone}</div>
+                                    <div className="flex items-center gap-1 text-xs text-ui-fg-subtle">
+                                        {request.sender_phone}
+                                        <a 
+                                            href={`https://wa.me/${request.sender_phone.replace(/\+/g, '').replace(/\s/g, '')}`} 
+                                            target="_blank" 
+                                            rel="noreferrer"
+                                            className="ml-1 text-green-600 hover:text-green-700"
+                                        >
+                                            <Phone className="w-3 h-3" />
+                                        </a>
+                                    </div>
                                 </Table.Cell>
-                                <Table.Cell>{request.origin_city}</Table.Cell>
+                                <Table.Cell>
+                                    <div className="flex flex-col">
+                                        <Text size="small" className="font-medium">{request.origin_city}</Text>
+                                        <Text size="xsmall" className="text-ui-fg-muted">➔ {request.destination_city}</Text>
+                                    </div>
+                                </Table.Cell>
                                 <Table.Cell>
                                     <div className="font-medium text-sm">{request.receiver_name}</div>
                                     <div className="text-xs text-ui-fg-subtle">{request.receiver_phone}</div>
                                 </Table.Cell>
-                                <Table.Cell>{request.destination_city}</Table.Cell>
                                 <Table.Cell>
-                                    <Badge size="small">
-                                        {request.shipping_mode === "air_freight" ? "Aérien" 
-                                            : request.shipping_mode === "sea_freight" ? "Maritime" 
-                                            : request.shipping_mode === "local_delivery" ? "Local" 
-                                            : "N/A"}
-                                    </Badge>
+                                    <div className="flex flex-col gap-1">
+                                        <div className="text-xs font-medium uppercase text-ui-fg-muted">
+                                            {request.shipping_mode === "air_freight" ? "Aérien" 
+                                                : request.shipping_mode === "sea_freight" ? "Maritime" 
+                                                : request.shipping_mode === "local_delivery" ? "Local" 
+                                                : "N/A"}
+                                        </div>
+                                        <div className="text-xs">{request.package_weight ? `${request.package_weight} kg` : "-"}</div>
+                                    </div>
                                 </Table.Cell>
-                                <Table.Cell>
-                                    <div className="text-sm">{request.package_weight ? `${request.package_weight} kg` : "-"}</div>
-                                    {(request.length && request.width && request.height) ? (
-                                        <div className="text-xs text-ui-fg-subtle">{request.length}x{request.width}x{request.height} cm</div>
-                                    ) : null}
-                                </Table.Cell>
-                                <Table.Cell>
+                                <Table.Cell className="text-sm font-medium">
                                     {request.estimated_price ? `${request.estimated_price} XAF` : "-"}
                                 </Table.Cell>
                                 <Table.Cell>
@@ -119,15 +151,32 @@ const ParcelRequestsPage = () => {
                                     </Badge>
                                 </Table.Cell>
                                 <Table.Cell className="text-right">
-                                    <Button 
-                                        variant="secondary" 
-                                        size="small" 
-                                        className="text-ui-fg-muted hover:text-red-500"
-                                        disabled={isDeleting}
-                                        onClick={() => handleDelete(request.id)}
-                                    >
-                                        <Trash />
-                                    </Button>
+                                    <div className="flex items-center justify-end gap-x-2">
+                                        {request.status === "PENDING" && (
+                                            <Button variant="secondary" size="small" onClick={() => updateStatus({ id: request.id, status: "ACCEPTED" })}>
+                                                <CheckCircle /> Accepter
+                                            </Button>
+                                        )}
+                                        {request.status === "ACCEPTED" && (
+                                            <Button variant="secondary" size="small" onClick={() => updateStatus({ id: request.id, status: "IN_TRANSIT" })}>
+                                                <PencilSquare /> Expédier
+                                            </Button>
+                                        )}
+                                        {request.status === "IN_TRANSIT" && (
+                                            <Button variant="secondary" size="small" onClick={() => updateStatus({ id: request.id, status: "DELIVERED" })}>
+                                                <CheckCircle /> Livré
+                                            </Button>
+                                        )}
+                                        <Button 
+                                            variant="secondary" 
+                                            size="small" 
+                                            className="text-ui-fg-muted hover:text-red-500"
+                                            disabled={isDeleting}
+                                            onClick={() => handleDelete(request.id)}
+                                        >
+                                            <Trash />
+                                        </Button>
+                                    </div>
                                 </Table.Cell>
                             </Table.Row>
                         ))

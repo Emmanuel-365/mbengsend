@@ -69,5 +69,28 @@ export async function POST(
         },
     })
 
+    // Notify Admin via Email
+    try {
+        const notificationModuleService = req.scope.resolve("notification")
+        await notificationModuleService.createNotifications({
+            to: "contact@mbengsend.com",
+            channel: "email",
+            template: "parcel-request-notification", 
+            data: {
+                subject: `NOUVELLE DEMANDE D'EXPÉDITION - ${result.origin_city} ➔ ${result.destination_city}`,
+                sender_name: result.sender_name,
+                sender_phone: result.sender_phone,
+                origin_city: result.origin_city,
+                destination_city: result.destination_city,
+                package_description: result.package_description,
+                estimated_price: result.estimated_price,
+                admin_link: `https://api.mbengsend.com/app/parcel-requests`
+            }
+        })
+        console.info(`Email successfully sent to contact@mbengsend.com for parcel request ${result.id}`)
+    } catch (error) {
+        console.error("Failed to send email notification for parcel request:", error)
+    }
+
     res.json({ parcel_request: result })
 }
