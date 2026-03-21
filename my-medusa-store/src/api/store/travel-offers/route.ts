@@ -4,7 +4,26 @@ import { createTravelOfferWorkflow } from "../../../workflows/create-travel-offe
 import { TRAVEL_MODULE } from "../../../modules/travel/constants"
 import TravelModuleService from "../../../modules/travel/service"
 
-// ... (GET remains same)
+// Liste des offres validées pour le public
+export async function GET(
+  req: MedusaRequest,
+  res: MedusaResponse
+) {
+  const travelModuleService: TravelModuleService = req.scope.resolve(TRAVEL_MODULE)
+  
+  // On ne récupère que les offres approuvées
+  const [offers, count] = await travelModuleService.listAndCountTravelOffers({
+    status: "approved"
+  }, {
+    order: { departure_date: "ASC" },
+    take: 20
+  })
+
+  res.status(200).json({ 
+    travel_offers: offers,
+    count
+  })
+}
 
 export async function POST(
   req: MedusaRequest,
