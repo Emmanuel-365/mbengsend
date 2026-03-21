@@ -24,13 +24,13 @@ export async function POST(
   ) {
     const { id } = req.params
     const { status, payment_status } = req.body as any
-    const travelModuleService: TravelModuleService = req.scope.resolve(TRAVEL_MODULE)
-    
-    const booking = await travelModuleService.updateTravelBookings({
-        id,
-        status,
-        payment_status
-    })
+  const travelModuleService: TravelModuleService = req.scope.resolve(TRAVEL_MODULE)
+
+  const updateData: any = { id }
+  if (status !== undefined) updateData.status = status
+  if (payment_status !== undefined) updateData.payment_status = payment_status
+
+  const booking = await travelModuleService.updateTravelBookings(updateData)
   
     res.status(200).json({ 
       travel_booking: booking
