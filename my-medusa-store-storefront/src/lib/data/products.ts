@@ -72,12 +72,16 @@ export const listProducts = async ({
       }
     )
     .then(({ products, count }) => {
-      const nextPage = count > offset + limit ? pageParam + 1 : null
+      // Exclude fictive GP service product from listing
+      const filteredProducts = products.filter(p => p.handle !== "gp-service")
+      const filteredCount = products.length === filteredProducts.length ? count : Math.max(0, count - 1)
+      
+      const nextPage = filteredCount > offset + limit ? pageParam + 1 : null
 
       return {
         response: {
-          products,
-          count,
+          products: filteredProducts,
+          count: filteredCount,
         },
         nextPage: nextPage,
         queryParams,
