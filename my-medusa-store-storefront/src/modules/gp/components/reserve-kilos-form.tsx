@@ -13,7 +13,7 @@ type ReserveFormData = {
   kilos: number
 }
 
-export default function ReserveKilosForm({ travel }: { travel: any }) {
+export default function ReserveKilosForm({ travel, cartId }: { travel: any; cartId?: string }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
@@ -27,32 +27,33 @@ export default function ReserveKilosForm({ travel }: { travel: any }) {
     defaultValues: { kilos: 1 }
   })
 
+  const currentPrice = travel.selling_price_per_kilo || travel.price_per_kilo
   const kilos = watch("kilos") || 1
-  const totalPrice = kilos * travel.price_per_kilo
+  const totalPrice = kilos * currentPrice
 
   const onSubmit = async (data: ReserveFormData) => {
     setIsSubmitting(true)
     setError(null)
     
     try {
-      await sdk.client.fetch("/store/travel-bookings", {
+      if (!cartId) {
+        throw new Error("Le panier n'a pas été initialisé. Veuillez rafraîchir la page.")
+      }
+
+      await sdk.client.fetch("/store/gp/reserve", {
         method: "POST",
         body: {
           travel_offer_id: travel.id,
-          buyer_first_name: data.firstName,
-          buyer_last_name: data.lastName,
-          buyer_email: data.email,
-          buyer_phone: data.phoneNumber,
-          kilos_reserved: Number(data.kilos),
-          total_price: Number(totalPrice),
+          kilos: Number(data.kilos),
+          cart_id: cartId
         },
       })
       
-      alert(`Votre réservation de ${data.kilos}kg (${totalPrice}€) a été enregistrée. Mbengsend vous contactera pour le dépôt du colis au point relais.`)
-      router.push("/gp")
-    } catch (err) {
+      // On redirige vers le checkout directement
+      router.push("/checkout")
+    } catch (err: any) {
       console.error("Error creating booking:", err)
-      setError("Une erreur est survenue. Veuillez réessayer.")
+      setError(err.message || "Une erreur est survenue. Veuillez réessayer.")
     } finally {
       setIsSubmitting(false)
     }
@@ -62,7 +63,7 @@ export default function ReserveKilosForm({ travel }: { travel: any }) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="text-center">
         <span className="text-sm font-bold uppercase text-gray-400">Prix au kilo</span>
-        <div className="text-4xl font-bold text-brand-dark">{travel.price_per_kilo}€</div>
+        <div className="text-4xl font-bold text-brand-dark">{currentPrice}€</div>
       </div>
 
       {error && <div className="p-3 bg-red-50 text-red-500 text-sm rounded-lg">{error}</div>}

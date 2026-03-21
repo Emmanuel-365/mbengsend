@@ -65,37 +65,59 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
 
       <Table.Cell className="text-left px-4">
         <LocalizedClientLink
-          href={`/products/${item.product_handle}`}
+          href={item.product_handle === "gp-service" ? "/gp" : `/products/${item.product_handle}`}
           className="text-lg font-display font-bold text-brand-dark hover:text-brand-primary transition-colors block mb-1"
           data-testid="product-title"
         >
           {item.product_title}
         </LocalizedClientLink>
-        <LineItemOptions variant={item.variant} data-testid="product-variant" className="text-ui-fg-subtle text-xs uppercase tracking-wide" />
+        {item.metadata?.type === "gp_reservation" ? (
+          <div className="flex flex-col gap-y-1 mt-2 p-3 bg-brand-primary/5 rounded-xl border border-brand-primary/10">
+            <div className="flex items-center gap-x-2 text-xs text-brand-dark/70">
+              <span className="font-bold">⚖️ {item.metadata.kilos_reserved} Kg</span>
+              <span className="w-1 h-1 bg-brand-dark/20 rounded-full" />
+              <span>{item.metadata.price_per_kilo} €/kg</span>
+            </div>
+            <div className="text-[10px] text-gray-500 italic">
+              Voyage : {item.metadata.journey as string}
+            </div>
+            <div className="text-[10px] text-gray-500 italic">
+              Voyageur : {item.metadata.traveler_name as string}
+            </div>
+          </div>
+        ) : (
+          <LineItemOptions variant={item.variant} data-testid="product-variant" className="text-ui-fg-subtle text-xs uppercase tracking-wide" />
+        )}
       </Table.Cell>
 
       {type === "full" && (
         <Table.Cell>
           <div className="flex gap-4 items-center">
-            <div className="flex items-center border border-brand-dark/10 rounded-full px-2 bg-white shadow-sm overflow-hidden">
-              <CartItemSelect
-                value={item.quantity}
-                onChange={(value) => changeQuantity(parseInt(value.target.value))}
-                className="w-16 h-10 border-none bg-transparent focus:ring-0 text-sm font-bold text-brand-dark"
-                data-testid="product-select-button"
-              >
-                {Array.from(
-                  {
-                    length: Math.min(maxQuantity, 10),
-                  },
-                  (_, i) => (
-                    <option value={i + 1} key={i}>
-                      {i + 1}
-                    </option>
-                  )
-                )}
-              </CartItemSelect>
-            </div>
+            {item.metadata?.type === "gp_reservation" ? (
+              <div className="text-sm font-bold text-brand-dark bg-gray-50 px-3 py-1 rounded-full border border-gray-100 italic">
+                Réservation GP
+              </div>
+            ) : (
+              <div className="flex items-center border border-brand-dark/10 rounded-full px-2 bg-white shadow-sm overflow-hidden">
+                <CartItemSelect
+                  value={item.quantity}
+                  onChange={(value) => changeQuantity(parseInt(value.target.value))}
+                  className="w-16 h-10 border-none bg-transparent focus:ring-0 text-sm font-bold text-brand-dark"
+                  data-testid="product-select-button"
+                >
+                  {Array.from(
+                    {
+                      length: Math.min(maxQuantity, 10),
+                    },
+                    (_, i) => (
+                      <option value={i + 1} key={i}>
+                        {i + 1}
+                      </option>
+                    )
+                  )}
+                </CartItemSelect>
+              </div>
+            )}
             <DeleteButton id={item.id} data-testid="product-delete-button" className="text-ui-fg-muted hover:text-red-500 transition-colors" />
             {updating && <Spinner className="animate-spin text-brand-primary" />}
           </div>

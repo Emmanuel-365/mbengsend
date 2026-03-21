@@ -129,7 +129,9 @@ export default async function GPPage() {
                       {travel.airline || "Compagnie Certifiée"}
                     </div>
                     <div className="text-right">
-                      <span className="block text-2xl font-bold text-gray-900 leading-none">{travel.price_per_kilo}€</span>
+                      <span className="block text-2xl font-bold text-gray-900 leading-none">
+                        {travel.selling_price_per_kilo || travel.price_per_kilo}€
+                      </span>
                       <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">par kilo</span>
                     </div>
                   </div>

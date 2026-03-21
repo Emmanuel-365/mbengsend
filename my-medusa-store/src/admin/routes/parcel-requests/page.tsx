@@ -1,13 +1,28 @@
 import { defineRouteConfig } from "@medusajs/admin-sdk"
-import { ArchiveBox } from "@medusajs/icons"
-import { Container, Heading, Table, Badge } from "@medusajs/ui"
-import { useQuery } from "@tanstack/react-query"
+import { ArchiveBox, Trash } from "@medusajs/icons"
+import { Container, Heading, Table, Badge, Button, toast } from "@medusajs/ui"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { sdk } from "../../lib/client"
 
 const ParcelRequestsPage = () => {
+    const queryClient = useQueryClient()
+
     const { data, isLoading } = useQuery({
         queryKey: ["parcel-requests"],
         queryFn: () => sdk.client.fetch("/admin/parcel-requests"),
+    })
+
+    const { mutate: deleteRequest, isPending: isDeleting } = useMutation({
+        mutationFn: (id: string) => sdk.client.fetch(`/admin/parcel-requests/${id}`, {
+            method: "DELETE"
+        }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["parcel-requests"] })
+            toast.success("Demande d'expédition supprimée")
+        },
+        onError: (err: any) => {
+            toast.error(err.message || "Erreur lors de la suppression")
+        }
     })
 
     // Basic styling for the status badges
@@ -25,6 +40,12 @@ const ParcelRequestsPage = () => {
                 return "red"
             default:
                 return "grey"
+        }
+    }
+
+    const handleDelete = (id: string) => {
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer cette demande ?")) {
+            deleteRequest(id)
         }
     }
 
@@ -49,16 +70,17 @@ const ParcelRequestsPage = () => {
                         <Table.HeaderCell>Détails Colis</Table.HeaderCell>
                         <Table.HeaderCell>Prix Estimé</Table.HeaderCell>
                         <Table.HeaderCell>Statut</Table.HeaderCell>
+                        <Table.HeaderCell className="text-right">Actions</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {isLoading ? (
                         <Table.Row>
-                            <Table.Cell className="text-center py-8" style={{ gridColumn: "span 7" } as React.CSSProperties}>Chargement en cours...</Table.Cell>
+                            <Table.Cell className="text-center py-8" style={{ gridColumn: "span 10" } as React.CSSProperties}>Chargement en cours...</Table.Cell>
                         </Table.Row>
                     ) : (data as any)?.parcel_requests?.length === 0 ? (
                         <Table.Row>
-                            <Table.Cell className="text-center py-8 text-ui-fg-subtle" style={{ gridColumn: "span 9" } as React.CSSProperties}>Aucune demande pour le moment.</Table.Cell>
+                            <Table.Cell className="text-center py-8 text-ui-fg-subtle" style={{ gridColumn: "span 10" } as React.CSSProperties}>Aucune demande pour le moment.</Table.Cell>
                         </Table.Row>
                     ) : (
                         (data as any)?.parcel_requests?.map((request: any) => (
@@ -95,6 +117,17 @@ const ParcelRequestsPage = () => {
                                     <Badge color={getStatusColor(request.status)} size="small">
                                         {request.status}
                                     </Badge>
+                                </Table.Cell>
+                                <Table.Cell className="text-right">
+                                    <Button 
+                                        variant="secondary" 
+                                        size="small" 
+                                        className="text-ui-fg-muted hover:text-red-500"
+                                        disabled={isDeleting}
+                                        onClick={() => handleDelete(request.id)}
+                                    >
+                                        <Trash />
+                                    </Button>
                                 </Table.Cell>
                             </Table.Row>
                         ))

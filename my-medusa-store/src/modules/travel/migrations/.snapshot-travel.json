@@ -106,6 +106,15 @@
           "nullable": false,
           "mappedType": "integer"
         },
+        "selling_price_per_kilo": {
+          "name": "selling_price_per_kilo",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
         "status": {
           "name": "status",
           "type": "text",

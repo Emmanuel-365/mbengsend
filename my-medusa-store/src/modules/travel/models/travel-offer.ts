@@ -12,6 +12,7 @@ export const TravelOffer = model.define("travel_offer", {
   airline: model.text().nullable(),
   available_kilos: model.number(),
   price_per_kilo: model.number(),
+  selling_price_per_kilo: model.number().nullable(),
   status: model.enum(["pending", "approved", "rejected", "completed"]).default("pending"),
   metadata: model.json().nullable(),
   bookings: model.hasMany(() => TravelBooking, {

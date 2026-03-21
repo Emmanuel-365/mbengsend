@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { sdk } from "@lib/config"
 import ReserveKilosForm from "@modules/gp/components/reserve-kilos-form"
 import { notFound } from "next/navigation"
+import { getCartId } from "@lib/data/cookies"
 
 export const metadata: Metadata = {
   title: "Réserver mes kilos - Mbengsend",
@@ -23,6 +24,7 @@ async function getTravelOffer(id: string) {
 
 export default async function ReserveKilosPage({ params }: { params: { id: string } }) {
   const travel = await getTravelOffer(params.id)
+  const cartId = await getCartId()
 
   if (!travel) {
     notFound()
@@ -83,7 +85,7 @@ export default async function ReserveKilosPage({ params }: { params: { id: strin
           {/* Sidebar: Form */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
-              <ReserveKilosForm travel={travel} />
+              <ReserveKilosForm travel={travel} cartId={cartId} />
             </div>
           </div>
         </div>

@@ -1,13 +1,14 @@
-import { Container, Heading, Table, Badge, Button } from "@medusajs/ui"
+import { Container, Heading, Table, Badge, Button, toast } from "@medusajs/ui"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { sdk } from "../../lib/client" 
-import { FlyingBox } from "@medusajs/icons"
+import { FlyingBox, Trash } from "@medusajs/icons"
 import { defineRouteConfig } from "@medusajs/admin-sdk"
+import { useState } from "react"
 
 const TravelOffersPage = () => {
   const queryClient = useQueryClient()
 
-  // On récupère toutes les offres via l'API (on utilisera une route admin existante ou générique)
+  // On récupère toutes les offres via l'API
   const { data, isLoading } = useQuery({
     queryKey: ["travel_offers"],
     queryFn: async () => {
@@ -18,13 +19,41 @@ const TravelOffersPage = () => {
 
   // Mutation pour approuver
   const { mutate: approveOffer } = useMutation({
-    mutationFn: async (id: string) => {
-      return await sdk.client.fetch<any>(`/admin/travel-offers/${id}/approve`, { method: "POST" })
+    mutationFn: async ({ id, sellingPrice }: { id: string, sellingPrice: number }) => {
+      return await sdk.client.fetch<any>(`/admin/travel-offers/${id}/approve`, { 
+        method: "POST",
+        body: { selling_price_per_kilo: sellingPrice }
+      })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["travel_offers"] })
+      toast.success("Offre approuvée")
     }
   })
+
+  // Mutation pour supprimer
+  const { mutate: deleteOffer, isPending: isDeleting } = useMutation({
+    mutationFn: async (id: string) => {
+      return await sdk.client.fetch<any>(`/admin/travel-offers/${id}`, { 
+        method: "DELETE"
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["travel_offers"] })
+      toast.success("Offre supprimée")
+    },
+    onError: (err: any) => {
+      toast.error(err.message || "Erreur lors de la suppression")
+    }
+  })
+
+  const [sellingPrices, setSellingPrices] = useState<Record<string, number>>({})
+
+  const handleDelete = (id: string) => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer cette offre ?")) {
+      deleteOffer(id)
+    }
+  }
 
   if (isLoading) return <div>Chargement...</div>
 
@@ -43,9 +72,10 @@ const TravelOffersPage = () => {
             <Table.HeaderCell>Trajet</Table.HeaderCell>
             <Table.HeaderCell>Date</Table.HeaderCell>
             <Table.HeaderCell>Kilos</Table.HeaderCell>
-            <Table.HeaderCell>Prix/kg</Table.HeaderCell>
+            <Table.HeaderCell>Prix/kg (Achat)</Table.HeaderCell>
+            <Table.HeaderCell>Prix/kg (Vente)</Table.HeaderCell>
             <Table.HeaderCell>Statut</Table.HeaderCell>
-            <Table.HeaderCell>Actions</Table.HeaderCell>
+            <Table.HeaderCell className="text-right">Actions</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -62,16 +92,45 @@ const TravelOffersPage = () => {
               <Table.Cell>{offer.available_kilos} Kg</Table.Cell>
               <Table.Cell>{offer.price_per_kilo} €</Table.Cell>
               <Table.Cell>
+                {offer.status === "pending" ? (
+                  <input 
+                    type="number" 
+                    className="w-20 px-2 py-1 border border-ui-border-base rounded-md text-sm"
+                    placeholder="Prix vente"
+                    value={sellingPrices[offer.id] || ""}
+                    onChange={(e) => setSellingPrices(prev => ({ ...prev, [offer.id]: Number(e.target.value) }))}
+                  />
+                ) : (
+                  <span>{offer.selling_price_per_kilo || offer.price_per_kilo} €</span>
+                )}
+              </Table.Cell>
+              <Table.Cell>
                 <Badge color={offer.status === "approved" ? "green" : "orange"}>
                   {offer.status}
                 </Badge>
               </Table.Cell>
-              <Table.Cell>
-                {offer.status === "pending" && (
-                  <Button variant="secondary" size="small" onClick={() => approveOffer(offer.id)}>
-                    Approuver
+              <Table.Cell className="text-right">
+                <div className="flex items-center justify-end gap-x-2">
+                  {offer.status === "pending" && (
+                    <Button 
+                      variant="secondary" 
+                      size="small" 
+                      disabled={!sellingPrices[offer.id] || isDeleting}
+                      onClick={() => approveOffer({ id: offer.id, sellingPrice: sellingPrices[offer.id] })}
+                    >
+                      Approuver
+                    </Button>
+                  )}
+                  <Button 
+                    variant="secondary" 
+                    size="small" 
+                    disabled={isDeleting}
+                    className="text-ui-fg-muted hover:text-red-500"
+                    onClick={() => handleDelete(offer.id)}
+                  >
+                    <Trash />
                   </Button>
-                )}
+                </div>
               </Table.Cell>
             </Table.Row>
           ))}
