@@ -22,7 +22,7 @@ async function getTravelOffer(id: string) {
   }
 }
 
-export default async function ReserveKilosPage({ params }: { params: { id: string } }) {
+export default async function ReserveKilosPage({ params }: { params: { id: string, countryCode: string } }) {
   const travel = await getTravelOffer(params.id)
   const cartId = await getCartId()
 
@@ -85,7 +85,7 @@ export default async function ReserveKilosPage({ params }: { params: { id: strin
           {/* Sidebar: Form */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
-              <ReserveKilosForm travel={travel} cartId={cartId} />
+              <ReserveKilosForm travel={travel} cartId={cartId} countryCode={params.countryCode} />
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 import { sdk } from "@lib/config"
 import { useForm } from "react-hook-form"
+import { getOrSetCart } from "@lib/data/cart"
 
 type ReserveFormData = {
   firstName: string
@@ -13,7 +14,7 @@ type ReserveFormData = {
   kilos: number
 }
 
-export default function ReserveKilosForm({ travel, cartId }: { travel: any; cartId?: string }) {
+export default function ReserveKilosForm({ travel, cartId, countryCode }: { travel: any; cartId?: string; countryCode: string }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
@@ -36,8 +37,10 @@ export default function ReserveKilosForm({ travel, cartId }: { travel: any; cart
     setError(null)
     
     try {
-      if (!cartId) {
-        throw new Error("Le panier n'a pas été initialisé. Veuillez rafraîchir la page.")
+      let effectiveCartId = cartId
+      if (!effectiveCartId) {
+        const cart = await getOrSetCart(countryCode)
+        effectiveCartId = cart.id
       }
 
       await sdk.client.fetch("/store/gp/reserve", {
@@ -45,7 +48,7 @@ export default function ReserveKilosForm({ travel, cartId }: { travel: any; cart
         body: {
           travel_offer_id: travel.id,
           kilos: Number(data.kilos),
-          cart_id: cartId
+          cart_id: effectiveCartId
         },
       })
       
