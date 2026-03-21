@@ -62,8 +62,9 @@ const TravelBookingsPage = () => {
       <Table>
         <Table.Header>
           <Table.Row>
+            <Table.HeaderCell>Date Réservation</Table.HeaderCell>
             <Table.HeaderCell>Client</Table.HeaderCell>
-            <Table.HeaderCell>Trajet (Voyageur)</Table.HeaderCell>
+            <Table.HeaderCell>Trajet / Date Voyage</Table.HeaderCell>
             <Table.HeaderCell>Kilos</Table.HeaderCell>
             <Table.HeaderCell>Prix Total</Table.HeaderCell>
             <Table.HeaderCell>Paiement</Table.HeaderCell>
@@ -75,6 +76,15 @@ const TravelBookingsPage = () => {
           {data?.map((booking: any) => (
             <Table.Row key={booking.id}>
               <Table.Cell>
+                {new Date(booking.created_at).toLocaleDateString('fr-FR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </Table.Cell>
+              <Table.Cell>
                 <div className="flex flex-col">
                   <span className="font-bold">{booking.buyer_first_name} {booking.buyer_last_name}</span>
                   <span className="text-xs text-ui-fg-subtle">{booking.buyer_email}</span>
@@ -83,7 +93,10 @@ const TravelBookingsPage = () => {
               </Table.Cell>
               <Table.Cell>
                 <div className="flex flex-col">
-                   <span>{booking.travel_offer?.departure_city} → {booking.travel_offer?.destination_city}</span>
+                   <span className="font-medium">{booking.travel_offer?.departure_city} → {booking.travel_offer?.destination_city}</span>
+                   <span className="text-xs text-ui-fg-muted">
+                    Voyage le: {booking.travel_offer?.departure_date ? new Date(booking.travel_offer.departure_date).toLocaleDateString('fr-FR') : "N/A"}
+                   </span>
                    <span className="text-xs text-ui-fg-subtle">({booking.travel_offer?.first_name} {booking.travel_offer?.last_name})</span>
                 </div>
               </Table.Cell>
