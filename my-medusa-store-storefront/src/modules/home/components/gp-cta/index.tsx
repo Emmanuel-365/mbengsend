@@ -9,11 +9,11 @@ const GpCta = () => {
         {/* Text Content */}
         <div className="text-center lg:text-left max-w-xl">
           <Heading level="h2" className="text-3xl lg:text-4xl font-display font-bold text-brand-dark leading-tight">
-            Vous voyagez vers le Cameroun ? <span className="text-brand-secondary">Vendez vos kilos superflus !</span>
+            Vous voyagez bientôt ? <span className="text-brand-secondary">Vendez vos kilos et financez votre billet !</span>
           </Heading>
           <Text className="mt-4 text-lg text-gray-700">
-            Notre service GP (Gère le Poids) vous met en relation avec des expéditeurs.
-            Transportez leurs colis et rentabilisez votre voyage. C'est simple, sécurisé et rentable.
+            Notre service de mise en relation (souvent appelé "GP") vous permet de transporter les colis d'autres membres de la communauté. 
+            C'est simple, sécurisé par Mbengsend, et vous permet de rentabiliser votre voyage.
           </Text>
           <LocalizedClientLink href="/gp/sell" passHref>
             <Button className="mt-8 text-lg px-8 py-4 rounded-full bg-brand-secondary text-white shadow-lg hover:bg-brand-secondary/90 transform hover:-translate-y-1 transition-all duration-300">

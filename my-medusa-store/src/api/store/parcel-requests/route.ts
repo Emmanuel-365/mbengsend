@@ -73,7 +73,7 @@ export async function POST(
     try {
         const notificationModuleService = req.scope.resolve("notification")
         await notificationModuleService.createNotifications({
-            to: "contact@mbengsend.com",
+            to: process.env.ADMIN_EMAIL || "contact@mbengsend.com",
             channel: "email",
             template: "parcel-request-notification", 
             data: {

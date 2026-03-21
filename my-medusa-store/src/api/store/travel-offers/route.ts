@@ -39,7 +39,7 @@ export async function POST(
   try {
     const offer = result as any
     await notificationModuleService.createNotifications({
-      to: "contact@mbengsend.com",
+      to: process.env.ADMIN_EMAIL || "contact@mbengsend.com",
       channel: "email",
       template: "Nouvelle Offre de Voyage",
       data: {

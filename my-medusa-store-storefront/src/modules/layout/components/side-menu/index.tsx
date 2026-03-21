@@ -72,8 +72,8 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                       {Object.entries({
                         Accueil: "/",
                         Boutique: "/store",
-                        "Expédition GP": "/gp",
-                        "Vendre mes kilos": "/gp/sell",
+                        "Trouver un voyageur": "/gp",
+                        "Je voyage (Vendre mes kilos)": "/gp/sell",
                         Compte: "/account",
                         Panier: "/cart",
                       }).map(([name, href]) => {

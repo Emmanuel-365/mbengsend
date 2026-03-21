@@ -43,7 +43,7 @@ export async function POST(
   
   try {
     await notificationModuleService.createNotifications({
-      to: "contact@mbengsend.com", // L'email de l'admin
+      to: process.env.ADMIN_EMAIL || "contact@mbengsend.com", // L'email de l'admin
       channel: "email",
       template: "Nouvelle Réservation GP",
       data: {
