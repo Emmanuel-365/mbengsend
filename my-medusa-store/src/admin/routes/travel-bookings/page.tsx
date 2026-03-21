@@ -1,7 +1,7 @@
 import { Container, Heading, Table, Badge, Button, toast } from "@medusajs/ui"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { sdk } from "../../lib/client" 
-import { Bookmark, Trash, PencilSquare, CheckCircle } from "@medusajs/icons"
+import { Trash, PencilSquare, CheckCircle, Book } from "@medusajs/icons"
 import { defineRouteConfig } from "@medusajs/admin-sdk"
 
 const TravelBookingsPage = () => {
@@ -55,7 +55,7 @@ const TravelBookingsPage = () => {
     <Container className="flex flex-col gap-y-6">
       <div className="flex items-center justify-between">
         <Heading level="h1" className="flex items-center gap-x-2">
-          <Bookmark /> Réservations GP (Kilos)
+          <Book /> Réservations GP (Kilos)
         </Heading>
       </div>
 
@@ -132,7 +132,7 @@ const TravelBookingsPage = () => {
 
 export const config = defineRouteConfig({
     label: "Réservations GP",
-    icon: Bookmark,
+    icon: Book,
 })
 
 export default TravelBookingsPage
