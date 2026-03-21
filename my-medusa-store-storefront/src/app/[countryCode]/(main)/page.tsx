@@ -79,7 +79,6 @@ export default async function Home(props: {
       </Suspense>
 
       <HowItWorks />
-      <Newsletter />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
