@@ -9,7 +9,7 @@ import Banners from "@modules/home/components/banners"
 import HowItWorks from "@modules/home/components/how-it-works"
 import Features from "@modules/home/components/features"
 import CategoryGrid from "@modules/home/components/category-grid"
-import Newsletter from "@modules/home/components/newsletter"
+import HomeCollections from "@modules/home/components/collections-list"
 import { listCollections } from "@lib/data/collections"
 import { listCategories } from "@lib/data/categories"
 import { getRegion } from "@lib/data/regions"
@@ -41,7 +41,7 @@ export default async function Home(props: {
   const region = await getRegion(countryCode)
 
   const { collections } = await listCollections({
-    fields: "id, handle, title",
+    fields: "id, handle, title, thumbnail",
   })
 
   const categories = await listCategories({
@@ -60,6 +60,10 @@ export default async function Home(props: {
 
       {categories && categories.length > 0 && (
         <CategoryGrid categories={categories} />
+      )}
+
+      {collections && collections.length > 0 && (
+        <HomeCollections collections={collections} />
       )}
 
       <div className="py-12 bg-[#FDFDFD]">
