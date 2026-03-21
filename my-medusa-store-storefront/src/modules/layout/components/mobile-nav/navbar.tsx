@@ -107,13 +107,13 @@ export default function MobileNavBar({ regions, locales, currentLocale }: Mobile
             <span className="text-xs font-semibold">Expédier</span>
           </LocalizedClientLink>
 
-          {/* Wishlist */}
+          {/* GP Service */}
           <LocalizedClientLink
-            href="/account/wishlist"
+            href="/gp"
             className="flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg hover:bg-gray-100 transition-colors flex-1"
           >
-            <Heart className="w-6 h-6 text-gray-700" />
-            <span className="text-xs font-medium text-gray-700">Favoris</span>
+            <span className="text-xl leading-none flex items-center justify-center h-6">✈️</span>
+            <span className="text-xs font-medium text-gray-700">Service GP</span>
           </LocalizedClientLink>
 
           {/* Account */}
