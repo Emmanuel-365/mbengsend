@@ -76,7 +76,12 @@ export default function ReserveKilosForm({ travel, cartId, countryCode }: { trav
           <label className="block text-sm font-bold text-gray-700 mb-1">Kilos à réserver</label>
           <input 
             type="number"
-            {...register("kilos", { required: true, min: 1, max: travel.available_kilos })}
+            {...register("kilos", { 
+              required: true, 
+              min: 1, 
+              max: travel.available_kilos,
+              valueAsNumber: true 
+            })}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
           />
         </div>

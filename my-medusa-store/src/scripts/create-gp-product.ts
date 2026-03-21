@@ -3,8 +3,10 @@ import {
   Modules,
   ProductStatus
 } from "@medusajs/framework/utils"
+/* @ts-ignore */
 import { 
-  createProductsWorkflow
+  createProductsWorkflow,
+  updateProductsWorkflow
 } from "@medusajs/medusa/core-flows"
 import { ExecArgs } from "@medusajs/framework/types"
 
@@ -16,12 +18,29 @@ export default async function createGpProduct({ container }: ExecArgs) {
   
   const { data: existingProducts } = await query.graph({
     entity: "product",
-    fields: ["id", "handle"],
+    fields: ["id", "handle", "variants.id"],
     filters: { handle: "gp-service" }
   })
   
   if (existingProducts.length > 0) {
-    logger.info("GP Service product already exists.")
+    logger.info("GP Service product already exists. Updating inventory settings...")
+    const product = existingProducts[0]
+    
+    // On désactive la gestion d'inventaire pour toutes les variantes existantes
+    await updateProductsWorkflow(container).run({
+      input: {
+        products: [
+          {
+            id: product.id,
+            variants: product.variants.map((v: any) => ({
+              id: v.id,
+              manage_inventory: false
+            }))
+          }
+        ]
+      }
+    })
+    logger.info("GP Service product updated.")
     return
   }
   
@@ -52,6 +71,7 @@ export default async function createGpProduct({ container }: ExecArgs) {
               title: "Réservation",
               sku: "GP-RESERVE",
               options: { Unité: "Kilo/Order" },
+              manage_inventory: false,
               prices: [
                 { amount: 1, currency_code: "eur" },
                 { amount: 655, currency_code: "xaf" }
