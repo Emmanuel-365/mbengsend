@@ -37,23 +37,20 @@ export default function ReserveKilosForm({ travel, cartId, countryCode }: { trav
     setError(null)
     
     try {
-      let effectiveCartId = cartId
-      if (!effectiveCartId) {
-        const cart = await getOrSetCart(countryCode)
-        effectiveCartId = cart.id
-      }
-
       await sdk.client.fetch("/store/gp/reserve", {
         method: "POST",
         body: {
           travel_offer_id: travel.id,
           kilos: Number(data.kilos),
-          cart_id: effectiveCartId
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phoneNumber: data.phoneNumber
         },
       })
       
-      // On redirige vers le checkout directement
-      router.push("/checkout")
+      // On redirige vers une page de succès dédiée
+      router.push(`/${countryCode}/gp/reserve/success`)
     } catch (err: any) {
       console.error("Error creating booking:", err)
       setError(err.message || "Une erreur est survenue. Veuillez réessayer.")

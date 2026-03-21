@@ -19,9 +19,6 @@ npx medusa db:migrate
 # echo "Lancement du seed..."
 # npx medusa exec ./src/scripts/seed.sh || echo "Seed échoué ou déjà exécuté, on continue..."
 
-echo "Vérification/Création du produit GP Service..."
-npx medusa exec ./src/scripts/create-gp-product.ts || echo "Échec de création du produit GP, on continue..."
-
 # Vérification de l'admin
 echo "Vérification de l'admin..."
 if [ -f ".medusa/server/public/admin/index.html" ]; then
