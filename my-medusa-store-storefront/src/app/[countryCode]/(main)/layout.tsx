@@ -8,6 +8,7 @@ import CartMismatchBanner from "@modules/layout/components/cart-mismatch-banner"
 import Footer from "@modules/layout/templates/footer"
 import NavWrapper from "@modules/layout/templates/nav/nav-wrapper"
 import FreeShippingPriceNudge from "@modules/shipping/components/free-shipping-price-nudge"
+import CookieConsent from "@modules/layout/components/cookie-consent"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
@@ -42,6 +43,7 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
         {props.children}
       </div>
       <Footer />
+      <CookieConsent />
     </>
   )
 }

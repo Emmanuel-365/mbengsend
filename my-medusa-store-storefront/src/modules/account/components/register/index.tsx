@@ -68,24 +68,33 @@ const Register = ({ setCurrentView }: Props) => {
             data-testid="password-input"
           />
         </div>
+        <div className="flex items-start gap-x-2 mt-6">
+          <input 
+            type="checkbox" 
+            id="privacy-policy" 
+            name="privacy-policy" 
+            required 
+            className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-gold focus:ring-brand-gold cursor-pointer"
+          />
+          <label htmlFor="privacy-policy" className="text-xs text-ui-fg-subtle cursor-pointer font-sans leading-relaxed">
+            J&apos;ai lu et j&apos;accepte la{" "}
+            <LocalizedClientLink
+              href="/content/privacy-policy"
+              className="text-brand-gold font-bold hover:text-brand-dark transition-colors underline underline-offset-2 decoration-brand-gold/20"
+            >
+              Charte d&apos;utilisation des données personnelles
+            </LocalizedClientLink>{" "}
+            et les{" "}
+            <LocalizedClientLink
+              href="/content/terms-of-use"
+              className="text-brand-gold font-bold hover:text-brand-dark transition-colors underline underline-offset-2 decoration-brand-gold/20"
+            >
+              Conditions d&apos;Utilisation
+            </LocalizedClientLink>{" "}
+            de Mbengsend.
+          </label>
+        </div>
         <ErrorMessage error={message} data-testid="register-error" />
-        <span className="text-center text-gray-400 text-[10px] mt-10 leading-relaxed font-medium px-4 font-sans">
-          En créant un compte, vous acceptez la{" "}
-          <LocalizedClientLink
-            href="/content/privacy-policy"
-            className="text-brand-gold font-bold hover:text-brand-dark transition-colors underline underline-offset-4 decoration-brand-gold/20"
-          >
-            Politique de Confidentialité
-          </LocalizedClientLink>{" "}
-          et les{" "}
-          <LocalizedClientLink
-            href="/content/terms-of-use"
-            className="text-brand-gold font-bold hover:text-brand-dark transition-colors underline underline-offset-4 decoration-brand-gold/20"
-          >
-            Conditions d&apos;Utilisation
-          </LocalizedClientLink>{" "}
-          de Mbengsend.
-        </span>
         <SubmitButton className="w-full mt-10 bg-brand-dark hover:bg-brand-gold h-16 rounded-full shadow-lux-lg hover:scale-[1.05] transition-all duration-500 text-white font-sans font-bold uppercase tracking-widest text-sm border-none" data-testid="register-button">
           S&apos;inscrire
         </SubmitButton>

@@ -156,9 +156,24 @@ export default async function Footer() {
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink href="/legal/privacy" className="hover:text-brand-gold transition-colors">
-                    Confidentialité
+                  <LocalizedClientLink href="/content/privacy-policy" className="hover:text-brand-gold transition-colors">
+                    Charte des données
                   </LocalizedClientLink>
+                </li>
+                <li>
+                  <LocalizedClientLink href="/content/data-management" className="hover:text-brand-gold transition-colors">
+                    Gestion des données
+                  </LocalizedClientLink>
+                </li>
+                <li>
+                  <LocalizedClientLink href="/content/cookies" className="hover:text-brand-gold transition-colors">
+                    Cookies
+                  </LocalizedClientLink>
+                </li>
+                <li>
+                  <button className="text-left hover:text-brand-gold transition-colors">
+                    Paramètres des cookies
+                  </button>
                 </li>
               </ul>
             </div>
