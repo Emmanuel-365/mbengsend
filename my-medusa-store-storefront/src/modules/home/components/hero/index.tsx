@@ -28,19 +28,19 @@ const Hero = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-brand-gold font-display font-semibold tracking-[0.2em] uppercase text-xs small:text-sm"
+              className="text-brand-primary font-display font-semibold tracking-[0.2em] uppercase text-xs small:text-sm"
             >
-              Luxe & Logistique Sans Frontières
+              Réseau Logistique Solidaire
             </motion.span>
             <Heading
               level="h1"
-              className="text-4xl small:text-6xl medium:text-8xl font-display font-bold text-brand-dark leading-[1] tracking-tight"
+              className="text-4xl small:text-6xl medium:text-7xl font-display font-bold text-brand-dark leading-[1] tracking-tight"
             >
-              Le Cameroun <br />
-              <span className="text-brand-gold">au cœur de l'Europe.</span>
+              Rentabilisez vos voyages. <br />
+              <span className="text-brand-primary">Vendez vos kilos.</span>
             </Heading>
             <Text className="text-base small:text-xl text-ui-fg-subtle max-w-[540px] leading-relaxed font-sans">
-              Découvrez l'excellence des produits camerounais livrés partout en Europe. Mbengsend connecte le savoir-faire local aux marchés internationaux avec élégance.
+              Connectez-vous à la plus grande communauté de voyageurs. Vendez l'espace libre dans vos valises ou expédiez vos colis en express entre l'Europe et le Cameroun.
             </Text>
           </div>
 
@@ -50,31 +50,31 @@ const Hero = () => {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="flex flex-wrap gap-4 small:gap-6"
           >
-            <LocalizedClientLink href="/store">
-              <Button size="large" className="rounded-full bg-brand-dark hover:bg-brand-gold text-white px-8 small:px-10 h-14 small:h-16 text-sm small:text-base transition-all duration-500 shadow-lux-lg hover:scale-[1.05] active:scale-[0.95] border-none font-sans font-bold uppercase tracking-widest">
-                Découvrir la Boutique
+            <LocalizedClientLink href="/gp#sell">
+              <Button size="large" className="rounded-full bg-brand-primary hover:bg-brand-dark text-white px-8 small:px-10 h-14 small:h-16 text-sm small:text-base transition-all duration-500 shadow-lux-lg hover:scale-[1.05] active:scale-[0.95] border-none font-sans font-bold uppercase tracking-widest">
+                Vendre mes kilos
               </Button>
             </LocalizedClientLink>
-            <LocalizedClientLink href="/about">
-              <Button variant="secondary" size="large" className="rounded-full border-brand-gold/30 text-brand-gold px-8 small:px-10 h-14 small:h-16 text-sm small:text-base hover:bg-brand-gold/5 transition-all duration-500 font-sans font-bold uppercase tracking-widest">
-                Notre Histoire
+            <LocalizedClientLink href="/shipping">
+              <Button variant="secondary" size="large" className="rounded-full border-brand-primary/30 text-brand-primary px-8 small:px-10 h-14 small:h-16 text-sm small:text-base hover:bg-brand-primary/5 transition-all duration-500 font-sans font-bold uppercase tracking-widest">
+                Expédier un colis
               </Button>
             </LocalizedClientLink>
           </motion.div>
 
           {/* Trust stats or features */}
-          <div className="grid grid-cols-3 gap-8 small:gap-12 mt-6 small:mt-10 pt-8 small:pt-12 border-t border-brand-gold/10">
+          <div className="grid grid-cols-3 gap-8 small:gap-12 mt-6 small:mt-10 pt-8 small:pt-12 border-t border-brand-primary/10">
             <div>
               <Text className="font-display font-bold text-2xl small:text-3xl text-brand-dark italic">100%</Text>
               <Text className="text-[10px] small:text-xs text-ui-fg-muted uppercase tracking-[0.2em] font-sans font-medium mt-1">Sécurisé</Text>
             </div>
             <div>
-              <Text className="font-display font-bold text-2xl small:text-3xl text-brand-dark italic">Cameroun</Text>
-              <Text className="text-[10px] small:text-xs text-ui-fg-muted uppercase tracking-[0.2em] font-sans font-medium mt-1">Savoir-faire</Text>
+              <Text className="font-display font-bold text-2xl small:text-3xl text-brand-dark italic">Express</Text>
+              <Text className="text-[10px] small:text-xs text-ui-fg-muted uppercase tracking-[0.2em] font-sans font-medium mt-1">Livraison 24-72h</Text>
             </div>
             <div>
-              <Text className="font-display font-bold text-2xl small:text-3xl text-brand-gold italic">Europe</Text>
-              <Text className="text-[10px] small:text-xs text-ui-fg-muted uppercase tracking-[0.2em] font-sans font-medium mt-1">Destination</Text>
+              <Text className="font-display font-bold text-2xl small:text-3xl text-brand-primary italic">Communauté</Text>
+              <Text className="text-[10px] small:text-xs text-ui-fg-muted uppercase tracking-[0.2em] font-sans font-medium mt-1">De confiance</Text>
             </div>
           </div>
         </motion.div>

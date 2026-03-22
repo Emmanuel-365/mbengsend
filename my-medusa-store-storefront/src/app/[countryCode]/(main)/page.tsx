@@ -56,22 +56,31 @@ export default async function Home(props: {
   return (
     <>
       <Hero />
-      <GpCta />
       <UpcomingFlights />
+      <HowItWorks />
+      <GpCta />
       <Features />
 
-      {categories && categories.length > 0 && (
-        <CategoryGrid categories={categories} />
-      )}
+      <div className="py-24 bg-[#FDFDFD] border-t border-gray-100">
+        <div className="content-container mb-12 text-center">
+          <MedusaText className="text-sm font-bold uppercase tracking-widest text-brand-gold">La Boutique Mbengsend</MedusaText>
+          <h2 className="text-4xl font-display font-bold text-brand-dark mt-2">Produits d'Exception</h2>
+          <p className="text-gray-500 mt-4 max-w-2xl mx-auto">Profitez de notre service d'expédition pour vous faire livrer nos produits locaux directement chez vous.</p>
+        </div>
 
-      {collections && collections.length > 0 && (
-        <HomeCollections collections={collections} />
-      )}
+        {categories && categories.length > 0 && (
+          <CategoryGrid categories={categories} />
+        )}
 
-      <div className="py-12 bg-[#FDFDFD]">
-        <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
-        </ul>
+        {collections && collections.length > 0 && (
+          <HomeCollections collections={collections} />
+        )}
+
+        <div className="py-12">
+          <ul className="flex flex-col gap-x-6">
+            <FeaturedProducts collections={collections} region={region} />
+          </ul>
+        </div>
       </div>
 
       <Suspense fallback={<div className="h-64 content-container" />}>
@@ -83,8 +92,6 @@ export default async function Home(props: {
           <Banners />
         </div>
       </Suspense>
-
-      <HowItWorks />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
