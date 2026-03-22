@@ -32,9 +32,22 @@ export default async function UpcomingFlights() {
     <div className="py-24 bg-gray-50/50 border-y border-gray-100">
       <div className="content-container max-w-7xl mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-          <div>
-             <h2 className="text-4xl font-display font-bold text-gray-900 mb-2">Vols à venir</h2>
-             <p className="text-gray-500">Réservez vos kilos sur les prochains vols vers le Cameroun.</p>
+          <div className="max-w-2xl">
+             <div className="flex items-center gap-2 mb-3">
+                <span className="text-xs font-bold uppercase tracking-widest text-brand-primary bg-brand-primary/10 px-3 py-1 rounded-full">
+                  Service GP (Gratuité Partielle)
+                </span>
+             </div>
+             <h2 className="text-4xl font-display font-bold text-gray-900 mb-4">Expédiez par les airs</h2>
+             <p className="text-lg text-gray-600 mb-4">
+               Profitez de notre réseau de voyageurs de confiance pour envoyer vos colis vers le Cameroun. 
+               Une solution rapide, sécurisée et solidaire qui vous permet d'expédier vos biens en express tout en aidant les voyageurs à rentabiliser leur billet d'avion.
+             </p>
+             <div className="flex flex-wrap gap-4 text-sm font-medium text-gray-700">
+               <span className="flex items-center gap-1">✓ Colis vérifiés</span>
+               <span className="flex items-center gap-1">✓ Paiement sécurisé</span>
+               <span className="flex items-center gap-1">✓ Remise en point relais</span>
+             </div>
           </div>
           <LocalizedClientLink href="/gp" className="inline-block bg-white text-brand-dark px-6 py-3 rounded-full font-bold shadow-sm hover:bg-gray-50 transition-all border border-gray-200">
             Voir tous les vols →
