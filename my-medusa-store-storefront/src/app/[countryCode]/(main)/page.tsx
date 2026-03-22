@@ -5,6 +5,7 @@ import { Text as MedusaText } from "@medusajs/ui"
 import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
 import GpCta from "@modules/home/components/gp-cta"
+import UpcomingFlights from "@modules/home/components/upcoming-flights"
 import Banners from "@modules/home/components/banners"
 import HowItWorks from "@modules/home/components/how-it-works"
 import Features from "@modules/home/components/features"
@@ -56,6 +57,7 @@ export default async function Home(props: {
     <>
       <Hero />
       <GpCta />
+      <UpcomingFlights />
       <Features />
 
       {categories && categories.length > 0 && (

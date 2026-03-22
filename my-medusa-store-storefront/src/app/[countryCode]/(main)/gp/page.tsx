@@ -14,7 +14,10 @@ async function getApprovedTravels() {
     const response = await sdk.client.fetch<any>("/store/travel-offers", {
       method: "GET",
     })
-    return response.travel_offers || []
+    const travels = response.travel_offers || []
+    const now = new Date()
+    now.setHours(0, 0, 0, 0)
+    return travels.filter((t: any) => new Date(t.departure_date) >= now)
   } catch (error) {
     console.error("Error fetching travel offers:", error)
     return []
