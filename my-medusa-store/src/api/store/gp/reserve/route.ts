@@ -35,7 +35,7 @@ export async function POST(
     kilos_reserved: Number(kilos),
     total_price: totalPrice,
     status: "pending",
-    payment_status: "pending"
+    payment_status: "pending" // Remains pending until Stripe confirms
   })
 
   // 3. Trigger Email Notification to Admin
@@ -63,5 +63,48 @@ export async function POST(
     console.error("Failed to send admin notification:", error)
   }
 
-  res.status(200).json({ booking })
+  // 4. Create Payment Collection and Session via Medusa Payment Module
+  let client_secret: string | null = null;
+  let payment_collection_id: string | null = null;
+  
+  try {
+    const paymentModuleService = req.scope.resolve(Modules.PAYMENT)
+    
+    // We multiply by 100 because Stripe expects amounts in cents for EUR
+    const amountInCents = Math.round(totalPrice * 100);
+
+    const paymentCollection = await paymentModuleService.createPaymentCollections({
+      currency_code: "eur",
+      amount: amountInCents,
+    })
+
+    const paymentSession = await paymentModuleService.createPaymentSession(
+      paymentCollection.id,
+      {
+        provider_id: "stripe",
+        currency_code: "eur",
+        amount: amountInCents,
+        data: {
+          email: email,
+          metadata: {
+            travel_booking_id: booking.id
+          }
+        }
+      }
+    )
+
+    client_secret = (paymentSession.data?.client_secret as string) || null;
+    payment_collection_id = paymentCollection.id;
+
+    // We can also update the booking to attach the payment_collection_id if needed, but returning it is enough for now.
+  } catch (err) {
+    console.error("Failed to initialize payment session:", err)
+    // We do not block the booking itself if payment fails to initialize, the frontend will handle the missing client_secret
+  }
+
+  res.status(200).json({ 
+    booking, 
+    client_secret,
+    payment_collection_id
+  })
 }

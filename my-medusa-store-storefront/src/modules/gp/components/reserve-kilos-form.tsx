@@ -37,7 +37,7 @@ export default function ReserveKilosForm({ travel, cartId, countryCode }: { trav
     setError(null)
     
     try {
-      await sdk.client.fetch("/store/gp/reserve", {
+      const response = await sdk.client.fetch<any>("/store/gp/reserve", {
         method: "POST",
         body: {
           travel_offer_id: travel.id,
@@ -49,8 +49,11 @@ export default function ReserveKilosForm({ travel, cartId, countryCode }: { trav
         },
       })
       
-      // On redirige vers une page de succès dédiée
-      router.push(`/${countryCode}/gp/reserve/success`)
+      if (response.client_secret) {
+        router.push(`/${countryCode}/gp/reserve/payment/${response.booking.id}?client_secret=${response.client_secret}`)
+      } else {
+        router.push(`/${countryCode}/gp/reserve/success`)
+      }
     } catch (err: any) {
       console.error("Error creating booking:", err)
       setError(err.message || "Une erreur est survenue. Veuillez réessayer.")
@@ -108,11 +111,11 @@ export default function ReserveKilosForm({ travel, cartId, countryCode }: { trav
         disabled={isSubmitting}
         className="w-full bg-brand-primary text-white py-4 rounded-2xl font-bold text-lg hover:bg-brand-primary/90 transition-all shadow-lg hover:shadow-xl disabled:opacity-50"
       >
-        {isSubmitting ? "Réservation..." : "Confirmer ma réservation"}
+        {isSubmitting ? "Initialisation..." : "Procéder au paiement"}
       </button>
 
       <p className="text-[10px] text-gray-400 text-center leading-relaxed italic">
-        * Le paiement s'effectue lors du dépôt du colis au point relais Mbengsend.
+        * Le paiement s'effectue de manière sécurisée en ligne.
       </p>
     </form>
   )
