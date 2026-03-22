@@ -73,7 +73,7 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                         Accueil: "/",
                         Boutique: "/store",
                         "Trouver un voyageur": "/gp",
-                        "Je voyage (Vendre mes kilos)": "/gp/sell",
+                        "Je voyage (Vendre mes kilos)": "/gp#sell",
                         Compte: "/account",
                         Panier: "/cart",
                       }).map(([name, href]) => {

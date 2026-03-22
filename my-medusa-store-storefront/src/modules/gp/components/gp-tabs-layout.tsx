@@ -15,6 +15,17 @@ interface GpTabsLayoutProps {
 export default function GpTabsLayout({ travels }: GpTabsLayoutProps) {
   const [activeTab, setActiveTab] = useState<'buy' | 'sell' | 'request'>('buy')
   
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash
+      if (hash === '#sell') {
+        setActiveTab('sell')
+      } else if (hash === '#request') {
+        setActiveTab('request')
+      }
+    }
+  }, [])
+  
   // Search state
   const [departureSearch, setDepartureSearch] = useState("")
   const [destinationSearch, setDestinationSearch] = useState("")
