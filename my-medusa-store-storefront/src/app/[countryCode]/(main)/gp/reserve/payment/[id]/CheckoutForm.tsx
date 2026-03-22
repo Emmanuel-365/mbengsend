@@ -7,6 +7,7 @@ import {
   useElements
 } from "@stripe/react-stripe-js"
 import { useParams, useRouter } from "next/navigation"
+import { sdk } from "@lib/config"
 
 export default function CheckoutForm({ clientSecret, bookingId }: { clientSecret: string; bookingId: string }) {
   const stripe = useStripe()
@@ -16,9 +17,13 @@ export default function CheckoutForm({ clientSecret, bookingId }: { clientSecret
   const router = useRouter()
   const params = useParams()
   const countryCode = params.countryCode as string
+  const [isReady, setIsReady] = useState(false)
+
+  console.log("CheckoutForm: Render", { isLoading, isReady, stripe: !!stripe, elements: !!elements })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log("CheckoutForm: FORM SUBMITTED (manual trigger)")
 
     if (!stripe || !elements) {
       return
@@ -45,9 +50,10 @@ export default function CheckoutForm({ clientSecret, bookingId }: { clientSecret
       setIsLoading(false)
     } else {
       // Payment succeeded
+      console.log("CheckoutForm: Payment succeeded, updating database...")
       try {
-        // Appeler notre endpoint pour confirmer en base
-        await fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"}/store/gp/confirm-payment/${bookingId}`, {
+        // Appeler notre endpoint pour confirmer en base via le SDK (qui a la publishable key)
+        await sdk.client.fetch(`/store/gp/confirm-payment/${bookingId}`, {
           method: 'POST'
         })
       } catch (err) {
@@ -60,9 +66,13 @@ export default function CheckoutForm({ clientSecret, bookingId }: { clientSecret
 
   return (
     <form id="payment-form" onSubmit={handleSubmit} className="space-y-6">
-      <PaymentElement id="payment-element" options={{ layout: "tabs" }} />
+      <PaymentElement 
+        id="payment-element" 
+        options={{ layout: "tabs" }} 
+        onReady={() => setIsReady(true)}
+      />
       <button 
-        disabled={isLoading || !stripe || !elements} 
+        disabled={isLoading || !isReady || !stripe || !elements} 
         id="submit"
         className="w-full bg-brand-primary text-white py-4 rounded-xl font-bold hover:bg-brand-primary/90 disabled:opacity-50 transition-all font-display text-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5"
       >
