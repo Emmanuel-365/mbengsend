@@ -1,3 +1,4 @@
+
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import { Modules } from "@medusajs/framework/utils"
 import { TRAVEL_MODULE } from "../../../../modules/travel"
@@ -83,7 +84,7 @@ export async function POST(
     const paymentSession = await paymentModuleService.createPaymentSession(
       paymentCollection.id,
       {
-        provider_id: "stripe",
+        provider_id: "pp_stripe_stripe",
         currency_code: "eur",
         amount: amountInCents,
         data: {
