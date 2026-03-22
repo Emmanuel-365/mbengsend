@@ -78,52 +78,55 @@ export default function MobileNavBar({ regions, locales, currentLocale }: Mobile
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <div className="small:hidden fixed bottom-0 left-0 right-0 z-40 backdrop-blur-xl bg-white/90 border-t border-white/20 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] pb-safe-area-inset-bottom">
-        <div className="flex items-center justify-around h-16 px-2 pb-1">
+      <div className="small:hidden fixed bottom-0 left-0 right-0 z-40 backdrop-blur-xl bg-white/95 border-t border-gray-100 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] pb-safe-area-inset-bottom">
+        <div className="flex items-center justify-between h-16 px-1 pb-1">
           {/* Search */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg hover:bg-gray-100 transition-colors flex-1"
+            className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-lg hover:bg-gray-100 transition-colors flex-1"
             aria-label="Rechercher"
           >
             <MagnifyingGlass className="w-6 h-6 text-gray-700" />
-            <span className="text-xs font-medium text-gray-700">Recherche</span>
+            <span className="text-[10px] font-medium text-gray-700">Recherche</span>
           </button>
-
-          {/* Store */}
-          <LocalizedClientLink
-            href="/store"
-            className="flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg hover:bg-gray-100 transition-colors flex-1"
-          >
-            <ShoppingCart className="w-6 h-6 text-gray-700" />
-            <span className="text-xs font-medium text-gray-700">Boutique</span>
-          </LocalizedClientLink>
 
           {/* Shipping */}
           <LocalizedClientLink
             href="/shipping"
-            className="flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors flex-1 text-blue-600"
+            className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-lg hover:bg-blue-50 transition-colors flex-1 text-blue-600"
           >
             <Package className="w-6 h-6" />
-            <span className="text-xs font-semibold">Expédier</span>
+            <span className="text-[10px] font-semibold tracking-tight">Expédier</span>
           </LocalizedClientLink>
 
-          {/* GP Service */}
-          <LocalizedClientLink
-            href="/gp"
-            className="flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg hover:bg-gray-100 transition-colors flex-1"
-          >
-            <Plane className="w-6 h-6 text-gray-700" />
-            <span className="text-xs font-medium text-gray-700">GP</span>
-          </LocalizedClientLink>
+          {/* GP Service - Flagship Attraction (Center FAB) */}
+          <div className="flex-[1.2] flex justify-center relative z-50">
+            <LocalizedClientLink
+              href="/gp"
+              className="flex flex-col items-center justify-center w-[60px] h-[60px] rounded-full bg-brand-primary text-white shadow-[0_8px_30px_rgba(0,0,0,0.12)] ring-4 ring-white hover:bg-brand-secondary transition-transform active:scale-95 -mt-8"
+              aria-label="Vendre Kilos (GP)"
+            >
+              <Plane className="w-6 h-6" />
+              <span className="text-[10px] font-bold mt-0.5 leading-none">GP</span>
+            </LocalizedClientLink>
+          </div>
 
           {/* Account */}
           <LocalizedClientLink
             href="/account"
-            className="flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-lg hover:bg-gray-100 transition-colors flex-1"
+            className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-lg hover:bg-gray-100 transition-colors flex-1"
           >
             <div className="w-6 h-6 rounded-full border-2 border-gray-700" />
-            <span className="text-xs font-medium text-gray-700">Compte</span>
+            <span className="text-[10px] font-medium text-gray-700">Compte</span>
+          </LocalizedClientLink>
+
+          {/* Store - De-emphasized */}
+          <LocalizedClientLink
+            href="/store"
+            className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-lg hover:bg-gray-50 transition-colors flex-[0.8] opacity-50 grayscale"
+          >
+            <ShoppingCart className="w-5 h-5 text-gray-500" />
+            <span className="text-[10px] font-medium text-gray-500">Boutique</span>
           </LocalizedClientLink>
         </div>
       </div>

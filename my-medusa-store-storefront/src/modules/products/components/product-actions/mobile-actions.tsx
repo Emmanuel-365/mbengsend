@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react"
 import { Button, clx } from "@medusajs/ui"
-import React, { Fragment, useMemo } from "react"
+import React, { Fragment, useMemo, useState, useEffect, useRef } from "react"
 
 import useToggleState from "@lib/hooks/use-toggle-state"
 import ChevronDown from "@modules/common/icons/chevron-down"
@@ -35,6 +35,18 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   optionsDisabled,
 }) => {
   const { state, open, close } = useToggleState()
+  
+  const [isSuccess, setIsSuccess] = useState(false)
+  const prevIsAdding = useRef(isAdding)
+
+  useEffect(() => {
+    if (prevIsAdding.current && !isAdding) {
+      setIsSuccess(true)
+      const timeout = setTimeout(() => setIsSuccess(false), 2000)
+      return () => clearTimeout(timeout)
+    }
+    prevIsAdding.current = isAdding
+  }, [isAdding])
 
   const price = getProductPrice({
     product: product,
@@ -114,7 +126,13 @@ const MobileActions: React.FC<MobileActionsProps> = ({
               <Button
                 onClick={handleAddToCart}
                 disabled={!inStock || !variant}
-                className="w-full h-14 rounded-full bg-brand-primary hover:bg-brand-secondary text-white font-bold shadow-lux-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-sm"
+                className={clx(
+                  "w-full h-14 rounded-full font-bold shadow-lux-md transition-all duration-300 text-sm",
+                  {
+                    "bg-brand-primary hover:bg-brand-secondary text-white hover:scale-[1.02] active:scale-[0.98]": !isSuccess,
+                    "bg-green-500 hover:bg-green-600 text-white scale-105": isSuccess,
+                  }
+                )}
                 isLoading={isAdding}
                 data-testid="mobile-cart-button"
               >
@@ -122,7 +140,9 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   ? "Choisir une variante"
                   : !inStock
                     ? "Rupture de stock"
-                    : "Ajouter au panier"}
+                    : isSuccess
+                      ? "Ajouté ! ✓"
+                      : "Ajouter au panier"}
               </Button>
             </div>
           </div>
