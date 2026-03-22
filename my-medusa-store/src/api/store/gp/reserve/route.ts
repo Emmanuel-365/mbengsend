@@ -21,7 +21,11 @@ export async function POST(
   const offer = await travelModuleService.retrieveTravelOffer(travel_offer_id)
   
   if (!offer || offer.status !== "approved") {
-    return res.status(404).json({ message: "Travel offer not found or not approved" })
+    return res.status(404).json({ message: "Offre de voyage introuvable ou non approuvée" })
+  }
+
+  if (Number(kilos) > (offer.available_kilos || 0)) {
+    return res.status(400).json({ message: `Nombre de kilos insuffisant. Max disponible: ${offer.available_kilos}kg` })
   }
 
   const sellingPrice = offer.selling_price_per_kilo || offer.price_per_kilo
