@@ -7,6 +7,7 @@ export async function POST(
   req: MedusaRequest,
   res: MedusaResponse
 ) {
+  console.log("GP RESERVE ROUTE: Received request", req.body)
   const { travel_offer_id, kilos, firstName, lastName, email, phoneNumber } = req.body as any
   
   if (!travel_offer_id || !kilos || !email || !firstName) {
@@ -66,6 +67,7 @@ export async function POST(
   // 4. Create Payment Collection and Session via Medusa Payment Module
   let client_secret: string | null = null;
   let payment_collection_id: string | null = null;
+  let payment_error: any = null;
   
   try {
     const paymentModuleService = req.scope.resolve(Modules.PAYMENT)
@@ -96,15 +98,20 @@ export async function POST(
     client_secret = (paymentSession.data?.client_secret as string) || null;
     payment_collection_id = paymentCollection.id;
 
+    console.log("GP RESERVE ROUTE: Created payment session", { client_secret, payment_collection_id })
+
     // We can also update the booking to attach the payment_collection_id if needed, but returning it is enough for now.
-  } catch (err) {
-    console.error("Failed to initialize payment session:", err)
-    // We do not block the booking itself if payment fails to initialize, the frontend will handle the missing client_secret
+  } catch (err: any) {
+    console.error("GP RESERVE ROUTE: Failed to initialize payment session:", err)
+    payment_error = err.message || err.toString();
+    // require("fs").writeFileSync("payment_error.log", payment_error + "\n" + (err.stack||""), { flag: 'a' });
   }
 
+  console.log("GP RESERVE ROUTE: Returning response", { booking_id: booking.id, has_client_secret: !!client_secret })
   res.status(200).json({ 
     booking, 
     client_secret,
-    payment_collection_id
+    payment_collection_id,
+    payment_error
   })
 }

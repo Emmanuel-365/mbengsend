@@ -48,11 +48,16 @@ export default function ReserveKilosForm({ travel, cartId, countryCode }: { trav
           phoneNumber: data.phoneNumber
         },
       })
+      console.log("GP RESERVE FORM: response", response)
       
-      if (response.client_secret) {
+      if (response && response.client_secret) {
+        console.log("GP RESERVE FORM: redirecting to payment page")
         router.push(`/${countryCode}/gp/reserve/payment/${response.booking.id}?client_secret=${response.client_secret}`)
       } else {
-        router.push(`/${countryCode}/gp/reserve/success`)
+        const errorMsg = response?.payment_error || "Erreur lors de l'initialisation du paiement."
+        console.warn("GP RESERVE FORM: No client_secret found", errorMsg)
+        setError(errorMsg)
+        // On ne redirige pas vers success si le paiement a échoué lamentablement
       }
     } catch (err: any) {
       console.error("Error creating booking:", err)
