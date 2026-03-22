@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { sdk } from "@lib/config"
 import { Package, Scale, Truck, Star, Plane } from "lucide-react"
+import GpTabsLayout from "@modules/gp/components/gp-tabs-layout"
 
 export const metadata: Metadata = {
   title: "Envoyer avec un voyageur (GP) - Mbengsend",
@@ -37,14 +38,14 @@ export default async function GPPage() {
             Envoyez vos colis vers le Cameroun en 24h ou vendez vos kilos libres lors de votre prochain voyage.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <LocalizedClientLink 
-              href="/gp/sell" 
+            <a 
+              href="#tabs" 
               className="bg-brand-primary text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-brand-primary/20 transition-all hover:-translate-y-1"
             >
               Je vends des kilos
-            </LocalizedClientLink>
+            </a>
             <a 
-              href="#vols" 
+              href="#tabs" 
               className="bg-white text-brand-dark px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:bg-gray-100 transition-all hover:-translate-y-1"
             >
               Je cherche un voyageur
@@ -87,94 +88,9 @@ export default async function GPPage() {
         </div>
       </section>
 
-      {/* Listings Section */}
-      <section id="vols" className="py-20 max-w-7xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div>
-            <h2 className="text-4xl font-display font-bold text-gray-900 mb-2">Vols à venir</h2>
-            <p className="text-gray-500">Réservez vos kilos sur les prochains vols vers le Cameroun.</p>
-          </div>
-          {/* Simple search UI (mock) */}
-          <div className="flex gap-2">
-            <div className="bg-gray-100 p-2 rounded-full flex gap-2">
-              <button className="bg-white text-brand-dark px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm">Tout</button>
-              <button className="text-gray-500 px-4 py-1.5 rounded-full text-sm font-medium hover:bg-white/50 transition-all">Paris</button>
-              <button className="text-gray-500 px-4 py-1.5 rounded-full text-sm font-medium hover:bg-white/50 transition-all">Lyon</button>
-              <button className="text-gray-500 px-4 py-1.5 rounded-full text-sm font-medium hover:bg-white/50 transition-all">Bruxelles</button>
-            </div>
-          </div>
-        </div>
-
-        {travels.length === 0 ? (
-          <div className="bg-brand-secondary/5 rounded-3xl p-12 text-center border-2 border-dashed border-brand-secondary/20">
-            <div className="flex justify-center mb-6">
-              <Plane className="w-12 h-12 text-brand-secondary/40" />
-            </div>
-            <h3 className="text-2xl font-bold text-brand-dark mb-4">Aucun voyageur disponible pour l'instant</h3>
-            <p className="text-gray-600 mb-8 max-w-md mx-auto">
-              Soyez le premier à proposer vos kilos pour le prochain vol !
-            </p>
-            <LocalizedClientLink 
-              href="/gp/sell" 
-              className="inline-block bg-brand-primary text-white px-8 py-3 rounded-full font-bold shadow-md hover:shadow-lg transition-all"
-            >
-              Je propose mon voyage
-            </LocalizedClientLink>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {travels.map((travel: any) => (
-              <div key={travel.id} className="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                <div className="h-4 bg-brand-primary" />
-                <div className="p-8">
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="text-xs font-bold uppercase tracking-widest text-brand-secondary bg-brand-secondary/10 px-3 py-1 rounded-full">
-                      {travel.airline || "Compagnie Certifiée"}
-                    </div>
-                    <div className="text-right">
-                      <span className="block text-2xl font-bold text-gray-900 leading-none">
-                        {travel.selling_price_per_kilo || travel.price_per_kilo}€
-                      </span>
-                      <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">par kilo</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="flex-1">
-                      <h4 className="text-xl font-bold text-gray-900">{travel.departure_city}</h4>
-                      <p className="text-xs text-gray-500">Aéroport Relais</p>
-                    </div>
-                    <div className="text-brand-primary animate-pulse">
-                      <Plane className="w-6 h-6" />
-                    </div>
-                    <div className="flex-1 text-right">
-                      <h4 className="text-xl font-bold text-gray-900">{travel.destination_city}</h4>
-                      <p className="text-xs text-gray-500">Relais Arrivée</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4 mb-8 py-6 border-y border-gray-50">
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-400 font-medium">Décollage :</span>
-                      <span className="text-gray-900 font-bold">{new Date(travel.departure_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-400 font-medium">Capacité libre :</span>
-                      <span className="text-brand-primary font-bold">{travel.available_kilos} Kg restants</span>
-                    </div>
-                  </div>
-
-                  <LocalizedClientLink 
-                    href={`/gp/reserve/${travel.id}`}
-                    className="block w-full text-center bg-brand-dark text-white py-4 rounded-2xl font-bold hover:bg-brand-primary transition-colors shadow-md group-hover:shadow-brand-primary/20"
-                  >
-                    Réserver mes kilos
-                  </LocalizedClientLink>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+      {/* Main Tabs Section */}
+      <section id="tabs" className="py-20 bg-gray-50/50">
+        <GpTabsLayout travels={travels} />
       </section>
     </div>
   )
