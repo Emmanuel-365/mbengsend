@@ -6,10 +6,10 @@ import Nav from "./index"
 
 export default async function NavWrapper() {
   const [regions, locales, currentLocale] = await Promise.all([
-    listRegions().then((regions: StoreRegion[]) => regions),
-    listLocales(),
-    getLocale(),
+    listRegions().then((regions: StoreRegion[]) => regions || []),
+    listLocales().then((locales) => locales || []),
+    getLocale().then((locale) => locale || "fr"),
   ])
 
-  return <Nav regions={regions} locales={locales} currentLocale={currentLocale} />
+  return <Nav regions={regions || []} locales={locales || []} currentLocale={currentLocale || "fr"} />
 }
