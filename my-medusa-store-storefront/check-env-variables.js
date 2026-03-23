@@ -3,9 +3,20 @@ const c = require("ansi-colors")
 const requiredEnvs = [
   {
     key: "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY",
-    // TODO: we need a good doc to point this to
     description:
       "Learn how to create a publishable key: https://docs.medusajs.com/v2/resources/storefront-development/publishable-api-keys",
+  },
+  {
+    key: "NEXT_PUBLIC_STRIPE_KEY",
+    description: "Your Stripe publishable key (pk_...)",
+  },
+  {
+    key: "NEXT_PUBLIC_BASE_URL",
+    description: "The base URL of your storefront (e.g., https://mbengsend.com)",
+  },
+  {
+    key: "NEXT_PUBLIC_MEDUSA_BACKEND_URL",
+    description: "The URL of your Medusa backend (e.g., https://api.mbengsend.com)",
   },
 ]
 
@@ -32,8 +43,12 @@ function checkEnvVariables() {
       )
     )
 
-    console.warn(c.yellow("Bypassing environment variable check for now to allow docker build to proceed..."));
-    // process.exit(1)
+    if (process.env.NODE_ENV === "production") {
+      console.error(c.red.bold("Production build cannot proceed without these variables."));
+      process.exit(1)
+    } else {
+      console.warn(c.yellow("Bypassing environment variable check in development..."));
+    }
   }
 }
 

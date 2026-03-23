@@ -1,4 +1,4 @@
-import { getWishlist } from "@lib/data/wishlist"
+import { getWishlist, type WishlistItem } from "@lib/data/wishlist"
 import { listProducts } from "@lib/data/products"
 import WishlistClient from "./wishlist-client"
 
@@ -19,9 +19,11 @@ export default async function WishlistPage(props: Props) {
   
   const wishlist = wishlistData.wishlist
 
-  const productIds = wishlist?.items
-    ?.map(item => item.product_id)
-    .filter((id): id is string => id !== null) || []
+  const productIds: string[] = wishlist?.items
+    ? wishlist.items
+        .map((item: WishlistItem) => item.product_id)
+        .filter((id: string | null): id is string => id !== null)
+    : []
 
   const { response: { products } } = productIds.length > 0 
     ? await listProducts({ queryParams: { id: productIds }, countryCode })

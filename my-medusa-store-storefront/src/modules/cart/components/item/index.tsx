@@ -74,15 +74,15 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
         {item.metadata?.type === "gp_reservation" ? (
           <div className="flex flex-col gap-y-1 mt-2 p-3 bg-brand-primary/5 rounded-xl border border-brand-primary/10">
             <div className="flex items-center gap-x-2 text-xs text-brand-dark/70">
-              <span className="font-bold">⚖️ {item.metadata.kilos_reserved} Kg</span>
+              <span className="font-bold">⚖️ {String(item.metadata.kilos_reserved)} Kg</span>
               <span className="w-1 h-1 bg-brand-dark/20 rounded-full" />
-              <span>{item.metadata.price_per_kilo} €/kg</span>
+              <span>{String(item.metadata.price_per_kilo)} €/kg</span>
             </div>
             <div className="text-[10px] text-gray-500 italic">
-              Voyage : {item.metadata.journey as string}
+              Voyage : {String(item.metadata.journey)}
             </div>
             <div className="text-[10px] text-gray-500 italic">
-              Voyageur : {item.metadata.traveler_name as string}
+              Voyageur : {String(item.metadata.traveler_name)}
             </div>
           </div>
         ) : (

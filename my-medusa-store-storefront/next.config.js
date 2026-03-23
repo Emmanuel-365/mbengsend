@@ -20,10 +20,10 @@ const nextConfig = {
     },
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   images: {
     remotePatterns: [
@@ -53,7 +53,6 @@ const nextConfig = {
         ]
         : []),
     ],
-    unoptimized: true, // Désactive l'optimisation d'images pour éviter les problèmes CORS
   },
 }
 

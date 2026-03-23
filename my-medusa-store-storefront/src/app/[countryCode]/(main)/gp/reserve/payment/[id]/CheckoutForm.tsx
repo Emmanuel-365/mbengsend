@@ -32,7 +32,7 @@ export default function CheckoutForm({ clientSecret, bookingId }: { clientSecret
     setIsLoading(true)
 
     // Confirm the payment
-    const { error } = await stripe.confirmPayment({
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Return URL is required, stripe will redirect here if redirection is needed
@@ -50,11 +50,14 @@ export default function CheckoutForm({ clientSecret, bookingId }: { clientSecret
       setIsLoading(false)
     } else {
       // Payment succeeded
-      console.log("CheckoutForm: Payment succeeded, updating database...")
+      console.log("CheckoutForm: Payment succeeded, updating database...", paymentIntent)
       try {
         // Appeler notre endpoint pour confirmer en base via le SDK (qui a la publishable key)
         await sdk.client.fetch(`/store/gp/confirm-payment/${bookingId}`, {
-          method: 'POST'
+          method: 'POST',
+          body: {
+            payment_intent_id: paymentIntent?.id
+          }
         })
       } catch (err) {
         console.error("Erreur confirmation de paiement", err)
