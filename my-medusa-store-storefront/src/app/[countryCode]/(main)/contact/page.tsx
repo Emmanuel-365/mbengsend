@@ -1,6 +1,7 @@
 import { Metadata } from "next"
-import { Heading, Text, Button, Input } from "@medusajs/ui"
+import { Heading, Text } from "@medusajs/ui"
 import { Envelope, Phone, MapPin } from "@medusajs/icons"
+import ContactForm from "@modules/contact/components/contact-form"
 
 export const metadata: Metadata = {
   title: "Contactez-nous | Mbengsend",
@@ -82,52 +83,7 @@ export default function ContactPage() {
           </div>
 
           {/* Formulaire de Contact */}
-          <div className="p-8 bg-ui-bg-subtle rounded-3xl border border-ui-border-base shadow-sm">
-            <Heading level="h2" className="text-2xl font-display text-brand-dark mb-8">Envoyez-nous un message</Heading>
-            <form className="flex flex-col gap-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col gap-y-2">
-                  <label htmlFor="first_name" className="text-sm font-medium text-ui-fg-base">Prénom</label>
-                  <Input id="first_name" name="first_name" placeholder="John" required />
-                </div>
-                <div className="flex flex-col gap-y-2">
-                  <label htmlFor="last_name" className="text-sm font-medium text-ui-fg-base">Nom</label>
-                  <Input id="last_name" name="last_name" placeholder="Doe" required />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-ui-fg-base">Email</label>
-                <Input type="email" id="email" name="email" placeholder="john.doe@example.com" required />
-              </div>
-
-              <div className="flex flex-col gap-y-2">
-                <label htmlFor="subject" className="text-sm font-medium text-ui-fg-base">Sujet</label>
-                <select id="subject" name="subject" className="p-2 border border-ui-border-base rounded-md focus:ring-2 focus:ring-brand-primary/50 outline-none text-sm text-ui-fg-base bg-white">
-                  <option value="order">Suivi de commande</option>
-                  <option value="shipping">Logistique & Fret</option>
-                  <option value="return">Retour d'un produit</option>
-                  <option value="other">Autre question</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col gap-y-2">
-                <label htmlFor="message" className="text-sm font-medium text-ui-fg-base">Message</label>
-                <textarea 
-                  id="message" 
-                  name="message" 
-                  rows={4} 
-                  className="p-3 border border-ui-border-base rounded-md focus:ring-2 focus:ring-brand-primary/50 outline-none resize-none text-sm text-ui-fg-base"
-                  placeholder="Comment pouvons-nous vous aider ?"
-                  required
-                ></textarea>
-              </div>
-
-              <Button type="button" size="large" className="w-full mt-4 bg-brand-primary text-white hover:bg-brand-primary-hover">
-                Envoyer le message
-              </Button>
-            </form>
-          </div>
+          <ContactForm />
 
         </div>
       </div>
