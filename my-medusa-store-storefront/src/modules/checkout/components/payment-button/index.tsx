@@ -11,11 +11,13 @@ import ErrorMessage from "../error-message"
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
   "data-testid": string
+  disabled?: boolean
 }
 
 const PaymentButton: React.FC<PaymentButtonProps> = ({
   cart,
   "data-testid": dataTestId,
+  disabled: externalDisabled = false,
 }) => {
   const notReady =
     !cart ||
@@ -30,14 +32,14 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     case isStripeLike(paymentSession?.provider_id):
       return (
         <StripePaymentButton
-          notReady={notReady}
+          notReady={notReady || externalDisabled}
           cart={cart}
           data-testid={dataTestId}
         />
       )
     case isManual(paymentSession?.provider_id):
       return (
-        <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
+        <ManualTestPaymentButton notReady={notReady || externalDisabled} data-testid={dataTestId} />
       )
     default:
       return <Button disabled className="w-full h-14 rounded-full border-brand-dark/10 text-brand-dark/40 font-bold text-lg">Sélectionnez un mode de paiement</Button>

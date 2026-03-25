@@ -68,31 +68,45 @@ const Register = ({ setCurrentView }: Props) => {
             data-testid="password-input"
           />
         </div>
-        <div className="flex items-start gap-x-2 mt-6">
-          <input 
-            type="checkbox" 
-            id="privacy-policy" 
-            name="privacy-policy" 
-            required 
-            className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-gold focus:ring-brand-gold cursor-pointer"
-          />
-          <label htmlFor="privacy-policy" className="text-xs text-ui-fg-subtle cursor-pointer font-sans leading-relaxed">
-            J&apos;ai lu et j&apos;accepte la{" "}
-            <LocalizedClientLink
-              href="/content/privacy-policy"
-              className="text-brand-gold font-bold hover:text-brand-dark transition-colors underline underline-offset-2 decoration-brand-gold/20"
-            >
-              Charte d&apos;utilisation des données personnelles
-            </LocalizedClientLink>{" "}
-            et les{" "}
-            <LocalizedClientLink
-              href="/content/terms-of-use"
-              className="text-brand-gold font-bold hover:text-brand-dark transition-colors underline underline-offset-2 decoration-brand-gold/20"
-            >
-              Conditions d&apos;Utilisation
-            </LocalizedClientLink>{" "}
-            de Mbengsend.
-          </label>
+        <div className="flex flex-col gap-y-4 mt-6">
+          <div className="flex items-start gap-x-2">
+            <input 
+              type="checkbox" 
+              id="privacy-policy" 
+              name="privacy-policy" 
+              required 
+              className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-gold focus:ring-brand-gold flex-shrink-0 cursor-pointer"
+            />
+            <label htmlFor="privacy-policy" className="text-xs text-ui-fg-subtle cursor-pointer font-sans leading-relaxed">
+              J&apos;ai lu et j&apos;accepte la{" "}
+              <LocalizedClientLink
+                href="/legal/privacy"
+                target="_blank"
+                className="text-brand-gold font-bold hover:text-brand-dark transition-colors underline underline-offset-2 decoration-brand-gold/20"
+              >
+                Charte de Protection des Données Personnelles
+              </LocalizedClientLink>
+            </label>
+          </div>
+          <div className="flex items-start gap-x-2">
+            <input 
+              type="checkbox" 
+              id="terms" 
+              name="terms" 
+              required 
+              className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-gold focus:ring-brand-gold flex-shrink-0 cursor-pointer"
+            />
+            <label htmlFor="terms" className="text-xs text-ui-fg-subtle cursor-pointer font-sans leading-relaxed">
+              J&apos;ai lu et j&apos;accepte les{" "}
+              <LocalizedClientLink
+                href="/legal/terms"
+                target="_blank"
+                className="text-brand-gold font-bold hover:text-brand-dark transition-colors underline underline-offset-2 decoration-brand-gold/20"
+              >
+                Conditions Générales de Vente
+              </LocalizedClientLink>
+            </label>
+          </div>
         </div>
         <ErrorMessage error={message} data-testid="register-error" />
         <SubmitButton className="w-full mt-10 bg-brand-dark hover:bg-brand-gold h-16 rounded-full shadow-lux-lg hover:scale-[1.05] transition-all duration-500 text-white font-sans font-bold uppercase tracking-widest text-sm border-none" data-testid="register-button">
