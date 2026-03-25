@@ -169,7 +169,7 @@ export default async function Footer() {
               <span className="text-brand-dark font-display font-bold text-sm uppercase tracking-[0.2em] opacity-80">Légal</span>
               <ul className="flex flex-col items-center lg:items-start gap-y-3 text-sm text-ui-fg-subtle">
                 <li><LocalizedClientLink href="/legal/terms" className="hover:text-brand-gold transition-colors">Conditions Générales</LocalizedClientLink></li>
-                <li><LocalizedClientLink href="/content/privacy-policy" className="hover:text-brand-gold transition-colors">Charte des données</LocalizedClientLink></li>
+                <li><LocalizedClientLink href="/legal/privacy" className="hover:text-brand-gold transition-colors">Charte des données</LocalizedClientLink></li>
                 <li><LocalizedClientLink href="/content/cookies" className="hover:text-brand-gold transition-colors">Cookies</LocalizedClientLink></li>
                 <li><button className="hover:text-brand-gold transition-colors">Paramètres des cookies</button></li>
               </ul>
