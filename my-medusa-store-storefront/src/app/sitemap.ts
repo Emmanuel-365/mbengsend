@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         .flat()
         .filter(Boolean) as string[]
 
-    const defaultCountryCode = countryCodes[0] || "us"
+    const defaultCountryCode = countryCodes[0] || "fr"
 
     // Base pages for all countries
     const staticPages = ["", "/store", "/about", "/contact", "/shipping"]

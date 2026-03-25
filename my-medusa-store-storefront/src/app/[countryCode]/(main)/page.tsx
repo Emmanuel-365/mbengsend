@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "Découvrez Mbengsend, votre destination privilégiée pour le meilleur des produits camerounais en Europe. Authenticité garantie, livraison express et sécurisée.",
   alternates: {
     languages: {
-      "x-default": "https://mbengsend.com/cm",
+      "x-default": "https://mbengsend.com/fr",
       "fr-CM": "https://mbengsend.com/cm",
       "fr-FR": "https://mbengsend.com/fr",
       "fr-BE": "https://mbengsend.com/be",
