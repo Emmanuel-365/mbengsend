@@ -40,7 +40,7 @@ export const sendAdminNotificationStep = createStep(
     
     // Using your configured email module
     await notificationService.createNotifications({
-      to: process.env.ADMIN_EMAIL || "admin@mbengsend.com",
+      to: process.env.ADMIN_EMAIL || "armandabouem@icloud.com",
       channel: "email",
       template: "new-travel-offer", // You'll need to handle this in your email module
       data: {

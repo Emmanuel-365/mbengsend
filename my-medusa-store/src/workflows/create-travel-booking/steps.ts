@@ -29,7 +29,7 @@ export const sendBookingNotificationStep = createStep(
     
     // Notify Admin of a new booking
     await notificationService.createNotifications({
-      to: process.env.ADMIN_EMAIL || "admin@mbengsend.com",
+      to: process.env.ADMIN_EMAIL || "armandabouem@icloud.com",
       channel: "email",
       template: "new-gp-booking",
       data: {
