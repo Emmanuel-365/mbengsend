@@ -32,7 +32,7 @@ const StoreTemplate = async ({
       data-testid="category-container"
     >
       {/* Sidebar - Hidden on mobile, shown on small+ */}
-      <div className="hidden small:flex flex-col gap-y-12 shrink-0 small:w-[250px] pt-4">
+      <div className="hidden small:flex flex-col gap-y-12 shrink-0 small:w-[250px] pt-4 small:sticky small:top-24 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
         <StoreCategories />
         <RefinementList sortBy={sort} region={region} />
       </div>
