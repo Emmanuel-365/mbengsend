@@ -95,7 +95,7 @@ const Hero = () => {
             <div className="relative w-full h-full">
               <Image
                 src="/logo.png"
-                alt="Mbengsend Hub"
+                alt="Mbengsend - Boutique d'Excellence du Cameroun en Europe"
                 fill
                 className="object-contain p-12 drop-shadow-[0_20px_50px_rgba(0,102,204,0.3)]"
               />

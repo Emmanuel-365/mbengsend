@@ -1,16 +1,56 @@
 import { Metadata } from "next"
 import { Heading, Text } from "@medusajs/ui"
 import Image from "next/image"
+import { getBaseURL } from "@lib/util/env"
+import { use } from "react"
 
 export const metadata: Metadata = {
   title: "À propos de nous | Mbengsend",
   description:
     "Découvrez l'histoire de Mbengsend, votre partenaire de confiance pour découvrir et acheter l'excellence des produits camerounais en Europe.",
+  alternates: {
+    canonical: `${getBaseURL()}/fr/about`,
+    languages: {
+      "x-default": `${getBaseURL()}/fr/about`,
+      "fr-CM": `${getBaseURL()}/cm/about`,
+      "fr-FR": `${getBaseURL()}/fr/about`,
+      "fr-BE": `${getBaseURL()}/be/about`,
+      "de-DE": `${getBaseURL()}/de/about`,
+      "it-IT": `${getBaseURL()}/it/about`,
+      "es-ES": `${getBaseURL()}/es/about`,
+    }
+  }
 }
 
-export default function AboutPage() {
+export default function AboutPage(props: { params: Promise<{ countryCode: string }> }) {
+  const params = use(props.params)
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": `${getBaseURL()}/${params.countryCode}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "À propos",
+        "item": `${getBaseURL()}/${params.countryCode}/about`
+      }
+    ]
+  }
+
   return (
-    <div className="py-12 md:py-24 bg-ui-bg-subtle">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <div className="py-12 md:py-24 bg-ui-bg-subtle">
       <div className="content-container">
         {/* Hero Section */}
         <div className="flex flex-col gap-y-8 items-center text-center mb-20">
@@ -57,7 +97,8 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

@@ -2,16 +2,56 @@ import { Metadata } from "next"
 import { Heading, Text } from "@medusajs/ui"
 import { Envelope, Phone, MapPin } from "@medusajs/icons"
 import ContactForm from "@modules/contact/components/contact-form"
+import { getBaseURL } from "@lib/util/env"
+import { use } from "react"
 
 export const metadata: Metadata = {
   title: "Contactez-nous | Mbengsend",
   description:
     "Avez-vous une question sur un produit ou votre livraison ? L'équipe Mbengsend est là pour vous aider.",
+  alternates: {
+    canonical: `${getBaseURL()}/fr/contact`,
+    languages: {
+      "x-default": `${getBaseURL()}/fr/contact`,
+      "fr-CM": `${getBaseURL()}/cm/contact`,
+      "fr-FR": `${getBaseURL()}/fr/contact`,
+      "fr-BE": `${getBaseURL()}/be/contact`,
+      "de-DE": `${getBaseURL()}/de/contact`,
+      "it-IT": `${getBaseURL()}/it/contact`,
+      "es-ES": `${getBaseURL()}/es/contact`,
+    }
+  }
 }
 
-export default function ContactPage() {
+export default function ContactPage(props: { params: Promise<{ countryCode: string }> }) {
+  const params = use(props.params)
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": `${getBaseURL()}/${params.countryCode}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Contact",
+        "item": `${getBaseURL()}/${params.countryCode}/contact`
+      }
+    ]
+  }
+
   return (
-    <div className="py-12 md:py-24 bg-white">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <div className="py-12 md:py-24 bg-white">
       <div className="content-container">
         
         {/* Header */}
@@ -86,7 +126,8 @@ export default function ContactPage() {
           <ContactForm />
 
         </div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

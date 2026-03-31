@@ -16,10 +16,11 @@ import { listCategories } from "@lib/data/categories"
 import { getRegion } from "@lib/data/regions"
 
 export const metadata: Metadata = {
-  title: "Mbengsend | L'Excellence du Cameroun en Europe - Boutique Officielle",
+  title: "Mbengsend | Boutique d'Excellence du Cameroun en Europe",
   description:
-    "Découvrez Mbengsend, votre destination privilégiée pour le meilleur des produits camerounais en Europe. Authenticité garantie, livraison express et sécurisée.",
+    "Découvrez Mbengsend, votre destination privilégiée pour le meilleur des produits camerounais en Europe. Savoir-faire local, authenticité et livraison express.",
   alternates: {
+    canonical: "https://mbengsend.com/fr",
     languages: {
       "x-default": "https://mbengsend.com/fr",
       "fr-CM": "https://mbengsend.com/cm",

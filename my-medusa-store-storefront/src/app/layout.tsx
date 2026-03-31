@@ -78,11 +78,38 @@ export const metadata: Metadata = {
     ],
   },
   manifest: "/manifest.json",
+  category: "ecommerce",
+}
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Mbengsend",
+  "url": getBaseURL(),
+  "logo": `${getBaseURL()}/logo.png`,
+  "sameAs": [
+    "https://facebook.com/mbengsend",
+    "https://instagram.com/mbengsend",
+    "https://twitter.com/mbengsend"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+237600000000",
+    "contactType": "customer service",
+    "areaServed": ["CM", "FR", "BE", "DE", "IT", "ES"],
+    "availableLanguage": ["French", "English"]
+  }
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="fr" data-mode="light" className={`${poppins.variable} ${caveat.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+      </head>
       <body>
         <main className="relative">{props.children}</main>
       </body>

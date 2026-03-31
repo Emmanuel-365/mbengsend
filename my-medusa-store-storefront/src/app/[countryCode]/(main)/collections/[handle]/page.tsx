@@ -92,6 +92,15 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: url,
+      languages: {
+        "x-default": `${getBaseURL()}/fr/collections/${params.handle}`,
+        "fr-CM": `${getBaseURL()}/cm/collections/${params.handle}`,
+        "fr-FR": `${getBaseURL()}/fr/collections/${params.handle}`,
+        "fr-BE": `${getBaseURL()}/be/collections/${params.handle}`,
+        "de-DE": `${getBaseURL()}/de/collections/${params.handle}`,
+        "it-IT": `${getBaseURL()}/it/collections/${params.handle}`,
+        "es-ES": `${getBaseURL()}/es/collections/${params.handle}`,
+      }
     },
   }
 }
@@ -109,12 +118,37 @@ export default async function CollectionPage(props: Props) {
     notFound()
   }
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Boutique",
+        "item": `${getBaseURL()}/${params.countryCode}/store`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": collection.title,
+        "item": `${getBaseURL()}/${params.countryCode}/collections/${params.handle}`
+      }
+    ]
+  }
+
   return (
-    <CollectionTemplate
-      collection={collection}
-      page={page}
-      sortBy={sortBy}
-      countryCode={params.countryCode}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <CollectionTemplate
+        collection={collection}
+        page={page}
+        sortBy={sortBy}
+        countryCode={params.countryCode}
+      />
+    </>
   )
 }
